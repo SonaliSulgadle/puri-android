@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.Puri" parent="android:Theme.Material.Light.NoActionBar" />
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Puri" parent="Theme.SplashScreen">
+        <!-- Splash background matches our surface color -->
+        <item name="windowSplashScreenBackground">#F5F6FC</item>
+        <!-- Splash icon — add your ic_puri_splash drawable -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_puri_splash</item>
+        <!-- Duration of the animated icon -->
+        <item name="windowSplashScreenAnimationDuration">300</item>
+        <!-- Theme to switch to after splash -->
+        <item name="postSplashScreenTheme">@style/Theme.Puri.Main</item>
+    </style>
+
+    <style name="Theme.Puri.Main" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:ignore="NewApi">shortEdges</item>
+    </style>
 </resources>
