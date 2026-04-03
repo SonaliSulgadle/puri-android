@@ -112,7 +112,7 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.android)
 
-    implementation(libs.compose.ui.text.google.fonts)
+    implementation(libs.material.icons)
 
     // Testing
     testImplementation(libs.junit)
