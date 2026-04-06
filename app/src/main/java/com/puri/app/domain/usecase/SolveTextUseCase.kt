@@ -1,5 +1,6 @@
 package com.puri.app.domain.usecase
 
+import com.puri.app.core.common.PuriError
 import com.puri.app.core.common.Resource
 import com.puri.app.domain.model.HistoryItem
 import com.puri.app.domain.model.SolveResult
@@ -16,12 +17,12 @@ class SolveTextUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(query: String): Resource<SolveResult> {
         if (query.isBlank()) {
-            return Resource.Error("Please enter a question first.")
+            return Resource.Error(PuriError.EmptyQuery)
         }
 
         val remaining = preferencesRepository.dailySolvesRemaining.first()
         if (remaining <= 0) {
-            return Resource.Error("Daily solve limit reached. Come back tomorrow!")
+            return Resource.Error(PuriError.DailyLimitReached)
         }
 
         return when (val result = solveRepository.solveText(query)) {
