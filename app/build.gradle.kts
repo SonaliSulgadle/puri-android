@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.android.junit5)
 }
 
 val localProperties = Properties().apply {
@@ -115,9 +116,10 @@ dependencies {
     implementation(libs.material.icons)
 
     // Testing
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.junit.ext)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(composeBom)
-    androidTestImplementation(libs.compose.ui.test.junit4)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.junit5.api)
+    testImplementation(libs.junit5.params)
+    testRuntimeOnly(libs.junit5.engine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.assertj)
 }
