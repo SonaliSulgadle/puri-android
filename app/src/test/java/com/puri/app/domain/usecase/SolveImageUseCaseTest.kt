@@ -6,6 +6,7 @@ import com.puri.app.core.common.Resource
 import com.puri.app.fake.FakeHistoryRepository
 import com.puri.app.fake.FakePreferencesRepository
 import com.puri.app.fake.FakeSolveRepository
+import com.puri.app.util.TestFixtures.applianceSolveResult
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
@@ -87,7 +88,7 @@ class SolveImageUseCaseTest {
             useCase(mockBitmap)
             val savedItem = fakeHistoryRepo.savedItems.first()
             assertThat(savedItem.solveResult.whatThisIs)
-                .isEqualTo(fakeSolveRepo.solveResult.whatThisIs)
+                .isEqualTo(applianceSolveResult.whatThisIs)
         }
 
         @Test

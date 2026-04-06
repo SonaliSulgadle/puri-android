@@ -1,11 +1,9 @@
 package com.puri.app.domain.usecase
 
 import com.puri.app.core.common.Resource
-import com.puri.app.domain.model.Category
-import com.puri.app.domain.model.ConfidenceLevel
 import com.puri.app.domain.model.HistoryItem
-import com.puri.app.domain.model.SolveResult
 import com.puri.app.fake.FakeHistoryRepository
+import com.puri.app.util.TestFixtures.applianceSolveResult
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
@@ -20,18 +18,6 @@ class DeleteHistoryItemUseCaseTest {
     private lateinit var useCase: DeleteHistoryItemUseCase
     private lateinit var fakeHistoryRepo: FakeHistoryRepository
 
-    private val fakeSolveResult = SolveResult(
-        whatThisIs      = "Gas Stove",
-        description     = "Standard apartment gas range",
-        steps           = emptyList(),
-        warning         = "Turn off gas valve when not in use",
-        koreaTip        = null,
-        category        = Category.APPLIANCE,
-        confidenceLevel = ConfidenceLevel.HIGH,
-        imageUri        = null,
-        inputQuery      = null
-    )
-
     @BeforeEach
     fun setUp() {
         fakeHistoryRepo = FakeHistoryRepository()
@@ -45,7 +31,7 @@ class DeleteHistoryItemUseCaseTest {
         @Test
         @DisplayName("returns Success after deletion")
         fun returnsSuccess() = runTest {
-            fakeHistoryRepo.saveToHistory(HistoryItem(id = 1L, solveResult = fakeSolveResult))
+            fakeHistoryRepo.saveToHistory(HistoryItem(id = 1L, solveResult = applianceSolveResult))
 
             val result = useCase(1L)
 
@@ -55,7 +41,7 @@ class DeleteHistoryItemUseCaseTest {
         @Test
         @DisplayName("item is no longer in history after deletion")
         fun itemRemovedFromHistory() = runTest {
-            fakeHistoryRepo.saveToHistory(HistoryItem(id = 1L, solveResult = fakeSolveResult))
+            fakeHistoryRepo.saveToHistory(HistoryItem(id = 1L, solveResult = applianceSolveResult))
 
             useCase(1L)
 
@@ -66,8 +52,8 @@ class DeleteHistoryItemUseCaseTest {
         @Test
         @DisplayName("only deletes the specified item, not others")
         fun deletesOnlySpecifiedItem() = runTest {
-            fakeHistoryRepo.saveToHistory(HistoryItem(id = 1L, solveResult = fakeSolveResult))
-            fakeHistoryRepo.saveToHistory(HistoryItem(id = 2L, solveResult = fakeSolveResult))
+            fakeHistoryRepo.saveToHistory(HistoryItem(id = 1L, solveResult = applianceSolveResult))
+            fakeHistoryRepo.saveToHistory(HistoryItem(id = 2L, solveResult = applianceSolveResult))
 
             useCase(1L)
 

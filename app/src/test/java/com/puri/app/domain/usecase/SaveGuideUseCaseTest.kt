@@ -1,9 +1,8 @@
 package com.puri.app.domain.usecase
 
 import com.puri.app.core.common.Resource
-import com.puri.app.domain.model.Category
-import com.puri.app.domain.model.SavedGuide
 import com.puri.app.fake.FakeSavedGuidesRepository
+import com.puri.app.util.TestFixtures.savedGuideTrash
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
@@ -18,17 +17,6 @@ class SaveGuideUseCaseTest {
     private lateinit var useCase: SaveGuideUseCase
     private lateinit var fakeSavedGuidesRepo: FakeSavedGuidesRepository
 
-    private val fakeGuide = SavedGuide(
-        id          = 1L,
-        title       = "Trash Sorting",
-        description = "Master the art of waste management",
-        category    = Category.TRASH,
-        solveResult = null,
-        isPreBundled = true,
-        isFeatured  = false,
-        imageUri    = null
-    )
-
     @BeforeEach
     fun setUp() {
         fakeSavedGuidesRepo = FakeSavedGuidesRepository()
@@ -42,14 +30,14 @@ class SaveGuideUseCaseTest {
         @Test
         @DisplayName("returns Success after saving")
         fun returnsSuccess() = runTest {
-            val result = useCase(fakeGuide)
+            val result = useCase(savedGuideTrash)
             assertThat(result).isInstanceOf(Resource.Success::class.java)
         }
 
         @Test
         @DisplayName("guide appears in saved guides after saving")
         fun guideAppearsInList() = runTest {
-            useCase(fakeGuide)
+            useCase(savedGuideTrash)
 
             val guides = fakeSavedGuidesRepo.getSavedGuides().first()
             assertThat(guides).hasSize(1)
@@ -59,8 +47,8 @@ class SaveGuideUseCaseTest {
         @Test
         @DisplayName("multiple guides can be saved")
         fun multipleGuidesCanBeSaved() = runTest {
-            useCase(fakeGuide)
-            useCase(fakeGuide.copy(id = 2L, title = "Washing Machine"))
+            useCase(savedGuideTrash)
+            useCase(savedGuideTrash.copy(id = 2L, title = "Washing Machine"))
 
             val guides = fakeSavedGuidesRepo.getSavedGuides().first()
             assertThat(guides).hasSize(2)

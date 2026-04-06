@@ -59,6 +59,11 @@ android {
         compose = true
         buildConfig = true
     }
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -116,10 +121,15 @@ dependencies {
     implementation(libs.material.icons)
 
     // Testing
+    testImplementation(libs.junit)
+
     testImplementation(libs.coroutines.test)
+
     testImplementation(libs.junit5.api)
     testImplementation(libs.junit5.params)
     testRuntimeOnly(libs.junit5.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
+
     testImplementation(libs.mockk)
     testImplementation(libs.assertj)
 }

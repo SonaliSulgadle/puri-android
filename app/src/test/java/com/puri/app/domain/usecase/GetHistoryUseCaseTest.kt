@@ -1,10 +1,8 @@
 package com.puri.app.domain.usecase
 
-import com.puri.app.domain.model.Category
-import com.puri.app.domain.model.ConfidenceLevel
 import com.puri.app.domain.model.HistoryItem
-import com.puri.app.domain.model.SolveResult
 import com.puri.app.fake.FakeHistoryRepository
+import com.puri.app.util.TestFixtures.applianceSolveResult
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
@@ -18,18 +16,6 @@ class GetHistoryUseCaseTest {
 
     private lateinit var useCase: GetHistoryUseCase
     private lateinit var fakeHistoryRepo: FakeHistoryRepository
-
-    private val fakeSolveResult = SolveResult(
-        whatThisIs      = "Plastic Bin",
-        description     = "Recyclable plastic container",
-        steps           = emptyList(),
-        warning         = null,
-        koreaTip        = null,
-        category        = Category.TRASH,
-        confidenceLevel = ConfidenceLevel.HIGH,
-        imageUri        = null,
-        inputQuery      = null
-    )
 
     @BeforeEach
     fun setUp() {
@@ -56,8 +42,8 @@ class GetHistoryUseCaseTest {
         @Test
         @DisplayName("emits all saved history items")
         fun emitsAllItems() = runTest {
-            fakeHistoryRepo.saveToHistory(HistoryItem(id = 1L, solveResult = fakeSolveResult))
-            fakeHistoryRepo.saveToHistory(HistoryItem(id = 2L, solveResult = fakeSolveResult))
+            fakeHistoryRepo.saveToHistory(HistoryItem(id = 1L, solveResult = applianceSolveResult))
+            fakeHistoryRepo.saveToHistory(HistoryItem(id = 2L, solveResult = applianceSolveResult))
 
             val result = useCase().first()
 
@@ -69,11 +55,11 @@ class GetHistoryUseCaseTest {
         fun emitsUpdatedList() = runTest {
             val flow = useCase()
 
-            fakeHistoryRepo.saveToHistory(HistoryItem(id = 1L, solveResult = fakeSolveResult))
+            fakeHistoryRepo.saveToHistory(HistoryItem(id = 1L, solveResult = applianceSolveResult))
             val result = flow.first()
 
             assertThat(result).hasSize(1)
-            assertThat(result.first().solveResult.whatThisIs).isEqualTo("Plastic Bin")
+            assertThat(result.first().solveResult.whatThisIs).isEqualTo("Gas Stove")
         }
     }
 }
