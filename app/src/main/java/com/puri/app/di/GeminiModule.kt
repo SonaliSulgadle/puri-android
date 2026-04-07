@@ -17,7 +17,7 @@ object GeminiModule {
     @Singleton
     fun provideGenerativeModel(): GenerativeModel =
         GenerativeModel(
-            modelName = "gemini-1.5-flash",
+            modelName = "gemini-2.0-flash",
             apiKey = BuildConfig.GEMINI_API_KEY,
             generationConfig = generationConfig {
                 temperature = 0.2f

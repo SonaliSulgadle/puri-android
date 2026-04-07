@@ -64,6 +64,9 @@ android {
             it.useJUnitPlatform()
         }
     }
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
 }
 
 dependencies {

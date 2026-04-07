@@ -18,7 +18,8 @@ class SolveImageUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         bitmap: Bitmap,
-        additionalContext: String? = null
+        additionalContext: String? = null,
+        imageUri: String?
     ): Resource<SolveResult> {
         // To check daily limit before making API call
         val remaining = preferencesRepository.dailySolvesRemaining.first()
@@ -26,7 +27,7 @@ class SolveImageUseCase @Inject constructor(
             return Resource.Error(PuriError.DailyLimitReached)
         }
 
-        return when (val result = solveRepository.solveImage(bitmap, additionalContext)) {
+        return when (val result = solveRepository.solveImage(bitmap, additionalContext, imageUri)) {
             is Resource.Success -> {
                 // Auto-save to history on every successful solve
                 historyRepository.saveToHistory(
