@@ -39,13 +39,8 @@ class PuriPreferences @Inject constructor(
     val dailySolvesRemaining: Flow<Int> = dataStore.data.map { prefs ->
         val lastReset = prefs[KEY_LAST_RESET_DATE] ?: 0L
         val today = LocalDate.now(ZoneId.of("Asia/Seoul")).toEpochDay()
-
-        if (lastReset < today) {
-            // New day in Seoul — reset happens lazily on next read
-            DAILY_LIMIT
-        } else {
-            prefs[KEY_DAILY_SOLVES] ?: DAILY_LIMIT
-        }
+        if (lastReset < today) DAILY_LIMIT
+        else prefs[KEY_DAILY_SOLVES] ?: DAILY_LIMIT
     }
 
     suspend fun setFirstLaunchComplete() {
