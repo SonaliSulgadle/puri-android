@@ -24,6 +24,7 @@ class SolveImageUseCaseTest {
     private lateinit var fakePrefsRepo: FakePreferencesRepository
 
     private val mockBitmap: Bitmap = mockk(relaxed = true)
+    private val imageUri: String = ""
 
     @BeforeEach
     fun setUp() {
@@ -46,7 +47,7 @@ class SolveImageUseCaseTest {
         fun returnsDailyLimitError() = runTest {
             fakePrefsRepo.setDailySolvesRemaining(0)
 
-            val result = useCase(mockBitmap)
+            val result = useCase(bitmap = mockBitmap, imageUri = imageUri)
 
             assertThat(result).isInstanceOf(Resource.Error::class.java)
             assertThat((result as Resource.Error).error)
@@ -58,7 +59,7 @@ class SolveImageUseCaseTest {
         fun doesNotSaveWhenLimitReached() = runTest {
             fakePrefsRepo.setDailySolvesRemaining(0)
 
-            useCase(mockBitmap)
+            useCase(bitmap = mockBitmap, imageUri = imageUri)
 
             assertThat(fakeHistoryRepo.savedItems).isEmpty()
         }
@@ -71,21 +72,21 @@ class SolveImageUseCaseTest {
         @Test
         @DisplayName("returns Success with solve result")
         fun returnsSuccess() = runTest {
-            val result = useCase(mockBitmap)
+            val result = useCase(bitmap = mockBitmap, imageUri = imageUri)
             assertThat(result).isInstanceOf(Resource.Success::class.java)
         }
 
         @Test
         @DisplayName("auto-saves result to history")
         fun autoSavesToHistory() = runTest {
-            useCase(mockBitmap)
+            useCase(bitmap = mockBitmap, imageUri = imageUri)
             assertThat(fakeHistoryRepo.savedItems).hasSize(1)
         }
 
         @Test
         @DisplayName("saved history item contains the solve result")
         fun savedItemContainsSolveResult() = runTest {
-            useCase(mockBitmap)
+            useCase(bitmap = mockBitmap, imageUri = imageUri)
             val savedItem = fakeHistoryRepo.savedItems.first()
             assertThat(savedItem.solveResult.whatThisIs)
                 .isEqualTo(applianceSolveResult.whatThisIs)
@@ -95,14 +96,15 @@ class SolveImageUseCaseTest {
         @DisplayName("passes additional context to repository when provided")
         fun passesAdditionalContext() = runTest {
             val context = "This is in my kitchen"
-            val result = useCase(mockBitmap, additionalContext = context)
+            val result =
+                useCase(bitmap = mockBitmap, additionalContext = context, imageUri = imageUri)
             assertThat(result).isInstanceOf(Resource.Success::class.java)
         }
 
         @Test
         @DisplayName("works without additional context")
         fun worksWithoutContext() = runTest {
-            val result = useCase(mockBitmap, additionalContext = null)
+            val result = useCase(bitmap = mockBitmap, additionalContext = null, imageUri = imageUri)
             assertThat(result).isInstanceOf(Resource.Success::class.java)
         }
     }
@@ -119,14 +121,14 @@ class SolveImageUseCaseTest {
         @Test
         @DisplayName("returns error from repository")
         fun returnsError() = runTest {
-            val result = useCase(mockBitmap)
+            val result = useCase(bitmap = mockBitmap, imageUri = imageUri)
             assertThat(result).isInstanceOf(Resource.Error::class.java)
         }
 
         @Test
         @DisplayName("does not save to history on API failure")
         fun doesNotSaveOnFailure() = runTest {
-            useCase(mockBitmap)
+            useCase(bitmap = mockBitmap, imageUri = imageUri)
             assertThat(fakeHistoryRepo.savedItems).isEmpty()
         }
 
@@ -134,7 +136,7 @@ class SolveImageUseCaseTest {
         @DisplayName("does not decrement daily solves on failure")
         fun doesNotDecrementOnFailure() = runTest {
             fakePrefsRepo.setDailySolvesRemaining(5)
-            useCase(mockBitmap)
+            useCase(bitmap = mockBitmap, imageUri = imageUri)
             // History is empty — decrement only happens after successful save
             assertThat(fakeHistoryRepo.savedItems).isEmpty()
         }

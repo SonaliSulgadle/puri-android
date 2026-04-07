@@ -13,7 +13,8 @@ class FakeSolveRepository : SolveRepository {
 
     override suspend fun solveImage(
         bitmap: Bitmap,
-        additionalContext: String?
+        additionalContext: String?,
+        imageUri: String?
     ): Resource<SolveResult> = if (shouldReturnError) {
         Resource.Error(PuriError.Unknown())
     } else {

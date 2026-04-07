@@ -5,6 +5,7 @@ enum class Category(val emoji: String) {
     APPLIANCE("⚡"),
     TRANSPORT("🚇"),
     FOOD("🍽️"),
+    MEDICAL("🏥"),
     GENERAL("💡");
 
     companion object {
