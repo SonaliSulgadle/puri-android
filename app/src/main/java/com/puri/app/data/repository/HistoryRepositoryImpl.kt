@@ -8,6 +8,7 @@ import com.puri.app.data.mapper.toEntity
 import com.puri.app.domain.model.HistoryItem
 import com.puri.app.domain.repository.HistoryRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,9 +19,12 @@ class HistoryRepositoryImpl @Inject constructor(
 ) : HistoryRepository {
 
     override fun getHistory(): Flow<List<HistoryItem>> =
-        historyDao.getAllHistory().map { entities ->
-            entities.map { it.toDomain() }
-        }
+        historyDao.getAllHistory()
+            .map { entities -> entities.map { it.toDomain() } }
+            .catch { e ->
+                emit(emptyList())
+                // Log to crash reporting in future
+            }
 
     override fun getHistoryItem(id: Long): Flow<HistoryItem?> =
         historyDao.getHistoryItem(id).map { it?.toDomain() }

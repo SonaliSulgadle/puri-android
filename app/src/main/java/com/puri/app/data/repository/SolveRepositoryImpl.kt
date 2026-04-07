@@ -18,10 +18,11 @@ class SolveRepositoryImpl @Inject constructor(
 
     override suspend fun solveImage(
         bitmap: Bitmap,
-        additionalContext: String?
+        additionalContext: String?,
+        imageUri: String?
     ): Resource<SolveResult> {
         val language = preferences.appLanguage.first()
-        return geminiDataSource.solveImage(bitmap, additionalContext, language)
+        return geminiDataSource.solveImage(bitmap, additionalContext, imageUri, language)
     }
 
     override suspend fun solveText(query: String): Resource<SolveResult> {
