@@ -19,6 +19,7 @@ class GeminiDataSource @Inject constructor(
     suspend fun solveImage(
         bitmap: Bitmap,
         additionalContext: String?,
+        imageUri: String?,
         language: AppLanguage
     ): Resource<SolveResult> = safeGeminiCall {
         val prompt = promptBuilder.buildImagePrompt(additionalContext, language)
@@ -31,7 +32,7 @@ class GeminiDataSource @Inject constructor(
         val rawText = response.text
             ?: return@safeGeminiCall Resource.Error(PuriError.Unknown())
 
-        val result = parser.parse(rawText, imageUri = null, inputQuery = null)
+        val result = parser.parse(rawText, imageUri = imageUri, inputQuery = null)
         Resource.Success(result)
     }
 
@@ -48,20 +49,19 @@ class GeminiDataSource @Inject constructor(
         Resource.Success(result)
     }
 
-    private suspend fun <T> safeGeminiCall(
-        block: suspend () -> Resource<T>
-    ): Resource<T> = try {
-        block()
-    } catch (e: Exception) {
-        when {
-            e.message?.contains("network", ignoreCase = true) == true ->
-                Resource.Error(PuriError.NoInternet)
+    private suspend fun <T> safeGeminiCall(block: suspend () -> Resource<T>): Resource<T> =
+        try {
+            block()
+        } catch (e: Exception) {
+            when {
+                e.message?.contains("network", ignoreCase = true) == true ->
+                    Resource.Error(PuriError.NoInternet)
 
-            e.message?.contains("quota", ignoreCase = true) == true ->
-                Resource.Error(PuriError.ApiError(429))
+                e.message?.contains("quota", ignoreCase = true) == true ->
+                    Resource.Error(PuriError.ApiError(429))
 
-            else ->
-                Resource.Error(PuriError.Unknown(e))
+                else ->
+                    Resource.Error(PuriError.Unknown(e))
+            }
         }
-    }
 }

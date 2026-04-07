@@ -25,7 +25,7 @@ class GeminiResponseParser @Inject constructor() {
         val confidence = when (confidenceRaw) {
             "HIGH" -> ConfidenceLevel.HIGH
             "LOW" -> ConfidenceLevel.LOW
-            else -> ConfidenceLevel.LOW  // default to LOW on parse failure — safe default
+            else -> ConfidenceLevel.LOW  // default to LOW on parse failure
         }
 
         // Check for safety triggers in WHAT or WARNING
