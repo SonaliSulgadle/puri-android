@@ -20,4 +20,7 @@ interface SavedGuideDao {
 
     @Query("DELETE FROM saved_guides WHERE id = :id")
     suspend fun deleteGuide(id: Long)
+
+    @Query("DELETE FROM saved_guides WHERE historyItemId = :historyItemId")
+    suspend fun deleteGuideByHistoryId(historyItemId: Long)
 }

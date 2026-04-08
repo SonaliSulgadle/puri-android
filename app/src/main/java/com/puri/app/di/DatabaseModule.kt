@@ -16,17 +16,20 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
-    // TODO: Replace fallbackToDestructiveMigration before any schema-changing update
     // Current version: 1 — document all changes in schemas/ directory
     @Provides
     @Singleton
     fun providePuriDatabase(@ApplicationContext context: Context): PuriDatabase =
-        Room.databaseBuilder(
-            context,
-            PuriDatabase::class.java,
-            "puri_database"
-        )
-            .fallbackToDestructiveMigration(dropAllTables = true)
+        Room
+            .databaseBuilder(
+                context,
+                PuriDatabase::class.java,
+                "puri_database"
+            )
+            .addMigrations(
+                // To add new migrations here as created
+                // PuriDatabase.MIGRATION_1_2,
+            )
             .build()
 
     @Provides

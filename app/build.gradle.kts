@@ -66,6 +66,8 @@ android {
     }
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.incremental", "true")
+        arg("room.generateKotlin", "true")
     }
 }
 
@@ -135,4 +137,10 @@ dependencies {
 
     testImplementation(libs.mockk)
     testImplementation(libs.assertj)
+
+    androidTestImplementation(libs.junit.android)      // JUnit4 runner for instrumentation
+    androidTestImplementation(libs.espresso.core)      // UI testing
+    androidTestImplementation(libs.room.testing)       // MigrationTestHelper
+    androidTestImplementation(libs.hilt.android.testing)  // Hilt in tests
+    kspAndroidTest(libs.hilt.compiler)
 }

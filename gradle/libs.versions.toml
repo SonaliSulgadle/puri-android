@@ -22,6 +22,10 @@ junit5 = "5.10.2"
 androidJunit5 = "1.10.0.0"
 mockk = "1.13.12"
 assertj = "3.26.3"
+junitAndroid = "1.2.1"
+espresso = "3.6.1"
+roomTesting = "2.7.1"
+hiltTesting = "2.56"
 
 [libraries]
 # Core
@@ -92,6 +96,10 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 assertj = { group = "org.assertj", name = "assertj-core", version.ref = "assertj" }
 
+junit-android = { group = "androidx.test.ext", name = "junit", version.ref = "junitAndroid" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+room-testing = { group = "androidx.room", name = "room-testing", version.ref = "roomTesting" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hiltTesting" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

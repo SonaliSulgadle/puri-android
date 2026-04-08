@@ -1,8 +1,8 @@
 package com.puri.app.data.mapper
 
 import com.puri.app.data.local.db.HistoryEntity
-import com.puri.app.data.local.db.RoomConverters
 import com.puri.app.data.local.db.SavedGuideEntity
+import com.puri.app.data.local.db.StepsSerializer
 import com.puri.app.domain.model.HistoryItem
 import com.puri.app.domain.model.SavedGuide
 import com.puri.app.domain.model.SolveResult
@@ -14,7 +14,7 @@ fun HistoryEntity.toDomain(): HistoryItem = HistoryItem(
         id = id,
         whatThisIs = whatThisIs,
         description = description,
-        steps = RoomConverters().toSteps(stepsJson),
+        steps = StepsSerializer.fromJson(stepsJson),
         warning = warning,
         koreaTip = koreaTip,
         category = category,
@@ -31,7 +31,7 @@ fun HistoryItem.toEntity(): HistoryEntity = HistoryEntity(
     id = id,
     whatThisIs = solveResult.whatThisIs,
     description = solveResult.description,
-    stepsJson = RoomConverters().fromSteps(solveResult.steps),
+    stepsJson = StepsSerializer.toJson(solveResult.steps),
     warning = solveResult.warning,
     koreaTip = solveResult.koreaTip,
     category = solveResult.category,
@@ -60,13 +60,26 @@ fun SavedGuide.toEntity(): SavedGuideEntity = SavedGuideEntity(
     title = title,
     description = description,
     category = category,
-    stepsJson = RoomConverters().fromSteps(
-        solveResult?.steps ?: emptyList()
-    ),
+    stepsJson = StepsSerializer.toJson(solveResult?.steps ?: emptyList()),
     warning = solveResult?.warning,
     koreaTip = solveResult?.koreaTip,
     imageUri = imageUri,
     isPreBundled = isPreBundled,
     isFeatured = isFeatured,
     savedAt = savedAt
+)
+
+// Convert a HistoryEntity to a SavedGuideEntity when user saves a result
+fun HistoryEntity.toSavedGuideEntity(): SavedGuideEntity = SavedGuideEntity(
+    title = whatThisIs,
+    description = description,
+    category = category,
+    stepsJson = stepsJson,
+    warning = warning,
+    koreaTip = koreaTip,
+    imageUri = imageUri,
+    isPreBundled = false,
+    isFeatured = false,
+    savedAt = System.currentTimeMillis(),
+    historyItemId = id
 )
