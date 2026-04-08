@@ -19,5 +19,6 @@ data class SavedGuideEntity(
     val imageUri: String?,
     val isPreBundled: Boolean,
     val isFeatured: Boolean,
-    val savedAt: Long
+    val savedAt: Long,
+    val historyItemId: Long = 0L
 )

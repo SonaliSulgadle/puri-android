@@ -6,6 +6,7 @@ import com.puri.app.data.local.db.HistoryDao
 import com.puri.app.data.local.db.SavedGuideDao
 import com.puri.app.data.mapper.toDomain
 import com.puri.app.data.mapper.toEntity
+import com.puri.app.data.mapper.toSavedGuideEntity
 import com.puri.app.domain.model.SavedGuide
 import com.puri.app.domain.repository.SavedGuidesRepository
 import kotlinx.coroutines.flow.Flow
@@ -44,10 +45,22 @@ class SavedGuidesRepositoryImpl @Inject constructor(
         }
 
     override suspend fun toggleSaved(historyItemId: Long): Resource<Unit> = try {
-        val current = historyDao.getHistoryItemOnce(historyItemId)
-        current?.let {
-            historyDao.updateSavedStatus(historyItemId, !it.isSaved)
+        val historyItem = historyDao.getHistoryItemOnce(historyItemId)
+            ?: return Resource.Error(PuriError.Unknown())
+
+        val newSavedState = !historyItem.isSaved
+
+        // Update the isSaved flag on the history record
+        historyDao.updateSavedStatus(historyItemId, newSavedState)
+
+        if (newSavedState) {
+            // Create a SavedGuide from this history item
+            savedGuideDao.insertGuide(historyItem.toSavedGuideEntity())
+        } else {
+            // Remove the saved guide linked to this history item
+            savedGuideDao.deleteGuideByHistoryId(historyItemId)
         }
+
         Resource.Success(Unit)
     } catch (e: Exception) {
         Resource.Error(PuriError.Unknown(e))

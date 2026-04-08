@@ -4,8 +4,6 @@ import androidx.room.TypeConverter
 import com.puri.app.domain.model.Category
 import com.puri.app.domain.model.ConfidenceLevel
 import com.puri.app.domain.model.SolveStep
-import org.json.JSONArray
-import org.json.JSONObject
 
 class RoomConverters {
 
@@ -23,28 +21,8 @@ class RoomConverters {
         ConfidenceLevel.valueOf(value)
 
     @TypeConverter
-    fun fromSteps(steps: List<SolveStep>): String {
-        val array = JSONArray()
-        steps.forEach { step ->
-            array.put(JSONObject().apply {
-                put("order", step.order)
-                put("title", step.title)
-                put("description", step.description)
-            })
-        }
-        return array.toString()
-    }
+    fun fromSteps(steps: List<SolveStep>): String = StepsSerializer.toJson(steps)
 
     @TypeConverter
-    fun toSteps(json: String): List<SolveStep> {
-        val array = JSONArray(json)
-        return (0 until array.length()).map { i ->
-            val obj = array.getJSONObject(i)
-            SolveStep(
-                order = obj.getInt("order"),
-                title = obj.getString("title"),
-                description = obj.getString("description")
-            )
-        }
-    }
+    fun toSteps(json: String): List<SolveStep> = StepsSerializer.fromJson(json)
 }
