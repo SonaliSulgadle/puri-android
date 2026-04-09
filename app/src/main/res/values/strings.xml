@@ -1,13 +1,99 @@
 <resources>
     <string name="app_name">Puri</string>
 
+    <!-- Categories -->
     <string name="category_eco_help">Eco Help</string>
     <string name="category_utility">Utility</string>
     <string name="category_transit">Transit</string>
-    <string name="category_food">Food &amp; Dining</string>
+    <string name="category_food">Food</string>
+    <string name="category_medical">Medical</string>
     <string name="category_general">General</string>
 
-    <string name="error_daily_limit_reached">You\'ve used all 10 daily solves. Come back tomorrow!</string>
+    <!-- Home -->
+    <string name="home_search_placeholder">Ask anything…</string>
+    <string name="home_daily_solves_label">Daily solves remaining</string>
+    <string name="home_snap_solve_title">Snap &amp; Solve</string>
+    <string name="home_snap_solve_subtitle">Point your camera at any problem for an instant solution.</string>
+    <string name="home_open_camera">Open Camera</string>
+    <string name="home_recent_solves">Recent Solves</string>
+    <string name="home_view_all">View All</string>
+    <string name="home_greeting">Good morning</string>
+    <string name="home_tagline">What can I help you solve today?</string>
+
+    <string name="loading_message_1">Analysing your photo…</string>
+    <string name="loading_message_2">Checking Korean context…</string>
+    <string name="loading_message_3">Preparing your guide…</string>
+    <string name="loading_message_4">Almost ready…</string>
+
+    <string name="home_choose_gallery">Choose from Gallery</string>
+
+    <!-- Errors -->
     <string name="error_empty_query">Please enter a question first.</string>
+    <string name="error_daily_limit_reached">You\'ve used all 10 daily solves. Come back tomorrow!</string>
     <string name="error_image_too_blurry">This image is too blurry. Try a clearer photo.</string>
+    <string name="error_unsafe_content">For safety, please contact a professional or call 119.</string>
+    <string name="error_no_internet">No internet connection. Check your connection and try again.</string>
+    <string name="error_api_generic">Something went wrong. Please try again.</string>
+    <string name="error_unknown">Something went wrong. Please try again.</string>
+    <string name="permission_camera_denied">Camera access is needed to snap photos.</string>
+    <string name="permission_gallery_denied">Gallery access is needed to pick photos.</string>
+    <string name="error_api_quota">Gemini is busy right now. Trying again…</string>
+    <string name="error_api_overloaded">Service temporarily unavailable. Please try again in a moment.</string>
+
+    <!-- Response -->
+    <string name="response_analysis_complete">Analysis complete</string>
+    <string name="response_identified">Identified</string>
+    <string name="response_what_this_is">What this is:</string>
+    <string name="response_what_to_do">What to do:</string>
+    <string name="response_warning_label">Warning:</string>
+    <string name="response_tip_label">Korea Tip</string>
+    <string name="response_solve_it_for_me">✦ Solve it for me</string>
+    <string name="response_save">Save</string>
+    <string name="response_share">Share</string>
+    <string name="solve_saved_confirmation">Saved to your guides</string>
+
+    <!-- Retry / Uncertainty -->
+    <string name="retry_not_confident_title">Not confident about this result</string>
+    <string name="retry_not_confident_body">The image is a bit blurry or the context is unclear. I want to make sure I give you the right advice.</string>
+    <string name="retry_try_again">Try Again</string>
+    <string name="retry_use_saved_guides">Use Saved Guides</string>
+    <string name="retry_accuracy_footer">Accuracy is our priority</string>
+
+    <!-- Unsafe content -->
+    <string name="unsafe_title">Professional Help Required</string>
+    <string name="unsafe_body">This looks like something that needs expert advice. Please contact a professional or call 119 for emergencies.</string>
+    <string name="unsafe_emergency_call">Call 119</string>
+    <string name="unsafe_dismiss">Got it</string>
+
+    <!-- Daily limit -->
+    <string name="daily_limit_title">Daily limit reached</string>
+    <string name="daily_limit_body">You\'ve used all 10 daily solves. Your limit resets at midnight Seoul time.</string>
+    <string name="daily_limit_view_history">View My Solves</string>
+    <string name="daily_limit_saved_guides">Browse Saved Guides</string>
+    <string name="daily_limit_resets_label">Resets at midnight Seoul time</string>
+
+    <!-- Camera screen -->
+    <string name="camera_capture">Snap</string>
+    <string name="camera_gallery">Gallery</string>
+    <string name="camera_close">Close</string>
+    <string name="camera_hint">Point at anything confusing in Korea</string>
+    <string name="camera_additional_context_hint">Add context (optional)…</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_saved">Saved</string>
+    <string name="nav_history">History</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_puri_logo">Puri logo</string>
+    <string name="cd_user_avatar">User profile</string>
+    <string name="cd_solve_image">Captured image for solving</string>
+    <string name="cd_category_icon">Category icon</string>
+    <string name="cd_back">Go back</string>
+    <string name="cd_save_guide">Save this guide</string>
+    <string name="cd_share_result">Share this result</string>
+
+    <string name="emoji_tip">💡</string>
+
 </resources>

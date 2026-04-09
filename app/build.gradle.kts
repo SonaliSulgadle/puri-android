@@ -109,9 +109,6 @@ dependencies {
     // DataStore
     implementation(libs.datastore.preferences)
 
-    // Gemini AI
-//    implementation(libs.generativeai)
-
     // Image loading
     implementation(libs.coil.compose)
 
