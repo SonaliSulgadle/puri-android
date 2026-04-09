@@ -1,5 +1,6 @@
 package com.puri.app.util
 
+import androidx.annotation.VisibleForTesting
 import com.puri.app.domain.model.Category
 import com.puri.app.domain.model.ConfidenceLevel
 import com.puri.app.domain.model.HistoryItem
@@ -7,6 +8,7 @@ import com.puri.app.domain.model.SavedGuide
 import com.puri.app.domain.model.SolveResult
 import com.puri.app.domain.model.SolveStep
 
+@VisibleForTesting
 object TestFixtures {
 
     val solveSteps = listOf(
