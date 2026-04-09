@@ -20,6 +20,13 @@ abstract class PuriDatabase : RoomDatabase() {
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 // Yet to implement
+                // MIGRATION GUIDE — read before incrementing version:
+                // 1. Increment version in @Database annotation
+                // 2. Add MIGRATION_X_Y object here with the SQL
+                // 3. Add it to addMigrations() in DatabaseModule
+                // 4. Build project — Room generates new schema JSON in schemas/
+                // 5. Write MigrationTest in androidTest/ verifying data survives
+                // 6. Run on a device that had the previous version installed
             }
         }
     }
