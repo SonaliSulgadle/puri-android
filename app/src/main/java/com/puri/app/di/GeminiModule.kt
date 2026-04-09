@@ -1,12 +1,20 @@
 package com.puri.app.di
 
-import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.generationConfig
-import com.puri.app.BuildConfig
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.puri.app.data.remote.GeminiApi
+import com.puri.app.data.remote.GeminiDataSource
+import com.puri.app.data.remote.GeminiResponseParser
+import com.puri.app.data.remote.PromptBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -15,15 +23,60 @@ object GeminiModule {
 
     @Provides
     @Singleton
-    fun provideGenerativeModel(): GenerativeModel =
-        GenerativeModel(
-            modelName = "gemini-2.0-flash",
-            apiKey = BuildConfig.GEMINI_API_KEY,
-            generationConfig = generationConfig {
-                temperature = 0.2f
-                maxOutputTokens = 512
-                topK = 40
-                topP = 0.95f
+    fun provideJson(): Json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+        coerceInputValues = true
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        val logging = HttpLoggingInterceptor().apply {
+            level = if (com.puri.app.BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
             }
-        )
+        }
+
+        return OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)  // Gemini can take time on large images
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient, json: Json): Retrofit =
+        Retrofit.Builder()
+            .baseUrl("https://generativelanguage.googleapis.com/")
+            .client(okHttpClient)
+            .addConverterFactory(
+                json.asConverterFactory("application/json".toMediaType())
+            )
+            .build()
+
+    @Provides
+    @Singleton
+    fun provideGeminiApi(retrofit: Retrofit): GeminiApi =
+        retrofit.create(GeminiApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePromptBuilder(): PromptBuilder = PromptBuilder()
+
+    @Provides
+    @Singleton
+    fun provideGeminiResponseParser(): GeminiResponseParser = GeminiResponseParser()
+
+    @Provides
+    @Singleton
+    fun provideGeminiDataSource(
+        api: GeminiApi,
+        promptBuilder: PromptBuilder,
+        parser: GeminiResponseParser
+    ): GeminiDataSource = GeminiDataSource(api, promptBuilder, parser)
 }

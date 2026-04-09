@@ -27,7 +27,7 @@ class SolveImageUseCase @Inject constructor(
             return Resource.Error(PuriError.DailyLimitReached)
         }
 
-        return when (val result = solveRepository.solveImage(bitmap, additionalContext, imageUri)) {
+        return when (val result = solveRepository.solveImage(bitmap, imageUri, additionalContext)) {
             is Resource.Success -> {
                 // Auto-save to history on every successful solve
                 historyRepository.saveToHistory(

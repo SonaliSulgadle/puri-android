@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.junit5)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 val localProperties = Properties().apply {
@@ -108,9 +109,6 @@ dependencies {
     // DataStore
     implementation(libs.datastore.preferences)
 
-    // Gemini AI
-    implementation(libs.generativeai)
-
     // Image loading
     implementation(libs.coil.compose)
 
@@ -124,6 +122,12 @@ dependencies {
     implementation(libs.coroutines.android)
 
     implementation(libs.material.icons)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.kotlinx.serialization)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+    implementation(libs.kotlinx.serialization.json)
 
     // Testing
     testImplementation(libs.junit)

@@ -47,3 +47,34 @@
 
 # ── Puri Application ──────────────────────────────────
 -keep class com.puri.app.PuriApplication { *; }
+
+# Retrofit
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class retrofit2.** { *; }
+-dontwarn retrofit2.**
+
+# OkHttp
+-keep class okhttp3.** { *; }
+-dontwarn okhttp3.**
+-dontwarn okio.**
+
+# Kotlinx Serialization
+-keepattributes *Annotation*, InnerClasses
+-dontnote kotlinx.serialization.AnnotationsKt
+-keepclassmembers class kotlinx.serialization.json.** { *** Companion; }
+-keepclasseswithmembers class kotlinx.serialization.** {
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
+# Keep all Gemini request/response models — serialization needs field names
+-keep @kotlinx.serialization.Serializable class * { *; }
+-keepclassmembers @kotlinx.serialization.Serializable class * {
+    *** Companion;
+    *** serialVersionUID;
+    static ** $serializer;
+    private *** $$delegate_0;
+}
+
+# Puri data models
+-keep class com.puri.app.data.remote.model.** { *; }

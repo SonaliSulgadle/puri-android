@@ -2,12 +2,98 @@
 <resources>
     <string name="app_name">Puri</string>
 
+    <string name="home_choose_gallery">갤러리에서 선택</string>
+
+    <!-- Categories -->
     <string name="category_eco_help">환경 도움</string>
     <string name="category_utility">생활 가전</string>
     <string name="category_transit">교통</string>
     <string name="category_food">음식</string>
+    <string name="category_medical">의료</string>
     <string name="category_general">일반</string>
 
-    <string name="error_daily_limit_reached">오늘의 10회 풀이를 모두 사용했어요. 내일 다시 시도해보세요!</string>
+    <!-- Home screen -->
+    <string name="home_search_placeholder">무엇이든 물어보세요…</string>
+    <string name="home_daily_solves_label">오늘 남은 풀이</string>
+    <string name="home_snap_solve_title">스냅 &amp; 해결</string>
+    <string name="home_snap_solve_subtitle">카메라를 어떤 문제에든 대면 즉시 해결책을 드려요.</string>
+    <string name="home_open_camera">카메라 열기</string>
+    <string name="home_recent_solves">최근 풀이</string>
+    <string name="home_view_all">전체 보기</string>
+    <string name="home_greeting">좋은 아침이에요</string>
+    <string name="home_tagline">오늘은 무엇을 도와드릴까요?</string>
+
+    <!-- Loading -->
+    <string name="loading_message_1">사진을 분석하고 있어요…</string>
+    <string name="loading_message_2">한국 관련 정보를 확인하고 있어요…</string>
+    <string name="loading_message_3">가이드를 준비하고 있어요…</string>
+    <string name="loading_message_4">거의 다 됐어요…</string>
+
+    <!-- Errors -->
     <string name="error_empty_query">질문을 입력해주세요.</string>
+    <string name="error_daily_limit_reached">오늘의 10회 풀이를 모두 사용했어요. 내일 다시 시도해보세요!</string>
+    <string name="error_image_too_blurry">이미지가 흐릿해요. 더 선명한 사진으로 시도해보세요.</string>
+    <string name="error_unsafe_content">안전을 위해 전문가에게 문의하거나 119에 연락해주세요.</string>
+    <string name="error_no_internet">인터넷 연결이 없어요. 연결을 확인하고 다시 시도해주세요.</string>
+    <string name="error_api_generic">문제가 발생했어요. 다시 시도해주세요.</string>
+    <string name="error_unknown">문제가 발생했어요. 다시 시도해주세요.</string>
+    <string name="permission_camera_denied">사진을 찍으려면 카메라 접근 권한이 필요해요.</string>
+    <string name="permission_gallery_denied">사진을 선택하려면 갤러리 접근 권한이 필요해요.</string>
+
+    <!-- Response -->
+    <string name="response_analysis_complete">분석 완료</string>
+    <string name="response_identified">확인됨</string>
+    <string name="response_what_this_is">이것은:</string>
+    <string name="response_what_to_do">해야 할 일:</string>
+    <string name="response_warning_label">주의:</string>
+    <string name="response_tip_label">한국 팁</string>
+    <string name="response_solve_it_for_me">✦ 해결해 드릴게요</string>
+    <string name="response_save">저장</string>
+    <string name="response_share">공유</string>
+    <string name="solve_saved_confirmation">가이드에 저장됐어요</string>
+
+    <!-- Retry -->
+    <string name="retry_not_confident_title">결과가 확실하지 않아요</string>
+    <string name="retry_not_confident_body">이미지가 흐릿하거나 상황이 불명확해요. 정확한 조언을 드리고 싶어요.</string>
+    <string name="retry_try_again">다시 시도</string>
+    <string name="retry_use_saved_guides">저장된 가이드 사용</string>
+    <string name="retry_accuracy_footer">정확성이 최우선이에요</string>
+
+    <!-- Unsafe content -->
+    <string name="unsafe_title">전문가 도움이 필요해요</string>
+    <string name="unsafe_body">전문가의 조언이 필요한 상황이에요. 전문가에게 문의하거나 응급 상황 시 119에 연락해주세요.</string>
+    <string name="unsafe_emergency_call">119 전화</string>
+    <string name="unsafe_dismiss">알겠어요</string>
+
+    <!-- Daily limit -->
+    <string name="daily_limit_title">오늘의 한도에 도달했어요</string>
+    <string name="daily_limit_body">오늘 10회 풀이를 모두 사용했어요. 서울 시간 자정에 한도가 초기화돼요.</string>
+    <string name="daily_limit_view_history">내 풀이 보기</string>
+    <string name="daily_limit_saved_guides">저장된 가이드 보기</string>
+    <string name="daily_limit_resets_label">서울 시간 자정에 초기화돼요</string>
+
+    <!-- Camera screen -->
+    <string name="camera_capture">촬영</string>
+    <string name="camera_gallery">갤러리</string>
+    <string name="camera_close">닫기</string>
+    <string name="camera_hint">한국에서 헷갈리는 것에 카메라를 대보세요</string>
+    <string name="camera_additional_context_hint">추가 설명 (선택사항)…</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">홈</string>
+    <string name="nav_saved">저장됨</string>
+    <string name="nav_history">기록</string>
+    <string name="nav_profile">프로필</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_puri_logo">Puri 로고</string>
+    <string name="cd_user_avatar">사용자 프로필</string>
+    <string name="cd_solve_image">풀이용 촬영 이미지</string>
+    <string name="cd_category_icon">카테고리 아이콘</string>
+    <string name="cd_back">뒤로 가기</string>
+    <string name="cd_save_guide">이 가이드 저장</string>
+    <string name="cd_share_result">결과 공유</string>
+
+    <string name="emoji_tip">💡</string>
+
 </resources>
