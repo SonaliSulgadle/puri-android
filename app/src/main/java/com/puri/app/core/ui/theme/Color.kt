@@ -38,11 +38,18 @@ val OnError              = Color(0xFF8B1A1A)
 val SuccessContainer     = Color(0xFFE6F4EA)
 val OnSuccess            = Color(0xFF1A5C2A)
 
+val WarningContainerDark  = Color(0xFF3D2E00)
+val OnWarningDark         = Color(0xFFFFD680)
+val ErrorContainerDark    = Color(0xFF4A1A1A)
+val OnErrorDark           = Color(0xFFFFB4B4)
+val SuccessContainerDark  = Color(0xFF1A3A1F)
+val OnSuccessDark         = Color(0xFF86D98A)
+
 // ── Dark mode surfaces ────────────────────────────────
-val SurfaceDark          = Color(0xFF12131A)
-val SurfaceContainerLowDark = Color(0xFF1C1E2A)
-val SurfaceContainerLowestDark = Color(0xFF0E0F14)
-val SurfaceContainerHighDark = Color(0xFF252838)
+val SurfaceDark          = Color(0xFF1A1B2E)
+val SurfaceContainerLowDark = Color(0xFF22243A)
+val SurfaceContainerLowestDark = Color(0xFF1E2035)
+val SurfaceContainerHighDark = Color(0xFF2A2D45)
 val OnSurfaceDark        = Color(0xFFE4E5F0)
 val OnSurfaceVariantDark = Color(0xFFA0A4B8)
 
@@ -53,3 +60,4 @@ val GradientSnapEnd      = Color(0xFFA02D70)
 // Hero card: primary → primaryContainer
 val GradientHeroStart    = Color(0xFF4D51B1)
 val GradientHeroEnd      = Color(0xFF6B6FD4)
+
