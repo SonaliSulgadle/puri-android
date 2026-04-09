@@ -7,8 +7,8 @@ import com.puri.app.domain.model.SolveResult
 interface SolveRepository {
     suspend fun solveImage(
         bitmap: Bitmap,
-        additionalContext: String? = null,
-        imageUri: String?
+        imageUri: String?,
+        additionalContext: String? = null
     ): Resource<SolveResult>
 
     suspend fun solveText(

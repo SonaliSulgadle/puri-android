@@ -2,8 +2,8 @@ package com.puri.app.core.common
 
 import android.graphics.Bitmap
 import android.util.Base64
-import java.io.ByteArrayOutputStream
 import androidx.core.graphics.scale
+import java.io.ByteArrayOutputStream
 
 fun Bitmap.compressForGemini(): Bitmap {
     val maxDimension = 1024

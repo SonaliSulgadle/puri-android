@@ -9,7 +9,10 @@ sealed class PuriError {
 
     // Network errors
     data object NoInternet : PuriError()
-    data class ApiError(val code: Int) : PuriError()
+    data class ApiError(
+        val code: Int,
+        val isRetryable: Boolean = code == 429 || code == 503
+    ) : PuriError()
 
     // Generic
     data class Unknown(val throwable: Throwable? = null) : PuriError()
