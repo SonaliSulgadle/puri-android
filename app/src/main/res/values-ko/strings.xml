@@ -48,7 +48,9 @@
     <string name="response_warning_label">주의:</string>
     <string name="response_tip_label">한국 팁</string>
     <string name="response_solve_it_for_me">✦ 해결해 드릴게요</string>
+    <string name="response_solve_again">다른 문제 풀기</string>
     <string name="response_save">저장</string>
+    <string name="response_saved">저장됨</string>
     <string name="response_share">공유</string>
     <string name="solve_saved_confirmation">가이드에 저장됐어요</string>
 
@@ -95,5 +97,6 @@
     <string name="cd_share_result">결과 공유</string>
 
     <string name="emoji_tip">💡</string>
+    <string name="response_verify_disclaimer">수치와 라벨은 제품에서 직접 확인해주세요</string>
 
 </resources>

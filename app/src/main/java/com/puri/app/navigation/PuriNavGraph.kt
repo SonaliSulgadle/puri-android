@@ -6,10 +6,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.puri.app.feature.history.HistoryScreen
-import com.puri.app.feature.home.HomeScreen
 import com.puri.app.feature.onboarding.OnboardingScreen
 import com.puri.app.feature.profile.ProfileScreen
 import com.puri.app.feature.saved.SavedScreen
+import com.puri.app.feature.solve.SolveScreen
 
 @Composable
 fun PuriNavGraph(
@@ -32,12 +32,16 @@ fun PuriNavGraph(
             )
         }
         composable(Screen.Home.route) {
-            HomeScreen(
-                onNavigateToHistory = {
-                    navController.navigate(Screen.History.route)
+            SolveScreen(
+                onNavigateToSaved = {
+                    navController.navigate(Screen.Saved.route) {
+                        launchSingleTop = true
+                    }
                 },
-                onNavigateToSolveResult = { id ->
-                    navController.navigate("solve_result/$id")
+                onNavigateToHistory = {
+                    navController.navigate(Screen.History.route) {
+                        launchSingleTop = true
+                    }
                 }
             )
         }
