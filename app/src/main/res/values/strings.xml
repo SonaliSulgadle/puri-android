@@ -48,7 +48,9 @@
     <string name="response_warning_label">Warning:</string>
     <string name="response_tip_label">Korea Tip</string>
     <string name="response_solve_it_for_me">✦ Solve it for me</string>
+    <string name="response_solve_again">Solve another problem</string>
     <string name="response_save">Save</string>
+    <string name="response_saved">Saved</string>
     <string name="response_share">Share</string>
     <string name="solve_saved_confirmation">Saved to your guides</string>
 
@@ -95,5 +97,8 @@
     <string name="cd_share_result">Share this result</string>
 
     <string name="emoji_tip">💡</string>
+    <string name="response_verify_disclaimer">Always verify measurements and labels directly on the product</string>
+    <string name="home_first_time_hint">Snap a photo of anything confusing\nin Korea to get started</string>
+    <string name="upward_point_emoji">👆</string>
 
 </resources>
