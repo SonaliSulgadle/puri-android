@@ -5,6 +5,8 @@ import com.puri.app.core.common.PuriError
 import com.puri.app.domain.model.HistoryItem
 import com.puri.app.domain.model.SolveResult
 
+const val DAILY_LIMIT = 10
+
 sealed interface SolveIntent {
     data object OpenCamera : SolveIntent
     data object OpenGallery : SolveIntent
@@ -26,12 +28,15 @@ sealed interface SolveIntent {
 
 sealed interface SolveUiState {
     data class Idle(
-        val dailySolvesRemaining: Int = 10, val recentSolves: List<HistoryItem> = emptyList()
+        val dailySolvesRemaining: Int = 10,
+        val dailySolvesLimit: Int = DAILY_LIMIT,
+        val recentSolves: List<HistoryItem> = emptyList(),
+        val currentQuery: String = ""
     ) : SolveUiState
 
     data object CameraOpen : SolveUiState
 
-    data class Loading(val bitmap: Bitmap) : SolveUiState
+    data object Loading : SolveUiState
 
     data class Success(
         val result: SolveResult, val isSaved: Boolean = false

@@ -1,29 +1,37 @@
 package com.puri.app.feature.solve
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.graphics.ImageDecoder
 import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
 import android.provider.MediaStore
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
+import com.puri.app.core.common.saveToTempFile
 import com.puri.app.core.permission.PermissionManager
+import com.puri.app.core.util.HapticUtils
 import com.puri.app.feature.solve.components.CameraScreen
 import com.puri.app.feature.solve.components.DailyLimitCard
 import com.puri.app.feature.solve.components.HomeContent
@@ -98,7 +106,7 @@ fun SolveScreen(
                 }
 
                 SolveUiEffect.NavigateToHistory -> onNavigateToHistory()
-                SolveUiEffect.TriggerHaptic -> triggerHaptic(context)
+                SolveUiEffect.TriggerHaptic -> HapticUtils.triggerLight(context)
             }
         }
     }
@@ -119,82 +127,107 @@ fun SolveScreen(
     }
 
     // ── State rendering ────────────────────────────────────────────────────
-    when (val state = uiState) {
-        is SolveUiState.Idle -> HomeContent(
-            state = state,
-            snackbarHostState = snackbarHostState,
-            onOpenCamera = onOpenCamera,
-            onOpenGallery = onOpenGallery,
-            onTextQueryChanged = { viewModel.onIntent(SolveIntent.TextQueryChanged(it)) },
-            onSubmitQuery = { viewModel.onIntent(SolveIntent.SubmitTextQuery) },
-            onViewAllHistory = onNavigateToHistory
-        )
 
-        SolveUiState.CameraOpen -> CameraScreen(
-            onPhotoCaptured = { bitmap, uri ->
-                viewModel.onIntent(SolveIntent.ImageCaptured(bitmap, uri))
-            },
-            onDismiss = { viewModel.onIntent(SolveIntent.ClearResult) }
-        )
+    AnimatedContent(
+        targetState = uiState,
+        transitionSpec = {
+            when {
+                // Loading → Success: slide up
+                targetState is SolveUiState.Success -> {
+                    slideInVertically { it } + fadeIn() togetherWith
+                            slideOutVertically { -it } + fadeOut()
+                }
+                // Any → Idle: fade
+                targetState is SolveUiState.Idle -> {
+                    fadeIn() togetherWith fadeOut()
+                }
+                // Camera open: slide from bottom
+                targetState is SolveUiState.CameraOpen -> {
+                    slideInVertically { it } + fadeIn() togetherWith fadeOut()
+                }
 
-        is SolveUiState.Loading -> LoadingContent(bitmap = state.bitmap)
-        is SolveUiState.Success -> ResponseCard(
-            result = state.result,
-            isSaved = state.isSaved,
-            onSave = { viewModel.onIntent(SolveIntent.SaveResult) },
-            onSolveAgain = { viewModel.onIntent(SolveIntent.ClearResult) }
-        )
-
-        is SolveUiState.Uncertain -> RetryCard(
-            bitmap = state.bitmap,
-            onRetry = { viewModel.onIntent(SolveIntent.Retry) },
-            onUseSaved = onNavigateToSaved
-        )
-
-        SolveUiState.UnsafeContent -> UnsafeContentCard(
-            onDismiss = { viewModel.onIntent(SolveIntent.ClearResult) },
-            onCallEmergency = {
-                context.startActivity(
-                    Intent(Intent.ACTION_DIAL, "tel:119".toUri())
-                )
+                else -> fadeIn() togetherWith fadeOut()
             }
-        )
+        },
+        label = "solve_state_transition",
+    ) { state ->
 
-        SolveUiState.DailyLimitReached -> DailyLimitCard(
-            onViewHistory = onNavigateToHistory,
-            onBrowseSaved = onNavigateToSaved
-        )
-
-        is SolveUiState.Error -> {
-            LaunchedEffect(state) {
-                snackbarHostState.showSnackbar(context.getString(R.string.error_unknown))
-                viewModel.onIntent(SolveIntent.ClearResult)
-            }
-            HomeContent(
-                state = SolveUiState.Idle(
-                    dailySolvesRemaining = 10,
-                    recentSolves = emptyList()
-                ),
+        when (state) {
+            is SolveUiState.Idle -> HomeContent(
+                state = state,
                 snackbarHostState = snackbarHostState,
                 onOpenCamera = onOpenCamera,
                 onOpenGallery = onOpenGallery,
-                onTextQueryChanged = { viewModel.onIntent(SolveIntent.TextQueryChanged(it)) },
-                onSubmitQuery = { viewModel.onIntent(SolveIntent.SubmitTextQuery) },
+                onSubmitQuery = {
+                    viewModel.onIntent(SolveIntent.TextQueryChanged(it))
+                    viewModel.onIntent(SolveIntent.SubmitTextQuery)
+                },
                 onViewAllHistory = onNavigateToHistory
             )
+
+            SolveUiState.CameraOpen -> {
+                BackHandler {
+                    viewModel.onIntent(SolveIntent.ClearResult)
+                }
+                CameraScreen(
+                    onPhotoCaptured = { bitmap, contextText ->
+                        val uri = bitmap.saveToTempFile(context)?.toString()
+                        viewModel.onIntent(SolveIntent.ImageCaptured(bitmap, uri))
+                    },
+                    onDismiss = { viewModel.onIntent(SolveIntent.ClearResult) }
+                )
+            }
+
+            is SolveUiState.Loading -> {
+                BackHandler(enabled = true) { }
+                LoadingContent()
+            }
+
+            is SolveUiState.Success -> {
+                BackHandler {
+                    viewModel.onIntent(SolveIntent.ClearResult)
+                }
+                ResponseCard(
+                    result = state.result,
+                    isSaved = state.isSaved,
+                    onSave = { viewModel.onIntent(SolveIntent.SaveResult) },
+                    onSolveAgain = { viewModel.onIntent(SolveIntent.ClearResult) },
+                    onBack = { viewModel.onIntent(SolveIntent.ClearResult) }
+                )
+            }
+
+            is SolveUiState.Uncertain -> {
+                BackHandler {
+                    viewModel.onIntent(SolveIntent.Retry)
+                }
+                RetryCard(
+                    bitmap = state.bitmap,
+                    onRetry = { viewModel.onIntent(SolveIntent.Retry) },
+                    onUseSaved = onNavigateToSaved
+                )
+            }
+
+            SolveUiState.UnsafeContent -> UnsafeContentCard(
+                onDismiss = { viewModel.onIntent(SolveIntent.ClearResult) },
+                onCallEmergency = {
+                    context.startActivity(
+                        Intent(Intent.ACTION_DIAL, "tel:119".toUri())
+                    )
+                }
+            )
+
+            SolveUiState.DailyLimitReached -> DailyLimitCard(
+                onViewHistory = onNavigateToHistory,
+                onBrowseSaved = onNavigateToSaved
+            )
+
+            is SolveUiState.Error -> {
+                LaunchedEffect(state) {
+                    snackbarHostState.showSnackbar(context.getString(R.string.error_unknown))
+                    viewModel.onIntent(SolveIntent.ClearResult)
+                }
+                Box(modifier = Modifier.fillMaxSize())
+            }
         }
     }
-}
-
-private fun triggerHaptic(context: Context) {
-    val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        (context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager)
-            .defaultVibrator
-    } else {
-        @Suppress("DEPRECATION")
-        context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    }
-    vibrator.vibrate(
-        VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE)
-    )
 }

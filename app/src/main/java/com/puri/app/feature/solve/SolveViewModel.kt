@@ -1,7 +1,6 @@
 package com.puri.app.feature.solve
 
 import android.graphics.Bitmap
-import androidx.core.graphics.createBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.puri.app.R
@@ -81,7 +80,15 @@ class SolveViewModel @Inject constructor(
                 SolveIntent.ImageCaptured(intent.bitmap, intent.imageUri)
             )
 
-            is SolveIntent.TextQueryChanged -> currentTextQuery = intent.query
+            is SolveIntent.TextQueryChanged -> {
+                currentTextQuery = intent.query
+                if (_uiState.value is SolveUiState.Idle) {
+                    _uiState.update {
+                        (it as? SolveUiState.Idle)?.copy(currentQuery = intent.query) ?: it
+                    }
+                }
+            }
+
             SolveIntent.SubmitTextQuery -> handleTextQuery()
             SolveIntent.Retry, SolveIntent.ClearResult -> returnToIdle()
             SolveIntent.SaveResult -> handleSaveResult()
@@ -103,13 +110,15 @@ class SolveViewModel @Inject constructor(
         viewModelScope.launch {
             sendEffect(SolveUiEffect.TriggerHaptic)
             val compressed = intent.bitmap.compressForGemini()
-            _uiState.value = SolveUiState.Loading(compressed)
+            _uiState.value = SolveUiState.Loading
 
-            when (val result = solveImageUseCase(
+            val result = solveImageUseCase(
                 bitmap = compressed,
                 imageUri = intent.imageUri,
                 additionalContext = additionalContext.ifBlank { null }
-            )) {
+            )
+
+            when (result) {
                 is Resource.Success -> handleSolveSuccess(result.data, compressed)
                 is Resource.Error -> handleSolveError(result.error)
                 Resource.Loading -> Unit
@@ -123,7 +132,7 @@ class SolveViewModel @Inject constructor(
             return
         }
         viewModelScope.launch {
-            _uiState.value = SolveUiState.Loading(createBitmap(1, 1))
+            _uiState.value = SolveUiState.Loading
             when (val result = solveTextUseCase(currentTextQuery)) {
                 is Resource.Success -> handleSolveSuccess(result.data, null)
                 is Resource.Error -> handleSolveError(result.error)
