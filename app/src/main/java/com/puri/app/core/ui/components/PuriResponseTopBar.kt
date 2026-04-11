@@ -27,7 +27,6 @@ fun PuriResponseTopBar(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                horizontal = dimensionResource(R.dimen.spacing_sm),
                 vertical = dimensionResource(R.dimen.spacing_sm)
             ),
         verticalAlignment = Alignment.CenterVertically

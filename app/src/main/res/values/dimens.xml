@@ -35,6 +35,7 @@
     <dimen name="image_preview_height">220dp</dimen>
     <dimen name="progress_bar_height">6dp</dimen>
     <dimen name="recent_solve_image_size">80dp</dimen>
+    <dimen name="recent_solve_card_height">200dp</dimen>
 
     <!-- Screen padding -->
     <dimen name="screen_horizontal_padding">20dp</dimen>

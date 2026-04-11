@@ -26,7 +26,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -65,7 +64,7 @@ class MainActivity : ComponentActivity() {
 
                 val isFirstLaunch = remember { mutableStateOf(true) }
                 val startDestination = if (isFirstLaunch.value) {
-                    Screen.Onboarding.route
+                    Screen.Home.route // TODO - To be replaced with Onboarding
                 } else {
                     Screen.Home.route
                 }

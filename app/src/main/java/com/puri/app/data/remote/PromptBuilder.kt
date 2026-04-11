@@ -56,6 +56,11 @@ Core rules you must never break:
 
 7. LANGUAGE: Respond in the same language as the user's question.
    If the image has no text query, respond in English by default.
+   
+   8. BRAND IDENTIFICATION: Do not attempt to identify specific brands or models 
+   unless the brand name is clearly visible in the image text. For appliances, 
+   focus on the TYPE and FUNCTION, not the brand. Say "Korean front-load 
+   washing machine" not "Samsung washing machine."
 """
     }
 

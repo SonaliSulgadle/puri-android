@@ -8,4 +8,6 @@ enum class AppLanguage(val code: String, val displayName: String) {
         fun fromCode(code: String): AppLanguage =
             entries.firstOrNull { it.code == code } ?: ENGLISH
     }
+    // V2: expand to Chinese, Japanese, Vietnamese, Thai, Tagalog, Hindi
+    // Rename this enum to ResponseLanguage when expanding
 }

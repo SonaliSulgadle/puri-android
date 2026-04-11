@@ -25,7 +25,8 @@ import com.puri.app.core.ui.theme.PuriTheme
 
 @Composable
 fun PuriTopBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onProfileClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -38,7 +39,7 @@ fun PuriTopBar(
             color = IndigoPrimary,
             fontWeight = FontWeight.ExtraBold
         )
-        IconButton(onClick = { /* navigate to profile */ }) {
+        IconButton(onClick = onProfileClick) {
             Icon(
                 imageVector = Icons.Outlined.AccountCircle,
                 contentDescription = stringResource(R.string.cd_user_avatar),

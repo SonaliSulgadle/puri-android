@@ -50,8 +50,8 @@ private val DarkColorScheme = darkColorScheme(
     onSecondary = VioletOnSecondaryContainer,
     secondaryContainer = VioletSecondary,
     onSecondaryContainer = VioletOnSecondary,
-    tertiary = Color(0xFFE06FAA),
-    onTertiary = Color(0xFF5A0035),
+    tertiary = Color(0xFF86D98A),
+    onTertiary = Color(0xFF003910),
     background = SurfaceDark,
     onBackground = Color(0xFFE4E5F0),
     surface = SurfaceDark,
@@ -68,6 +68,8 @@ private val DarkColorScheme = darkColorScheme(
     onErrorContainer = Color(0xFFFFB4B4),
     outline = Color(0xFF4A4D6A),
     outlineVariant = Color(0xFF2A2D45),
+    tertiaryContainer = Color(0xFF1A3A1F),
+    onTertiaryContainer = Color(0xFF86D98A),
 )
 
 @Composable
