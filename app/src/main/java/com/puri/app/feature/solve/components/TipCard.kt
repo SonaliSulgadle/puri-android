@@ -18,12 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.OnSuccess
 import com.puri.app.core.ui.theme.PuriTheme
-import com.puri.app.core.ui.theme.SuccessContainer
 
 @Composable
 fun TipCard(
@@ -33,7 +31,9 @@ fun TipCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(dimensionResource(R.dimen.radius_lg)),
-        colors = CardDefaults.cardColors(containerColor = SuccessContainer),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+        ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
@@ -49,21 +49,21 @@ fun TipCard(
                 Text(
                     text = stringResource(R.string.response_tip_label),
                     style = MaterialTheme.typography.labelMedium,
-                    color = OnSuccess,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xs)))
                 Text(
                     text = tip,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = OnSuccess
+                    color = MaterialTheme.colorScheme.onTertiaryContainer
                 )
             }
         }
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun TipCardPreview() {
     PuriTheme {

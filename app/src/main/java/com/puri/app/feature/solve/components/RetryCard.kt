@@ -1,6 +1,7 @@
 package com.puri.app.feature.solve.components
 
 import android.graphics.Bitmap
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,7 +49,13 @@ fun RetryCard(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize()
-                    .blur(20.dp)
+                    .then(
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            Modifier.blur(20.dp)
+                        } else {
+                            Modifier
+                        }
+                    )
             )
             // Dark overlay
             Box(

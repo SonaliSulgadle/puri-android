@@ -1,4 +1,4 @@
-package com.puri.app.core.ui.components
+package com.puri.app.feature.solve.components
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -48,7 +49,13 @@ fun ShimmerResponseCard() {
         end = Offset(shimmerX + 200f, 0f)
     )
 
-    Column(modifier = Modifier.padding(dimensionResource(R.dimen.screen_horizontal_padding))) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+        )
+
         // Image placeholder
         Box(
             modifier = Modifier
@@ -62,34 +69,38 @@ fun ShimmerResponseCard() {
                 )
                 .background(shimmerBrush)
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        // Title placeholder
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.7f)
-                .height(28.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(shimmerBrush)
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .height(16.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(shimmerBrush)
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        // Steps placeholder
-        repeat(3) {
+        Column(
+            modifier = Modifier.padding(dimensionResource(R.dimen.screen_horizontal_padding))
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+            // Title placeholder
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(72.dp)
-                    .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_lg)))
+                    .fillMaxWidth(0.7f)
+                    .height(28.dp)
+                    .clip(RoundedCornerShape(8.dp))
                     .background(shimmerBrush)
             )
             Spacer(modifier = Modifier.height(8.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .height(16.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(shimmerBrush)
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            // Steps placeholder
+            repeat(3) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(72.dp)
+                        .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_lg)))
+                        .background(shimmerBrush)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
     }
 }

@@ -22,10 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.ErrorContainer
 import com.puri.app.core.ui.theme.OnError
 import com.puri.app.core.ui.theme.PuriTheme
 
@@ -37,7 +36,7 @@ fun WarningBlock(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(dimensionResource(R.dimen.radius_lg)),
-        colors = CardDefaults.cardColors(containerColor = ErrorContainer),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
@@ -55,21 +54,21 @@ fun WarningBlock(
                 Text(
                     text = stringResource(R.string.response_warning_label),
                     style = MaterialTheme.typography.titleMedium,
-                    color = OnError,
+                    color = MaterialTheme.colorScheme.onErrorContainer,
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xs)))
                 Text(
                     text = warning,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = OnError
+                    color = MaterialTheme.colorScheme.onErrorContainer
                 )
             }
         }
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun WarningBlockPreview() {
     PuriTheme {

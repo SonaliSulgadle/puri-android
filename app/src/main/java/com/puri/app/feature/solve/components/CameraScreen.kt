@@ -2,6 +2,9 @@ package com.puri.app.feature.solve.components
 
 import android.graphics.Bitmap
 import androidx.camera.view.PreviewView
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -34,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
@@ -140,9 +144,9 @@ fun CameraScreen(
                 isCapturing = isCapturing,
                 onClick = {
                     if (!isCapturing) {
-                        isCapturing = true
                         scope.launch {
                             try {
+                                isCapturing = true
                                 val bitmap = cameraManager.capturePhoto()
                                 onPhotoCaptured(
                                     bitmap,
@@ -150,6 +154,7 @@ fun CameraScreen(
                                 )
                             } finally {
                                 isCapturing = false
+                                onDismiss()
                             }
                         }
                     }
@@ -167,9 +172,15 @@ private fun ShutterButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val scale by animateFloatAsState(
+        targetValue = if (isCapturing) 0.85f else 1f,
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy),
+        label = "shutter_scale"
+    )
     Box(
         modifier = modifier
             .size(dimensionResource(R.dimen.camera_icon_container))
+            .graphicsLayer { scaleX = scale; scaleY = scale }
             .clip(CircleShape)
             .background(
                 if (isCapturing) Color.White.copy(alpha = 0.5f)

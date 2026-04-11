@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -26,7 +25,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.puri.app.R
@@ -35,6 +34,7 @@ import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.core.util.DateTimeUtils
 import com.puri.app.domain.model.HistoryItem
 import com.puri.app.util.TestFixtures
+import kotlin.math.ceil
 
 @Composable
 fun RecentSolvesSection(
@@ -42,6 +42,11 @@ fun RecentSolvesSection(
     onViewAll: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val cardHeight = dimensionResource(R.dimen.recent_solve_card_height)
+    val spacing = dimensionResource(R.dimen.spacing_md)
+    val rows = ceil(recentSolves.size / 2.0).toInt()
+    val gridHeight = (cardHeight * rows) + (spacing * (rows - 1).coerceAtLeast(0))
+
     Column(modifier = modifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -63,12 +68,11 @@ fun RecentSolvesSection(
 
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
 
-        // Use heightIn instead of fixed height to avoid calculation issues
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md)),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md)),
-            modifier = Modifier.heightIn(max = 320.dp), // safe fixed max
+            modifier = Modifier.height(gridHeight),
             userScrollEnabled = false
         ) {
             items(recentSolves, key = { it.id }) { item ->
@@ -131,14 +135,15 @@ private fun RecentSolveCard(
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun RecentSolvesSectionPreview() {
     PuriTheme {
         RecentSolvesSection(
             recentSolves = listOf(
                 TestFixtures.historyItemToday,
-                TestFixtures.historyItemYesterday
+                TestFixtures.historyItemToday,
+                TestFixtures.historyItemYesterday,
             ),
             onViewAll = {},
             modifier = Modifier.padding(dimensionResource(R.dimen.spacing_xl))
