@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -68,15 +65,27 @@ fun RecentSolvesSection(
 
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_md)),
-            modifier = Modifier.height(gridHeight),
-            userScrollEnabled = false
-        ) {
-            items(recentSolves, key = { it.id }) { item ->
-                RecentSolveCard(item = item)
+        val rows = recentSolves.take(4).chunked(2)
+        rows.forEachIndexed { rowIndex, rowItems ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(
+                    dimensionResource(R.dimen.spacing_md)
+                ),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                rowItems.forEach { item ->
+                    RecentSolveCard(
+                        item = item,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                // If only one item in last row, fill remaining space
+                if (rowItems.size == 1) {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
+            if (rowIndex < rows.lastIndex) {
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
             }
         }
     }

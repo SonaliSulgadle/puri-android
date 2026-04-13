@@ -10,10 +10,10 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -130,23 +130,43 @@ fun SolveScreen(
 
     AnimatedContent(
         targetState = uiState,
+        modifier = Modifier.fillMaxSize(),
+        contentKey = { state ->
+            when (state) {
+                is SolveUiState.Idle -> 0
+                SolveUiState.CameraOpen -> 1
+                SolveUiState.Loading -> 2
+                is SolveUiState.Success -> 3
+                is SolveUiState.Uncertain -> 4
+                SolveUiState.UnsafeContent -> 5
+                SolveUiState.DailyLimitReached -> 6
+                is SolveUiState.Error -> 7
+            }
+        },
         transitionSpec = {
             when {
-                // Loading → Success: slide up
+                targetState is SolveUiState.Loading -> {
+                    // Camera → Loading: fade in shimmer
+                    fadeIn(tween(200)) togetherWith fadeOut(tween(200))
+                }
+
                 targetState is SolveUiState.Success -> {
-                    slideInVertically { it } + fadeIn() togetherWith
-                            slideOutVertically { -it } + fadeOut()
+                    // Loading → Success: slide up
+                    slideInVertically(tween(400)) { it / 3 } + fadeIn(tween(400)) togetherWith
+                            fadeOut(tween(200))
                 }
                 // Any → Idle: fade
                 targetState is SolveUiState.Idle -> {
-                    fadeIn() togetherWith fadeOut()
+                    fadeIn(tween(300)) togetherWith fadeOut(tween(200))
                 }
                 // Camera open: slide from bottom
                 targetState is SolveUiState.CameraOpen -> {
-                    slideInVertically { it } + fadeIn() togetherWith fadeOut()
+                    slideInVertically(tween(350)) { it } + fadeIn(tween(350)) togetherWith
+                            fadeOut(tween(200))
                 }
 
-                else -> fadeIn() togetherWith fadeOut()
+                else -> fadeIn(tween(250)) togetherWith fadeOut(tween(200))
+
             }
         },
         label = "solve_state_transition",
