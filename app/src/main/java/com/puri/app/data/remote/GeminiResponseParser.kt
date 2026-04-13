@@ -51,7 +51,10 @@ class GeminiResponseParser @Inject constructor() {
 
     private fun extractField(lines: List<String>, key: String): String? {
         return lines
-            .firstOrNull { it.startsWith("$key:", ignoreCase = true) }
+            .firstOrNull {
+                it.startsWith("$key:", ignoreCase = true) ||
+                        it.startsWith("$key：", ignoreCase = true)
+            }
             ?.removePrefix("$key:")
             ?.removePrefix("$key：")   // handle full-width colon in Korean responses
             ?.trim()

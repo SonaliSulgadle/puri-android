@@ -1,36 +1,35 @@
 package com.puri.app.data.local.db
 
 import com.puri.app.domain.model.SolveStep
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 object StepsSerializer {
 
-    fun toJson(steps: List<SolveStep>): String {
-        if (steps.isEmpty()) return "[]"
-        val array = JSONArray()
-        steps.forEach { step ->
-            JSONObject().apply {
-                put("order", step.order)
-                put("title", step.title)
-                put("description", step.description)
-            }.also { array.put(it) }
-        }
-        return array.toString()
+    private val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
     }
 
-    fun fromJson(json: String): List<SolveStep> {
-        if (json.isBlank() || json == "[]") return emptyList()
+    @Serializable
+    private data class SolveStepDto(
+        val order: Int = 0,
+        val title: String = "",
+        val description: String = ""
+    )
+
+    fun toJson(steps: List<SolveStep>): String {
+        if (steps.isEmpty()) return "[]"
+        val dtos = steps.map { SolveStepDto(it.order, it.title, it.description) }
+        return json.encodeToString(dtos)
+    }
+
+    fun fromJson(jsonString: String): List<SolveStep> {
+        if (jsonString.isBlank() || jsonString == "[]") return emptyList()
         return try {
-            val array = JSONArray(json)
-            (0 until array.length()).map { i ->
-                val obj = array.getJSONObject(i)
-                SolveStep(
-                    order = obj.optInt("order", i + 1),
-                    title = obj.optString("title", ""),
-                    description = obj.optString("description", "")
-                )
-            }
+            json.decodeFromString<List<SolveStepDto>>(jsonString)
+                .map { SolveStep(it.order, it.title, it.description) }
         } catch (e: Exception) {
             emptyList()
         }
