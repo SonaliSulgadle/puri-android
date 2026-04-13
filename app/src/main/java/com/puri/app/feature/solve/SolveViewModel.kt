@@ -17,7 +17,9 @@ import com.puri.app.domain.usecase.SaveGuideUseCase
 import com.puri.app.domain.usecase.SolveImageUseCase
 import com.puri.app.domain.usecase.SolveTextUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -27,6 +29,8 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import javax.inject.Inject
 
 @HiltViewModel
@@ -108,15 +112,25 @@ class SolveViewModel @Inject constructor(
 
     private fun handleImageCaptured(intent: SolveIntent.ImageCaptured) {
         viewModelScope.launch {
-            sendEffect(SolveUiEffect.TriggerHaptic)
-            val compressed = intent.bitmap.compressForGemini()
             _uiState.value = SolveUiState.Loading
+
+            sendEffect(SolveUiEffect.TriggerHaptic)
+
+            yield()
+            val compressed = withContext(Dispatchers.Default) {
+                intent.bitmap.compressForGemini()
+            }
+
+            val startTime = System.currentTimeMillis()
 
             val result = solveImageUseCase(
                 bitmap = compressed,
                 imageUri = intent.imageUri,
                 additionalContext = additionalContext.ifBlank { null }
             )
+
+            val elapsed = System.currentTimeMillis() - startTime
+            if (elapsed < 1500) delay(1500 - elapsed)
 
             when (result) {
                 is Resource.Success -> handleSolveSuccess(result.data, compressed)
