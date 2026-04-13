@@ -35,8 +35,6 @@ class SolveViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    // Mock use cases directly — ViewModel tests don't care about
-    // repository internals, only about what use cases return
     private val solveImageUseCase: SolveImageUseCase = mockk()
     private val solveTextUseCase: SolveTextUseCase = mockk()
     private val saveGuideUseCase: SaveGuideUseCase = mockk()
@@ -51,8 +49,6 @@ class SolveViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
 
-        // Default behavior for all tests
-        // Each test overrides these as needed
         coEvery { solveImageUseCase(any(), any(), any()) } returns
                 Resource.Success(TestFixtures.trashSolveResult)
 
@@ -79,15 +75,11 @@ class SolveViewModelTest {
         Dispatchers.resetMain()
     }
 
-    // ── Helpers ────────────────────────────────────────────────────────────
-
     private fun TestScope.navigateToSuccess() {
         viewModel.onIntent(SolveIntent.ImageCaptured(mockBitmap, null))
         advanceUntilIdle()
         assertThat(viewModel.uiState.value).isInstanceOf(SolveUiState.Success::class.java)
     }
-
-    // ── Tests ──────────────────────────────────────────────────────────────
 
     @Nested
     @DisplayName("initial state")
@@ -174,7 +166,6 @@ class SolveViewModelTest {
         @Test
         @DisplayName("Success state contains the correct solve result")
         fun successStateContainsCorrectResult() = runTest {
-            // Tell the mock EXACTLY what to return — no repository involved
             coEvery { solveImageUseCase(any(), any(), any()) } returns
                     Resource.Success(TestFixtures.trashSolveResult)
 
@@ -188,7 +179,6 @@ class SolveViewModelTest {
         @Test
         @DisplayName("transitions to Uncertain when use case returns LOW confidence result")
         fun transitionsToUncertainOnLowConfidence() = runTest {
-            // Directly configure what the use case returns — clean and explicit
             coEvery { solveImageUseCase(any(), any(), any()) } returns
                     Resource.Success(TestFixtures.uncertainSolveResult) // LOW confidence
 
@@ -234,9 +224,7 @@ class SolveViewModelTest {
                 viewModel.onIntent(SolveIntent.ImageCaptured(mockBitmap, null))
                 advanceUntilIdle()
 
-                // TriggerHaptic fires first
                 assertThat(awaitItem()).isEqualTo(SolveUiEffect.TriggerHaptic)
-                // Then error snackbar
                 assertThat(awaitItem()).isInstanceOf(SolveUiEffect.ShowSnackbar::class.java)
 
                 cancelAndIgnoreRemainingEvents()
@@ -336,7 +324,6 @@ class SolveViewModelTest {
         fun emitsSaveConfirmation() = runTest {
             navigateToSuccess()
 
-            // Drain buffered TriggerHaptic from navigateToSuccess
             viewModel.effects.test {
                 assertThat(awaitItem()).isEqualTo(SolveUiEffect.TriggerHaptic)
 
@@ -351,7 +338,6 @@ class SolveViewModelTest {
         @Test
         @DisplayName("save does nothing when not in Success state")
         fun saveIsNoOpWhenNotInSuccess() = runTest {
-            // Start in Idle, never navigate to Success
             advanceUntilIdle()
             assertThat(viewModel.uiState.value).isInstanceOf(SolveUiState.Idle::class.java)
 
@@ -359,7 +345,6 @@ class SolveViewModelTest {
                 viewModel.onIntent(SolveIntent.SaveResult)
                 advanceUntilIdle()
 
-                // No effects should be emitted
                 expectNoEvents()
                 cancelAndIgnoreRemainingEvents()
             }

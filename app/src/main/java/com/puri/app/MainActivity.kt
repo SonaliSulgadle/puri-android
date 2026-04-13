@@ -1,6 +1,9 @@
 package com.puri.app
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AccelerateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -27,7 +30,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -38,6 +43,8 @@ import com.puri.app.core.ui.theme.SurfaceContainerLowest
 import com.puri.app.navigation.PuriNavGraph
 import com.puri.app.navigation.Screen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private val fullScreenRoutes = setOf(Screen.Onboarding.route)
 
@@ -52,9 +59,36 @@ data class BottomNavItem(
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        var isReady = false
+        splashScreen.setKeepOnScreenCondition { !isReady }
+
+        lifecycleScope.launch {
+            delay(600)
+            isReady = true
+        }
+        splashScreen.setOnExitAnimationListener { splashScreenView ->
+            // Scale down and fade out — feels like the icon "launches" into the app
+            val scaleX = ObjectAnimator.ofFloat(splashScreenView.iconView, View.SCALE_X, 1f, 0f)
+            val scaleY = ObjectAnimator.ofFloat(splashScreenView.iconView, View.SCALE_Y, 1f, 0f)
+            val alpha = ObjectAnimator.ofFloat(splashScreenView.view, View.ALPHA, 1f, 0f)
+
+            scaleX.duration = 350
+            scaleY.duration = 350
+            alpha.duration = 350
+
+            scaleX.interpolator = AccelerateInterpolator()
+            scaleY.interpolator = AccelerateInterpolator()
+
+            scaleX.start()
+            scaleY.start()
+            alpha.start()
+
+            alpha.doOnEnd { splashScreenView.remove() }
+        }
 
         setContent {
             PuriTheme {

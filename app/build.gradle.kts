@@ -129,6 +129,8 @@ dependencies {
     implementation(libs.okhttp.logging)
     implementation(libs.kotlinx.serialization.json)
 
+    implementation(libs.turbine)
+
     // Testing
     testImplementation(libs.junit)
 
