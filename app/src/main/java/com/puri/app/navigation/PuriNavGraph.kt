@@ -47,11 +47,7 @@ fun PuriNavGraph(
         }
         composable(Screen.Saved.route) { SavedScreen() }
         composable(Screen.History.route) {
-            HistoryScreen(
-                onNavigateToSolveResult = { id ->
-                    navController.navigate("solve_result/$id")
-                }
-            )
+            HistoryScreen()
         }
         composable(Screen.Profile.route) { ProfileScreen() }
     }

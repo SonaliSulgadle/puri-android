@@ -101,4 +101,14 @@
     <string name="home_first_time_hint">Snap a photo of anything confusing\nin Korea to get started</string>
     <string name="upward_point_emoji">👆</string>
 
+    <string name="history_title">History</string>
+    <string name="history_subtitle">A chronological log of your intelligent solutions.</string>
+    <string name="history_search_placeholder">Search your solves…</string>
+    <string name="history_empty_title">No solves yet</string>
+    <string name="history_empty_body">Snap a photo or ask a question to get started.</string>
+    <string name="history_view_solve">View Solve →</string>
+    <string name="history_unknown_item">Unknown item</string>
+
+    <string name="cd_delete">Delete</string>
+
 </resources>
