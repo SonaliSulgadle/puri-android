@@ -65,20 +65,8 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    private fun groupByDate(items: List<HistoryItem>): Map<String, List<HistoryItem>> {
-        val now = System.currentTimeMillis()
-        return items.groupBy { item ->
-            when {
-                DateTimeUtils.isSameDay(item.timestamp, now) -> "TODAY"
-                DateTimeUtils.isSameDay(
-                    item.timestamp,
-                    now - 86_400_000L
-                ) -> "YESTERDAY"
-
-                else -> DateTimeUtils.formatFullDate(item.timestamp).uppercase()
-            }
-        }
-    }
+    private fun groupByDate(items: List<HistoryItem>): Map<String, List<HistoryItem>> =
+        DateTimeUtils.groupByDateLabel(items) { it.timestamp }
 
     private fun filterItems(query: String) {
         val current = _uiState.value as? HistoryUiState.Content ?: return

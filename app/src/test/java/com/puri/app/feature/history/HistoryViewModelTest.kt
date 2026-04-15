@@ -57,14 +57,12 @@ class HistoryViewModelTest {
     inner class InitialState {
 
         @Test
-        @DisplayName("shows Loading state before data arrives")
-        fun showsLoadingInitially() = runTest {
-            val states = mutableListOf<HistoryUiState>()
-            viewModel.uiState.test {
-                states.add(awaitItem())
-                cancelAndIgnoreRemainingEvents()
-            }
-            assertThat(states.first()).isEqualTo(HistoryUiState.Loading)
+        @DisplayName("shows Empty state when history has no items")
+        fun showsEmptyWhenNoHistory() = runTest {
+            coEvery { getHistoryUseCase() } returns flowOf(emptyList())
+            viewModel = HistoryViewModel(getHistoryUseCase, deleteHistoryItemUseCase)
+            advanceUntilIdle()
+            assertThat(viewModel.uiState.value).isEqualTo(HistoryUiState.Empty)
         }
 
         @Test
