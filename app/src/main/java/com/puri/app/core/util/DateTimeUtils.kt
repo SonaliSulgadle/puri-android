@@ -26,4 +26,24 @@ object DateTimeUtils {
         val fmt = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
         return fmt.format(Date(timestamp1)) == fmt.format(Date(timestamp2))
     }
+
+    fun <T> groupByDateLabel(
+        items: List<T>,
+        timestampSelector: (T) -> Long
+    ): Map<String, List<T>> {
+        val now = System.currentTimeMillis()
+        return items.groupBy { item ->
+            val timestamp = timestampSelector(item)
+            when {
+                isSameDay(timestamp, now) ->
+                    "TODAY"
+
+                isSameDay(timestamp, now - 86_400_000L) ->
+                    "YESTERDAY"
+
+                else ->
+                    formatFullDate(timestamp).uppercase()
+            }
+        }
+    }
 }
