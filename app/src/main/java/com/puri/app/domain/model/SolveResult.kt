@@ -5,6 +5,8 @@ data class SolveResult(
     val whatThisIs: String,
     val description: String,
     val steps: List<SolveStep>,
+    val visibleTexts: List<VisibleTextItem> = emptyList(),
+    val recommendedAction: String? = null,
     val warning: String?,
     val koreaTip: String?,
     val category: Category,
