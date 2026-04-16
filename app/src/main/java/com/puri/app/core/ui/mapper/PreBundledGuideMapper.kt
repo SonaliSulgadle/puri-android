@@ -39,15 +39,10 @@ fun PreBundledGuideKey.descriptionRes(): Int = when (this) {
     PreBundledGuideKey.WHERE_TO_STAY -> R.string.guide_stay_desc
 }
 
-// Extension to get display title — used in composables only
 @Composable
-fun SavedGuide.displayTitle(): String = when {
-    guideKey != null -> stringResource(guideKey.titleRes())
-    else -> title
-}
+fun SavedGuide.displayTitle(): String =
+    if (guideKey != null) stringResource(guideKey.titleRes()) else title
 
 @Composable
-fun SavedGuide.displayDescription(): String = when {
-    guideKey != null -> stringResource(guideKey.descriptionRes())
-    else -> description
-}
+fun SavedGuide.displayDescription(): String =
+    if (guideKey != null) stringResource(guideKey.descriptionRes()) else description
