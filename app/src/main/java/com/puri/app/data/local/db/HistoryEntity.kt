@@ -14,6 +14,8 @@ data class HistoryEntity(
     val whatThisIs: String,
     val description: String,
     val stepsJson: String,
+    val visibleTextsJson: String = "[]",
+    val recommendedAction: String? = null,
     val warning: String?,
     val koreaTip: String?,
     val category: Category,
