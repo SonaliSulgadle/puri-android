@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1a302c49af9eaff9e8e8761b316c79e3",
+    "identityHash": "8ab914c01de445c272cda8ef76b2353e",
     "entities": [
       {
         "tableName": "history",
@@ -86,7 +86,7 @@
       },
       {
         "tableName": "saved_guides",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `category` TEXT NOT NULL, `stepsJson` TEXT NOT NULL, `warning` TEXT, `koreaTip` TEXT, `imageUri` TEXT, `isPreBundled` INTEGER NOT NULL, `isFeatured` INTEGER NOT NULL, `savedAt` INTEGER NOT NULL, `historyItemId` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `guideKey` TEXT, `category` TEXT NOT NULL, `stepsJson` TEXT NOT NULL, `warning` TEXT, `koreaTip` TEXT, `imageUri` TEXT, `isPreBundled` INTEGER NOT NULL, `isFeatured` INTEGER NOT NULL, `savedAt` INTEGER NOT NULL, `historyItemId` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -105,6 +105,11 @@
             "columnName": "description",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "guideKey",
+            "columnName": "guideKey",
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "category",
@@ -168,7 +173,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1a302c49af9eaff9e8e8761b316c79e3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8ab914c01de445c272cda8ef76b2353e')"
     ]
   }
 }

@@ -111,4 +111,81 @@
 
     <string name="cd_delete">Delete</string>
 
+    <string name="response_visible_text">What I can see:</string>
+    <string name="response_recommended_action">Recommended action</string>
+
+    <string name="saved_title">Saved Guides</string>
+    <string name="saved_subtitle">Your essential lifestyle blueprints, accessible even without internet.</string>
+    <string name="saved_essential_guides">Essential guides</string>
+    <string name="saved_my_saves">My saved solves</string>
+    <string name="saved_offline_title">Offline mode active</string>
+    <string name="saved_offline_body">%d guides available locally</string>
+    <string name="saved_local_copy">Local copy</string>
+    <string name="saved_snap_solve_cta">Snap &amp; Solve a new problem</string>
+    <string name="saved_empty_title">No saved guides yet</string>
+    <string name="saved_empty_body">Solve something and save it, or browse your essential guides.</string>
+
+    <!-- Pre-bundled guide keys -->
+    <string name="guide_trash_title">Trash sorting</string>
+    <string name="guide_trash_desc">Korea\'s strict recycling system — all types covered.</string>
+    <string name="guide_washing_title">Washing machine</string>
+    <string name="guide_washing_desc">Decode Korean washing machine buttons and settings.</string>
+    <string name="guide_subway_title">Subway &amp; T-Money</string>
+    <string name="guide_subway_desc">Navigating Seoul Metro and topping up your transit card.</string>
+    <string name="guide_gas_stove_title">Gas stove safety</string>
+    <string name="guide_gas_stove_desc">Using Korean gas ranges, induction, and emergency procedures.</string>
+    <string name="guide_medical_title">Medical clinics</string>
+    <string name="guide_medical_desc">Which doctor to visit for which symptom in Korea.</string>
+    <string name="guide_bus_title">Bus system</string>
+    <string name="guide_bus_desc">Color-coded routes, how to ride, first and last times.</string>
+    <string name="guide_intercom_title">Apartment intercom</string>
+    <string name="guide_intercom_desc">Entry systems, visitor management, building announcements.</string>
+    <string name="guide_address_title">How to address people</string>
+    <string name="guide_address_desc">The right Korean titles for every daily situation.</string>
+    <string name="guide_phrases_title">Essential daily phrases</string>
+    <string name="guide_phrases_desc">Survival Korean for restaurants, transport, and emergencies.</string>
+    <string name="guide_sim_title">SIM cards &amp; internet</string>
+    <string name="guide_sim_desc">Getting connected from the airport and long-term options.</string>
+    <string name="guide_getting_around_title">Getting around Korea</string>
+    <string name="guide_getting_around_desc">Airports, intercity travel, apps, and tips for moving between cities.</string>
+    <string name="guide_stay_title">Where to stay</string>
+    <string name="guide_stay_desc">Gosiwon, one-room, shared house — what to expect.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_next">Next →</string>
+    <string name="onboarding_get_started">Start exploring Korea</string>
+    <string name="onboarding_skip">Skip for now</string>
+
+    <!-- Page 1: Trash -->
+    <string name="onboarding_page1_headline">How do I sort this trash?</string>
+    <string name="onboarding_page1_problem">Wait, does this plastic go in general waste?</string>
+    <string name="onboarding_page1_line1">재활용</string>
+    <string name="onboarding_page1_line1t">Recyclable — rinse and place in plastic bin</string>
+    <string name="onboarding_page1_line2">일반쓰레기</string>
+    <string name="onboarding_page1_line2t">General waste — use designated bag</string>
+    <string name="onboarding_page1_line3">음식물쓰레기</string>
+    <string name="onboarding_page1_line3t">Food waste — drain liquid first</string>
+
+    <!-- Page 2: Transport -->
+    <string name="onboarding_page2_headline">Navigate Korea with confidence.</string>
+    <string name="onboarding_page2_problem">How do I top up my subway card at this machine?</string>
+    <string name="onboarding_page2_line1">교통카드 충전</string>
+    <string name="onboarding_page2_line1t">Card recharge — tap card, select amount</string>
+    <string name="onboarding_page2_line2">T-Money</string>
+    <string name="onboarding_page2_line2t">Works on all Seoul buses and metro</string>
+    <string name="onboarding_page2_line3">기후동행카드</string>
+    <string name="onboarding_page2_line3t">Monthly unlimited card for Seoul</string>
+
+    <!-- Page 3: Appliances -->
+    <string name="onboarding_page3_headline">Any Korean text, explained instantly.</string>
+    <string name="onboarding_page3_problem">Which button starts the washing machine?</string>
+    <string name="onboarding_page3_line1">표준 세탁</string>
+    <string name="onboarding_page3_line1t">Standard Wash — best for everyday clothes</string>
+    <string name="onboarding_page3_line2">시작/일시정지</string>
+    <string name="onboarding_page3_line2t">Start / Pause the cycle</string>
+    <string name="onboarding_page3_line3">전원</string>
+    <string name="onboarding_page3_line3t">Power button</string>
+
+    <string name="home_guides_label">LOCAL INTELLIGENCE</string>
+    <string name="home_guides_title">Seoul City Guide →</string>
 </resources>
