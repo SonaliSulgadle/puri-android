@@ -37,6 +37,7 @@ fun HomeContent(
     onOpenGallery: () -> Unit,
     onSubmitQuery: (String) -> Unit,
     onViewAllHistory: () -> Unit,
+    onNavigateToSaved: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -74,6 +75,12 @@ fun HomeContent(
             SnapAndSolveCard(
                 onCameraClick = onOpenCamera,
                 onGalleryClick = onOpenGallery
+            )
+
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_lg)))
+
+            SavedGuidesFeatureCard(
+                onClick = onNavigateToSaved
             )
 
             if (state.recentSolves.isNotEmpty()) {
@@ -128,7 +135,8 @@ private fun HomeContentPreview() {
             onOpenCamera = {},
             onOpenGallery = {},
             onSubmitQuery = {},
-            onViewAllHistory = {}
+            onViewAllHistory = {},
+            onNavigateToSaved = {}
         )
     }
 }

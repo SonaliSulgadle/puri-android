@@ -35,7 +35,11 @@ fun PuriNavGraph(
             SolveScreen(
                 onNavigateToSaved = {
                     navController.navigate(Screen.Saved.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
+                        }
                         launchSingleTop = true
+                        restoreState = true
                     }
                 },
                 onNavigateToHistory = {
@@ -45,7 +49,15 @@ fun PuriNavGraph(
                 }
             )
         }
-        composable(Screen.Saved.route) { SavedScreen() }
+        composable(Screen.Saved.route) {
+            SavedScreen(
+                onNavigateToSolve = {
+                    navController.navigate(Screen.Home.route) {
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
         composable(Screen.History.route) {
             HistoryScreen()
         }

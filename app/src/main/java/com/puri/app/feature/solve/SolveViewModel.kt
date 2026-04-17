@@ -1,6 +1,5 @@
 package com.puri.app.feature.solve
 
-import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.puri.app.R
@@ -10,7 +9,6 @@ import com.puri.app.core.common.compressForGemini
 import com.puri.app.core.ui.mapper.toMessageRes
 import com.puri.app.domain.model.ConfidenceLevel
 import com.puri.app.domain.model.SavedGuide
-import com.puri.app.domain.model.SolveResult
 import com.puri.app.domain.usecase.GetDailySolvesRemainingUseCase
 import com.puri.app.domain.usecase.GetHistoryUseCase
 import com.puri.app.domain.usecase.SaveGuideUseCase
@@ -23,11 +21,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
@@ -42,15 +38,16 @@ class SolveViewModel @Inject constructor(
     private val getDailySolvesRemainingUseCase: GetDailySolvesRemainingUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<SolveUiState>(SolveUiState.Idle())
-    val uiState: StateFlow<SolveUiState> = _uiState.asStateFlow()
-
     private val _effects = Channel<SolveUiEffect>(Channel.BUFFERED)
     val effects = _effects.receiveAsFlow()
 
     private var currentTextQuery = ""
     private var additionalContext = ""
 
+    // Non-idle state — null = "show the idle/home screen"
+    private val _activeState = MutableStateFlow<SolveUiState?>(null)
+
+    // Idle data streams continuously in the background
     private val idleData = combine(
         getDailySolvesRemainingUseCase(),
         getHistoryUseCase()
@@ -65,38 +62,47 @@ class SolveViewModel @Inject constructor(
         initialValue = SolveUiState.Idle()
     )
 
-    init {
-        viewModelScope.launch {
-            idleData.collect { idle ->
-                if (_uiState.value is SolveUiState.Idle) {
-                    _uiState.value = idle
-                }
-            }
-        }
-    }
+    val uiState: StateFlow<SolveUiState> = combine(
+        _activeState,
+        idleData
+    ) { active, idle ->
+        active ?: idle
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = SolveUiState.Idle()
+    )
 
     fun onIntent(intent: SolveIntent) {
         when (intent) {
-            SolveIntent.OpenCamera -> _uiState.value = SolveUiState.CameraOpen
-            SolveIntent.OpenGallery -> Unit
-            is SolveIntent.ImageCaptured -> handleImageCaptured(intent)
-            is SolveIntent.GalleryImageSelected -> handleImageCaptured(
-                SolveIntent.ImageCaptured(intent.bitmap, intent.imageUri)
-            )
+            SolveIntent.OpenCamera ->
+                _activeState.value = SolveUiState.CameraOpen
 
-            is SolveIntent.TextQueryChanged -> {
+            SolveIntent.OpenGallery ->
+                Unit // handled in SolveScreen
+            is SolveIntent.ImageCaptured ->
+                handleImageCaptured(intent)
+
+            is SolveIntent.GalleryImageSelected ->
+                handleImageCaptured(
+                    SolveIntent.ImageCaptured(intent.bitmap, intent.imageUri)
+                )
+
+            is SolveIntent.TextQueryChanged ->
                 currentTextQuery = intent.query
-                if (_uiState.value is SolveUiState.Idle) {
-                    _uiState.update {
-                        (it as? SolveUiState.Idle)?.copy(currentQuery = intent.query) ?: it
-                    }
-                }
-            }
 
-            SolveIntent.SubmitTextQuery -> handleTextQuery()
-            SolveIntent.Retry, SolveIntent.ClearResult -> returnToIdle()
-            SolveIntent.SaveResult -> handleSaveResult()
-            is SolveIntent.AdditionalContextChanged -> additionalContext = intent.context
+            SolveIntent.SubmitTextQuery ->
+                handleTextQuery()
+
+            SolveIntent.Retry,
+            SolveIntent.ClearResult ->
+                returnToIdle()
+
+            SolveIntent.SaveResult ->
+                handleSaveResult()
+
+            is SolveIntent.AdditionalContextChanged ->
+                additionalContext = intent.context
         }
     }
 
@@ -107,33 +113,42 @@ class SolveViewModel @Inject constructor(
     private fun returnToIdle() {
         additionalContext = ""
         currentTextQuery = ""
-        _uiState.value = idleData.value
+        _activeState.value = null  // null → combine shows idleData
     }
 
     private fun handleImageCaptured(intent: SolveIntent.ImageCaptured) {
         viewModelScope.launch {
-            _uiState.value = SolveUiState.Loading
+            // Step 1: Set Loading FIRST — before any other work
+            _activeState.value = SolveUiState.Loading
 
+            // Step 2: Haptic feedback
             sendEffect(SolveUiEffect.TriggerHaptic)
 
+            // Step 3: yield() — suspends for one frame so Compose can
+            // process the Loading state change before we proceed
             yield()
+
+            // Step 4: Compress on background thread
             val compressed = withContext(Dispatchers.Default) {
                 intent.bitmap.compressForGemini()
             }
 
+            // Step 5: API call
             val startTime = System.currentTimeMillis()
-
             val result = solveImageUseCase(
                 bitmap = compressed,
                 imageUri = intent.imageUri,
                 additionalContext = additionalContext.ifBlank { null }
             )
 
+            // Step 6: Enforce minimum loading duration (1.5s)
+            // so shimmer is always perceptible to the user
             val elapsed = System.currentTimeMillis() - startTime
             if (elapsed < 1500) delay(1500 - elapsed)
 
+            // Step 7: Handle result
             when (result) {
-                is Resource.Success -> handleSolveSuccess(result.data, compressed)
+                is Resource.Success -> handleSolveSuccess(result.data)
                 is Resource.Error -> handleSolveError(result.error)
                 Resource.Loading -> Unit
             }
@@ -146,9 +161,13 @@ class SolveViewModel @Inject constructor(
             return
         }
         viewModelScope.launch {
-            _uiState.value = SolveUiState.Loading
-            when (val result = solveTextUseCase(currentTextQuery)) {
-                is Resource.Success -> handleSolveSuccess(result.data, null)
+            _activeState.value = SolveUiState.Loading
+            yield()
+
+            val result = solveTextUseCase(currentTextQuery)
+
+            when (result) {
+                is Resource.Success -> handleSolveSuccess(result.data)
                 is Resource.Error -> handleSolveError(result.error)
                 Resource.Loading -> Unit
             }
@@ -156,28 +175,29 @@ class SolveViewModel @Inject constructor(
     }
 
     private fun handleSolveSuccess(
-        result: SolveResult,
-        bitmap: Bitmap?
+        result: com.puri.app.domain.model.SolveResult
     ) {
-        _uiState.value = when (result.confidenceLevel) {
+        _activeState.value = when (result.confidenceLevel) {
             ConfidenceLevel.HIGH -> SolveUiState.Success(result)
-            ConfidenceLevel.LOW -> SolveUiState.Uncertain(bitmap)
+            ConfidenceLevel.LOW -> SolveUiState.Uncertain(null)
             ConfidenceLevel.UNSAFE -> SolveUiState.UnsafeContent
         }
     }
 
     private fun handleSolveError(error: PuriError) {
-        _uiState.value = when (error) {
-            PuriError.DailyLimitReached -> SolveUiState.DailyLimitReached
+        when (error) {
+            PuriError.DailyLimitReached ->
+                _activeState.value = SolveUiState.DailyLimitReached
+
             else -> {
                 sendEffect(SolveUiEffect.ShowSnackbar(error.toMessageRes()))
-                idleData.value
+                returnToIdle()
             }
         }
     }
 
     private fun handleSaveResult() {
-        val state = _uiState.value as? SolveUiState.Success ?: return
+        val state = _activeState.value as? SolveUiState.Success ?: return
         viewModelScope.launch {
             val guide = SavedGuide(
                 title = state.result.whatThisIs,
@@ -190,9 +210,7 @@ class SolveViewModel @Inject constructor(
             )
             when (saveGuideUseCase(guide)) {
                 is Resource.Success -> {
-                    _uiState.update {
-                        (it as? SolveUiState.Success)?.copy(isSaved = true) ?: it
-                    }
+                    _activeState.value = state.copy(isSaved = true)
                     sendEffect(SolveUiEffect.ShowSaveConfirmation)
                 }
 

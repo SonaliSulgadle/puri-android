@@ -178,6 +178,11 @@ fun ResponseCard(
                 color = MaterialTheme.colorScheme.onSurface
             )
 
+            if (result.visibleTexts.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xl)))
+                VisibleTextSection(visibleTexts = result.visibleTexts)
+            }
+
             result.warning?.let { warning ->
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_lg)))
                 WarningBlock(warning = warning)
@@ -218,6 +223,12 @@ fun ResponseCard(
                 }
             }
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
+
+            result.recommendedAction?.let { action ->
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
+                RecommendedActionCard(action = action)
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
+            }
 
             Text(
                 text = stringResource(R.string.response_verify_disclaimer),
