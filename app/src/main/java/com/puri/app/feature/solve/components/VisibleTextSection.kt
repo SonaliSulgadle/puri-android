@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Translate
@@ -63,36 +62,39 @@ private fun VisibleTextRow(
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
-        Row(
-            modifier = Modifier.padding(dimensionResource(R.dimen.spacing_md)),
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_sm)),
-            verticalAlignment = Alignment.Top
-        ) {
+        Column(modifier = Modifier.padding(dimensionResource(R.dimen.spacing_md))) {
+            // Korean original — full width, highlighted
             Text(
                 text = item.original,
                 style = MaterialTheme.typography.bodyMedium,
                 color = IndigoPrimary,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.width(110.dp)
+                fontWeight = FontWeight.Bold
             )
-            Text(
-                text = "→",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = item.translation,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.SemiBold
+            // Arrow + translation on next line if original is long
+            Row(
+                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.spacedBy(
+                    dimensionResource(R.dimen.spacing_xs)
                 )
-                if (item.explanation.isNotBlank()) {
-                    Spacer(modifier = Modifier.height(2.dp))
+            ) {
+                Text(
+                    text = "→",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Column {
                     Text(
-                        text = item.explanation,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        text = item.translation,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold
                     )
+                    if (item.explanation.isNotBlank()) {
+                        Text(
+                            text = item.explanation,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
             }
         }
