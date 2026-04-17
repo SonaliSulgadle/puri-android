@@ -89,8 +89,8 @@ class SavedViewModel @Inject constructor(
         category: Category,
         featured: Boolean = false
     ) = SavedGuide(
-        title = "",           // resolved at UI layer via displayTitle()
-        description = "",           // resolved at UI layer via displayDescription()
+        title = "",
+        description = "",
         guideKey = key,
         category = category,
         solveResult = null,
