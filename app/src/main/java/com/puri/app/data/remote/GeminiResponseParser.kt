@@ -118,7 +118,18 @@ class GeminiResponseParser @Inject constructor() {
                         val dashParts = rest.split("—", limit = 2)
                         val translation = dashParts[0].trim()
                         val explanation = dashParts.getOrNull(1)?.trim() ?: ""
-                        if (original.isNotBlank() && translation.isNotBlank()) {
+
+                        // Skip if original and translation are identical (English→English)
+                        // or if original has no Korean/non-Latin characters
+                        val hasKorean = original.any {
+                            it.code in 0xAC00..0xD7A3 ||
+                                    it.code in 0x3040..0x30FF ||
+                                    it.code in 0x4E00..0x9FFF
+                        }
+                        if (original.isNotBlank() &&
+                            translation.isNotBlank() &&
+                            (hasKorean || original.lowercase() != translation.lowercase())
+                        ) {
                             items.add(VisibleTextItem(original, translation, explanation))
                         }
                     }
