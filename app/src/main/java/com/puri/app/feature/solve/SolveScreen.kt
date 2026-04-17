@@ -182,7 +182,8 @@ fun SolveScreen(
                     viewModel.onIntent(SolveIntent.TextQueryChanged(it))
                     viewModel.onIntent(SolveIntent.SubmitTextQuery)
                 },
-                onViewAllHistory = onNavigateToHistory
+                onViewAllHistory = onNavigateToHistory,
+                onNavigateToSaved = onNavigateToSaved
             )
 
             SolveUiState.CameraOpen -> {
