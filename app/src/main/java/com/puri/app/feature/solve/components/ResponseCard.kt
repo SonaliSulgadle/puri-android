@@ -84,7 +84,7 @@ fun ResponseCard(
             .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState())
     ) {
-        PuriResponseTopBar(onBack = onBack)
+        PuriResponseTopBar(title = stringResource(R.string.response_title), onBack = onBack)
 
         // ── Image preview ──────────────────────────────────────────────
         Box(

@@ -20,6 +20,7 @@ import com.puri.app.core.ui.theme.IndigoPrimary
 
 @Composable
 fun PuriResponseTopBar(
+    title: String,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,7 +40,7 @@ fun PuriResponseTopBar(
             )
         }
         Text(
-            text = stringResource(R.string.app_name),
+            text = title,
             style = MaterialTheme.typography.titleMedium,
             color = IndigoPrimary,
             fontWeight = FontWeight.ExtraBold
