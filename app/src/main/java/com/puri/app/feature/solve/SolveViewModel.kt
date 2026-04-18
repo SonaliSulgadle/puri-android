@@ -9,6 +9,7 @@ import com.puri.app.core.common.compressForGemini
 import com.puri.app.core.ui.mapper.toMessageRes
 import com.puri.app.domain.model.ConfidenceLevel
 import com.puri.app.domain.model.SavedGuide
+import com.puri.app.domain.model.SolveResult
 import com.puri.app.domain.usecase.GetDailySolvesRemainingUseCase
 import com.puri.app.domain.usecase.GetHistoryUseCase
 import com.puri.app.domain.usecase.SaveGuideUseCase
@@ -47,8 +48,7 @@ class SolveViewModel @Inject constructor(
     // Non-idle state — null = "show the idle/home screen"
     private val _activeState = MutableStateFlow<SolveUiState?>(null)
 
-    // Idle data streams continuously in the background
-    private val idleData = combine(
+    private val idleData: StateFlow<SolveUiState.Idle> = combine(
         getDailySolvesRemainingUseCase(),
         getHistoryUseCase()
     ) { remaining, history ->
@@ -58,7 +58,7 @@ class SolveViewModel @Inject constructor(
         )
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
+        started = SharingStarted.Eagerly,
         initialValue = SolveUiState.Idle()
     )
 
@@ -78,15 +78,12 @@ class SolveViewModel @Inject constructor(
             SolveIntent.OpenCamera ->
                 _activeState.value = SolveUiState.CameraOpen
 
-            SolveIntent.OpenGallery ->
-                Unit // handled in SolveScreen
+            SolveIntent.OpenGallery -> Unit
             is SolveIntent.ImageCaptured ->
                 handleImageCaptured(intent)
 
             is SolveIntent.GalleryImageSelected ->
-                handleImageCaptured(
-                    SolveIntent.ImageCaptured(intent.bitmap, intent.imageUri)
-                )
+                handleImageCaptured(SolveIntent.ImageCaptured(intent.bitmap, intent.imageUri))
 
             is SolveIntent.TextQueryChanged ->
                 currentTextQuery = intent.query
@@ -118,22 +115,16 @@ class SolveViewModel @Inject constructor(
 
     private fun handleImageCaptured(intent: SolveIntent.ImageCaptured) {
         viewModelScope.launch {
-            // Step 1: Set Loading FIRST — before any other work
             _activeState.value = SolveUiState.Loading
 
             // Step 2: Haptic feedback
             sendEffect(SolveUiEffect.TriggerHaptic)
-
-            // Step 3: yield() — suspends for one frame so Compose can
-            // process the Loading state change before we proceed
             yield()
 
-            // Step 4: Compress on background thread
             val compressed = withContext(Dispatchers.Default) {
                 intent.bitmap.compressForGemini()
             }
 
-            // Step 5: API call
             val startTime = System.currentTimeMillis()
             val result = solveImageUseCase(
                 bitmap = compressed,
@@ -141,12 +132,9 @@ class SolveViewModel @Inject constructor(
                 additionalContext = additionalContext.ifBlank { null }
             )
 
-            // Step 6: Enforce minimum loading duration (1.5s)
-            // so shimmer is always perceptible to the user
             val elapsed = System.currentTimeMillis() - startTime
             if (elapsed < 1500) delay(1500 - elapsed)
 
-            // Step 7: Handle result
             when (result) {
                 is Resource.Success -> handleSolveSuccess(result.data)
                 is Resource.Error -> handleSolveError(result.error)
@@ -174,9 +162,7 @@ class SolveViewModel @Inject constructor(
         }
     }
 
-    private fun handleSolveSuccess(
-        result: com.puri.app.domain.model.SolveResult
-    ) {
+    private fun handleSolveSuccess(result: SolveResult) {
         _activeState.value = when (result.confidenceLevel) {
             ConfidenceLevel.HIGH -> SolveUiState.Success(result)
             ConfidenceLevel.LOW -> SolveUiState.Uncertain(null)
@@ -202,6 +188,7 @@ class SolveViewModel @Inject constructor(
             val guide = SavedGuide(
                 title = state.result.whatThisIs,
                 description = state.result.description,
+                guideKey = null,
                 category = state.result.category,
                 solveResult = state.result,
                 isPreBundled = false,
@@ -214,9 +201,8 @@ class SolveViewModel @Inject constructor(
                     sendEffect(SolveUiEffect.ShowSaveConfirmation)
                 }
 
-                is Resource.Error -> sendEffect(
-                    SolveUiEffect.ShowSnackbar(R.string.error_unknown)
-                )
+                is Resource.Error ->
+                    sendEffect(SolveUiEffect.ShowSnackbar(R.string.error_unknown))
 
                 Resource.Loading -> Unit
             }

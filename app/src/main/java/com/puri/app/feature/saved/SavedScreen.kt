@@ -11,14 +11,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,12 +38,14 @@ import com.puri.app.feature.saved.components.SavedEmptyState
 import com.puri.app.feature.saved.components.SnapSolveCta
 import kotlinx.coroutines.flow.collectLatest
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SavedScreen(
     onNavigateToSolve: () -> Unit,
     viewModel: SavedViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     LaunchedEffect(Unit) {
         viewModel.effects.collectLatest { effect ->
@@ -54,6 +59,13 @@ fun SavedScreen(
     }
 
     Scaffold(
+        topBar = {
+            PuriTopBar(
+                title = stringResource(R.string.saved_title),
+                scrollBehavior = scrollBehavior
+            )
+        },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
         Column(
@@ -62,20 +74,6 @@ fun SavedScreen(
                 .padding(padding)
                 .padding(horizontal = dimensionResource(R.dimen.screen_horizontal_padding))
         ) {
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_lg)))
-            PuriTopBar()
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_lg)))
-            Text(
-                text = stringResource(R.string.saved_title),
-                style = MaterialTheme.typography.headlineLarge
-            )
-            Text(
-                text = stringResource(R.string.saved_subtitle),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_lg)))
-
             when (val state = uiState) {
                 SavedUiState.Loading -> SavedLoadingState()
                 SavedUiState.Empty -> SavedEmptyState(
@@ -108,6 +106,16 @@ private fun SavedContent(
         ),
         modifier = modifier
     ) {
+        item {
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_lg)))
+            Text(
+                text = stringResource(R.string.saved_subtitle),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_lg)))
+
+        }
         // Offline banner
         if (state.isOfflineMode) {
             item(key = "offline_banner") {

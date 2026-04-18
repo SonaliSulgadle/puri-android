@@ -186,6 +186,10 @@
     <string name="onboarding_page3_line3">전원</string>
     <string name="onboarding_page3_line3t">Power button</string>
 
-    <string name="home_guides_label">LOCAL INTELLIGENCE</string>
     <string name="home_guides_title">Seoul City Guide →</string>
+    <string name="home_guides_subtitle">Trash, transport, medical, appliances and more</string>
+    <string name="guides_offline_label">12 GUIDES OFFLINE</string>
+    <string name="background_puri_label">풀이</string>
+    <string name="puri_ai_label">✦  PURI AI  ✦</string>
+    <string name="response_title">Results</string>
 </resources>
