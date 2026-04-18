@@ -9,15 +9,18 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +32,7 @@ import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.feature.solve.SolveUiState
 import com.puri.app.util.TestFixtures
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeContent(
     state: SolveUiState.Idle,
@@ -40,9 +44,18 @@ fun HomeContent(
     onNavigateToSaved: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
     Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            PuriTopBar(
+                title = "Puri",
+                scrollBehavior = scrollBehavior
+            )
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        modifier = modifier
+        containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
         Column(
             modifier = Modifier
@@ -53,36 +66,25 @@ fun HomeContent(
                 .imePadding()
         ) {
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_lg)))
-
-            PuriTopBar()
-
+            DailySolvesCounter(
+                remaining = state.dailySolvesRemaining,
+                total = state.dailySolvesLimit
+            )
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xl)))
-
             SearchBar(
-                modifier = Modifier.fillMaxWidth(),
                 initialQuery = state.currentQuery,
                 onSubmit = {
                     onSubmitQuery(it)
-                }
+                },
+                modifier = Modifier.fillMaxWidth()
             )
-
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
-
-            DailySolvesCounter(remaining = state.dailySolvesRemaining, state.dailySolvesLimit)
-
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
-
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xl)))
             SnapAndSolveCard(
                 onCameraClick = onOpenCamera,
                 onGalleryClick = onOpenGallery
             )
-
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_lg)))
-
-            SavedGuidesFeatureCard(
-                onClick = onNavigateToSaved
-            )
-
+            SeoulCityGuideCard(onClick = onNavigateToSaved)
             if (state.recentSolves.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
                 RecentSolvesSection(
@@ -93,7 +95,6 @@ fun HomeContent(
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
                 FirstTimeHint()
             }
-
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_bottom_nav)))
         }
     }
