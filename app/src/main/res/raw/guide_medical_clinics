@@ -1,0 +1,18 @@
+{
+  "sections": [
+    {
+      "title": "Which clinic to visit",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "내과 (Nae-gwa)", "translation": "Internal Medicine", "detail": "Fever, cold, flu, digestive problems, general illness — most common visit" },
+        { "korean": "이비인후과 (I-bi-in-hu-gwa)", "translation": "ENT Clinic", "detail": "Ear, nose, throat — sore throat, sinusitis, earache, blocked ears" },
+        { "korean": "피부과 (Pi-bu-gwa)", "translation": "Dermatology", "detail": "Skin rashes, acne, eczema, allergic skin reactions" },
+        { "korean": "정형외과 (Jeong-hyeong-oe-gwa)", "translation": "Orthopedic", "detail": "Bone, muscle, joint pain — sprains, back pain, sports injuries" },
+        { "korean": "치과 (Chi-gwa)", "translation": "Dentist", "detail": "Teeth and gums — cleaning, cavities, pain, sensitivity" },
+        { "korean": "안과 (An-gwa)", "translation": "Eye Clinic", "detail": "Vision issues, eye infections, redness, contact lens prescriptions" },
+        { "korean": "산부인과 (San-bu-in-gwa)", "translation": "OB/GYN", "detail": "Women's health" },
+        { "korean": "응급실 (Eung-geup-sil)", "translation": "Emergency Room", "detail": "Serious injuries, cannot wait — call 119 or take taxi to nearest hospital" }
+      ]
+    }
+  ]
+}

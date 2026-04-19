@@ -1,0 +1,77 @@
+{
+  "sections": [
+    {
+      "title": "Commonly used Seoul Metro lines",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "1호선 (1 Hoseun)", "translation": "Line 1 — Dark Blue", "detail": "Incheon ↔ Soyosan — oldest line, connects to Gyeonggi province" },
+        { "korean": "2호선 (2 Hoseun)", "translation": "Line 2 — Green", "detail": "Circular line — most useful for central Seoul (Hongdae, Sinchon, Gangnam, Jamsil)" },
+        { "korean": "3호선 (3 Hoseun)", "translation": "Line 3 — Orange", "detail": "Northwest to southeast — passes through Gyeongbokgung, Apgujeong" },
+        { "korean": "4호선 (4 Hoseun)", "translation": "Line 4 — Sky Blue", "detail": "Passes Myeongdong, Seoul Station, Sadang" },
+        { "korean": "5호선 (5 Hoseun)", "translation": "Line 5 — Purple", "detail": "East-west, branches in eastern Seoul — passes Gwanghwamun, Yeouido" },
+        { "korean": "9호선 (9 Hoseun)", "translation": "Line 9 — Gold", "detail": "Express option from Gimpo Airport to Gangnam — skips many stations. Crowded during rush hour." },
+        { "korean": "신분당선", "translation": "Shinbundang — Red", "detail": "Gangnam to Suwon — premium fare, separate ticket required" },
+        { "korean": "경의중앙선", "translation": "Gyeongui-Jungang", "detail": "Connects Seoul to satellite cities and Incheon Airport via AREX interchange" }
+      ]
+    },
+    {
+      "title": "There are 9 main lines plus several suburban lines. All connect at major hubs like Seoul Station, Sindorim, and Jamsil.",
+      "sectionType": "TIP",
+      "items": [
+        { "detail": "Use Naver Map or KakaoMap for exact routes. The apps show real-time trains, transfer points, and estimated fare." }
+      ]
+    },
+    {
+      "title": "T-Money card",
+      "sectionType": "LIST",
+      "items": [
+        { "detail": "Buy at convenience stores or station kiosks — ₩2,500 for the card" },
+        { "detail": "Current base fare in Seoul: approximately ₩1,500–1,600 with T-Money (cheaper than cash, which is rarely accepted now)" },
+        { "detail": "Charge (충전) at purple kiosks inside stations or at GS25/CU convenience stores" },
+        { "detail": "Tap on entry AND exit — forgetting to tap out charges maximum fare" },
+        { "detail": "Transfer discount: free transfer within 30 minutes of tapping out — between buses and metro" },
+        { "detail": "Works on: Seoul Metro, most buses, some convenience store payments" }
+      ]
+    },
+    {
+      "title": "기후동행카드 (Climate Card)",
+      "sectionType": "LIST",
+      "items": [
+        { "detail": "Unlimited travel within Seoul on buses and metro for a flat monthly fee" },
+        { "detail": "Available in: 1-day (₩5,000), 3-day, 5-day, 7-day, 15-day, and 30-day (₩65,000) options" },
+        { "detail": "Only covers travel WITHIN Seoul — not to Gyeonggi province cities like Suwon or Incheon" },
+        { "detail": "Can only be recharged at subway station kiosks — NOT at convenience stores" },
+        { "detail": "Youth discount (만 19–39세): approximately ₩5,000–7,000 off monthly recharge. Apply online or at a station." },
+        { "detail": "Official site for latest pricing: https://news.seoul.go.kr/traffic/climatecard" }
+      ]
+    },
+    {
+      "title": "Charging your T-Money card",
+      "sectionType": "STEPS",
+      "items": [
+        { "detail": "Find a purple charging kiosk inside the station or GS25/CU store" },
+        { "detail": "Place your card on the card reader" },
+        { "detail": "Select 충전 (Charge)" },
+        { "detail": "Choose amount — ₩5,000 / ₩10,000 / ₩20,000 / ₩50,000" },
+        { "detail": "Insert cash or pay by card" },
+        { "detail": "Remove your card — balance shown on screen" }
+      ]
+    },
+    {
+      "title": "Timing",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "첫차 (Cheotcha)", "translation": "First train", "detail": "Around 5:30 AM — varies by line and station" },
+        { "korean": "막차 (Makcha)", "translation": "Last train", "detail": "Around midnight to 12:30 AM — varies by line. Check Naver Map for exact last train times." },
+        { "korean": "배차간격", "translation": "Train frequency", "detail": "2–4 min during peak / 5–10 min late night" }
+      ]
+    },
+    {
+      "title": "Warning",
+      "sectionType": "WARNING",
+      "items": [
+        { "detail": "Last trains are typically around midnight to 12:30 AM depending on the line. After that, only night buses (N-routes) and taxis. Always check the last train time before a late night out." }
+      ]
+    }
+  ]
+}

@@ -192,4 +192,6 @@
     <string name="background_puri_label">풀이</string>
     <string name="puri_ai_label">✦  PURI AI  ✦</string>
     <string name="response_title">Results</string>
+    <string name="saved_detail_title">Guide Details</string>
+    <string name="tip_label">Tip</string>
 </resources>

@@ -10,7 +10,15 @@ class SeedPreBundledGuidesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(guides: List<SavedGuide>) {
         val existing = repository.getSavedGuides().first()
-        if (existing.any { it.isPreBundled }) return
+        val preBundled = existing.filter { it.isPreBundled }
+
+        // Check if guides are already seeded WITH valid keys
+        val isFullySeeded = preBundled.isNotEmpty() &&
+                preBundled.all { it.guideKey != null }
+
+        if (isFullySeeded) return
+
+        preBundled.forEach { repository.deleteGuide(it.id) }
         guides.forEach { repository.saveGuide(it) }
     }
 }

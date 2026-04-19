@@ -21,6 +21,6 @@ sealed interface SavedUiState {
 }
 
 sealed interface SavedUiEffect {
-    data class OpenGuideDetail(val guide: SavedGuide) : SavedUiEffect
+    data class OpenGuideDetail(val guideId: Long) : SavedUiEffect
     data object NavigateToSolve : SavedUiEffect
 }

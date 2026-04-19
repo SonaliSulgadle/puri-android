@@ -1,0 +1,57 @@
+{
+  "sections": [
+    {
+      "title": "Common intercom buttons",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "통화 (Tonghwa)", "translation": "Call / Talk", "detail": "Press to speak with the visitor or building guard"},
+        {"korean": "문열기 (Mun Yeolgi)", "translation": "Open door", "detail": "Unlocks the main entrance for the visitor"},
+        {"korean": "열기 (Yeolgi)", "translation": "Open", "detail": "Same as 문열기 on some models"},
+        {"korean": "종료 (Jongnyo)", "translation": "End call", "detail": "Hang up the intercom call"},
+        {"korean": "경비실 (Gyeongbi-sil)", "translation": "Security / Guard room", "detail": "Direct call to the building security desk"},
+        {"korean": "비상 (Bisang)", "translation": "Emergency", "detail": "Emergency alert — use only for genuine emergencies"}
+      ]
+    },
+    {
+      "title": "When someone buzzes your unit",
+      "sectionType": "STEPS",
+      "items": [
+        {"detail": "Intercom buzzes or rings — press 통화 to answer and speak"},
+        {"detail": "Check the screen — most modern intercoms have a built-in camera showing the entrance"},
+        {"detail": "To let them in, press 문열기 or 열기"},
+        {"detail": "For delivery (택배): either let them in or just buzz them through — most deliveries will be left at your door"},
+        {"detail": "Press 종료 to end the call when finished"}
+      ]
+    },
+    {
+      "title": "Building announcements",
+      "sectionType": "LIST",
+      "items": [
+        {"detail": "Building announcements come through your intercom speaker automatically — you cannot stop them"},
+        {"detail": "택배 왔습니다 — Your delivery has arrived"},
+        {"detail": "주차 이동 요청 — A car needs to be moved (they say the plate number)"},
+        {"detail": "단수 예정 — Planned water shutoff coming — fill some water beforehand"},
+        {"detail": "단수 안내 — Water is currently shut off"},
+        {"detail": "You can usually adjust the intercom speaker volume on the panel itself"}
+      ]
+    },
+    {
+      "title": "Smart door locks (디지털 도어락)",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "비밀번호 (Bimilbeonho)", "translation": "Password / PIN", "detail": "Enter your code then press * or # to confirm — always enters a specific end key"},
+        {"korean": "카드키 (Kadeugi)", "translation": "Card key", "detail": "Tap the card provided by your landlord on the lock sensor"},
+        {"korean": "임시번호 (Imsi Beonho)", "translation": "Temporary code", "detail": "One-time code for visitors — ask your landlord how to set one"},
+        {"korean": "배터리부족 (Baeteoribujokg)", "translation": "Low battery warning", "detail": "Repeated beeping means the battery needs replacing — use a standard 9V battery"},
+        {"korean": "잠금해제 (Jamgeum Haeje)", "translation": "Unlock", "detail": "The lock is now open"}
+      ]
+    },
+    {
+      "title": "Tip",
+      "sectionType": "TIP",
+      "items": [
+        {"detail": "If the door lock beeps continuously or shows an error, the battery is almost dead. Replace it with a 9V battery before it dies completely — some locks have an external emergency contact point on the bottom for a 9V battery if it dies entirely."}
+      ]
+    }
+  ]
+}

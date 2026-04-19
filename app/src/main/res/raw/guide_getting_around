@@ -1,0 +1,57 @@
+{
+  "sections": [
+    {
+      "title": "Airports in Korea",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "인천 (ICN)", "translation": "Incheon International", "detail": "Main international gateway — 60km from Seoul. Two terminals: T1 for most airlines, T2 for Korean Air and SkyTeam. Free shuttle runs every 5–10 min between terminals."},
+        {"korean": "김포 (GMP)", "translation": "Gimpo", "detail": "Domestic flights and short-haul international (Japan, China). Directly on Seoul Metro Lines 5 and 9 — easiest airport to get to from central Seoul."},
+        {"korean": "김해 (PUS)", "translation": "Gimhae / Busan", "detail": "Busan's main airport for domestic and some international routes. Busan Metro Line 3 connects to the city center."},
+        {"korean": "제주 (CJU)", "translation": "Jeju Island", "detail": "Korea's busiest domestic route from Seoul — dozens of daily flights. Bus or taxi to Jeju City center from the airport."},
+        {"korean": "대구 (TAE)", "translation": "Daegu", "detail": "Serves Daegu and North Gyeongbuk region — useful for visiting southeastern Korea"},
+        {"korean": "청주 (CJJ)", "translation": "Cheongju", "detail": "Budget airline hub — check if your flight lands here instead of Seoul when booking"}
+      ]
+    },
+    {
+      "title": "Incheon Airport to Seoul",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "AREX 직통 (Express)", "translation": "43 min → Seoul Station", "detail": "₩9,500 — fastest option, no stops between airport and Seoul Station"},
+        {"korean": "AREX 일반 (All-stop)", "translation": "66 min, stops at Hongdae", "detail": "₩4,850 — cheaper, useful if you're staying in Hongdae or Sinchon area"},
+        {"korean": "리무진 버스 (Limousine bus)", "translation": "60–90 min, drops at major hotels", "detail": "₩16,000–18,000 — good if you have heavy luggage. Buy ticket at counter inside arrivals hall."},
+        {"korean": "카카오택시 / 일반 택시", "translation": "Metered taxi, 50–70 min", "detail": "₩65,000–90,000 to central Seoul. Use Kakao T app to book — avoids unmetered unlicensed taxis."},
+        {"korean": "국제 택시 (International taxi)", "translation": "Black taxi, English-speaking", "detail": "₩80,000–120,000 — pre-booked English-speaking driver. Reserve in advance online."}
+      ]
+    },
+    {
+      "title": "Traveling between Korean cities",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "KTX (고속철도)", "translation": "Bullet train — fastest intercity option", "detail": "Seoul to Busan: 2hr 15min, ₩59,800. Seoul to Daejeon: 50min. Departs from Seoul Station or Yongsan. Book at Korail Talk app or korail.go.kr"},
+        {"korean": "SRT", "translation": "High-speed train from Suseo (Gangnam area)", "detail": "Same destinations as KTX, slightly cheaper, departs from Suseo station in southern Seoul. Book at srt.co.kr or SRT app."},
+        {"korean": "고속버스 (Express bus)", "translation": "Intercity express bus — cheaper, slower", "detail": "Departs from Express Bus Terminal (강남) or Dong Seoul Bus Terminal (동서울). Book at Kobus app or kobus.co.kr or Bustago app."},
+        {"korean": "국내선 비행기 (Domestic flight)", "translation": "Domestic flights", "detail": "Jeju Air, T'way, Air Seoul — often the cheapest option for Busan or Jeju. Check Naver Flights or airline apps."}
+      ]
+    },
+    {
+      "title": "Useful apps",
+      "sectionType": "LIST",
+      "items": [
+        {"detail": "코레일톡 (Korail Talk) — KTX booking with English support"},
+        {"detail": "SRT app — SRT high-speed train booking"},
+        {"detail": "Kobus or 고속버스모바일 — intercity express bus booking"},
+        {"detail": "Naver Map (네이버 지도) — best overall transit directions, real-time info"},
+        {"detail": "KakaoMap — real-time transit and traffic conditions"},
+        {"detail": "Kakao T — taxi booking with English available"},
+        {"detail": "Naver Flights or airline apps — for domestic flights (Jeju Air, T'way, Air Seoul)"}
+      ]
+    },
+    {
+      "title": "Warning",
+      "sectionType": "WARNING",
+      "items": [
+        {"detail": "KTX and SRT seats sell out during major Korean holidays — Chuseok (추석, autumn harvest) and Seollal (설날, Lunar New Year). Book at least 2–3 weeks ahead during these periods. Unmetered taxis outside Incheon Airport can overcharge — always use metered taxis or Kakao T."}
+      ]
+    }
+  ]
+}

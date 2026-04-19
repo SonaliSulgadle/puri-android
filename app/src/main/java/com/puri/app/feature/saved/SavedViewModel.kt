@@ -39,7 +39,7 @@ class SavedViewModel @Inject constructor(
     fun onIntent(intent: SavedIntent) {
         when (intent) {
             is SavedIntent.OpenGuide -> viewModelScope.launch {
-                _effects.send(SavedUiEffect.OpenGuideDetail(intent.guide))
+                _effects.send(SavedUiEffect.OpenGuideDetail(intent.guide.id))
             }
 
             SavedIntent.NavigateToSolve -> viewModelScope.launch {

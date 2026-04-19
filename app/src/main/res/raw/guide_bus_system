@@ -1,0 +1,74 @@
+{
+  "sections": [
+    {
+      "title": "Seoul bus colors",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "파란 버스 (Blue)", "translation": "Trunk routes", "detail": "Long-distance routes across Seoul — main arteries connecting districts" },
+        { "korean": "초록 버스 (Green)", "translation": "Branch/local routes", "detail": "Short local routes — usually feed into nearby subway stations" },
+        { "korean": "빨간 버스 (Red)", "translation": "Wide-area express", "detail": "Express routes connecting Seoul to nearby cities like Suwon, Incheon, and Ilsan" },
+        { "korean": "노란 버스 (Yellow)", "translation": "City center loop", "detail": "Short circular routes in downtown Seoul" },
+        { "korean": "마을버스 (Village bus)", "translation": "Mini local bus", "detail": "Small bus for narrow residential streets — cheap, short distances only" }
+      ]
+    },
+    {
+      "title": "How to ride",
+      "sectionType": "STEPS",
+      "items": [
+        { "detail": "Check the bus number, stop name, and direction on Naver Map before going to the stop" },
+        { "detail": "Check your bus stop NUMBER if there are multiple stops nearby — many intersections have 2–4 separate stops for different directions. The stop number is shown on the pole." },
+        { "detail": "Board from the front door — tap your T-Money or Climate Card on the reader" },
+        { "detail": "Press the stop button (하차벨 — Hacha bel) BEFORE your stop — the bus may not stop or the driver may not open the door if you don't press it" },
+        { "detail": "One press is enough — you'll hear a sound confirming it" },
+        { "detail": "Exit from the back door — tap your card again on exit for the transfer discount" },
+        { "detail": "Transfer to another bus or metro within 30 minutes for free (with T-Money or Climate Card)" }
+      ]
+    },
+    {
+      "title": "Bus display signs",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "회차 (Hoicha)", "translation": "Route turning around", "detail": "Bus is heading back to its starting point — may not complete the full route" },
+        { "korean": "공차 (Gongcha)", "translation": "Empty/not in service", "detail": "Bus is not picking up passengers — don't try to board" },
+        { "korean": "차고지 (Chagoji)", "translation": "Returning to depot", "detail": "Last run of the day — bus ends route at depot" },
+        { "korean": "만차 (Mancha)", "translation": "Full", "detail": "Bus is at full capacity — wait for the next one" },
+        { "korean": "저상 (Jeosang)", "translation": "Low-floor bus", "detail": "Accessible bus for strollers and wheelchairs — ramp extends at stops" },
+        { "korean": "정차 (Jeongcha)", "translation": "Stopping", "detail": "Bus is stopping at this stop" }
+      ]
+    },
+    {
+      "title": "Real-time crowding indicators",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "여유 (Yeoyu)", "translation": "Space available — Green", "detail": "Comfortable — seats likely available" },
+        { "korean": "보통 (Botong)", "translation": "Moderate — Yellow", "detail": "Getting full but still manageable" },
+        { "korean": "혼잡 (Honjap)", "translation": "Crowded — Red", "detail": "Very full — consider waiting for next bus" }
+      ]
+    },
+    {
+      "title": "Real-time bus arrivals",
+      "sectionType": "LIST",
+      "items": [
+        { "detail": "Bus stop displays show real-time arrivals in minutes (분 = minutes away)" },
+        { "detail": "Naver Map shows live bus location — you can see exactly where your bus is on the map" },
+        { "detail": "KakaoMap also shows live arrivals and crowding levels" }
+      ]
+    },
+    {
+      "title": "Timing",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "첫차 (Cheotcha)", "translation": "First bus", "detail": "Around 5:00–5:30 AM" },
+        { "korean": "막차 (Makcha)", "translation": "Last bus", "detail": "Around 11:00 PM–12:00 AM (varies by route)" },
+        { "korean": "심야버스 / 올빼미버스", "translation": "Night/Owl Bus", "detail": "N-routes run midnight–5 AM in Seoul along major corridors" }
+      ]
+    },
+    {
+      "title": "Tip",
+      "sectionType": "TIP",
+      "items": [
+        { "detail": "Naver Map is the most reliable app for bus directions in Korea. It shows real-time bus positions, crowding, and exact arrival times at your stop." }
+      ]
+    }
+  ]
+}

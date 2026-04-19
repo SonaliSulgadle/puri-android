@@ -1,0 +1,59 @@
+{
+  "sections": [
+    {
+      "title": "Common wash programs",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "표준 세탁", "translation": "Standard Wash (Pyojun Saetak)", "detail": "Everyday clothes — 40°C, approximately 60 minutes"},
+        {"korean": "울/섬세", "translation": "Wool / Delicate (Ul/Seomsae)", "detail": "Gentle cycle for delicates, wool, hand-wash items — cold water"},
+        {"korean": "강력 세탁", "translation": "Heavy Duty (Gangnyeok Saetak)", "detail": "Heavily soiled items — hotter, longer cycle"},
+        {"korean": "헹굼", "translation": "Rinse Only (Heunggum)", "detail": "Extra rinse without washing — no detergent used"},
+        {"korean": "탈수", "translation": "Spin Only (Talsu)", "detail": "Spin dry without water — quick drying"},
+        {"korean": "통세척", "translation": "Drum Clean (Tong Saecheok)", "detail": "Self-cleaning mode — run monthly without clothes to prevent mold"},
+        {"korean": "예약", "translation": "Delay Timer (Yeyak)", "detail": "Schedule wash to finish at a set time"},
+        {"korean": "건조", "translation": "Dry (Geonjo)", "detail": "Drying function — only on combo washer/dryer units"}
+      ]
+    },
+    {
+      "title": "Detergent drawers",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "세제", "translation": "Main detergent (Seje)", "detail": "Put liquid or powder detergent here"},
+        {"korean": "유연제", "translation": "Fabric softener (Yuyeonje)", "detail": "Added automatically during the final rinse cycle"},
+        {"korean": "표백제", "translation": "Bleach (Pyobaekje)", "detail": "Only for whites — use sparingly"}
+      ]
+    },
+    {
+      "title": "Common buttons",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "전원", "translation": "Power (Jeonwon)", "detail": "Main on/off button"},
+        {"korean": "시작/일시정지", "translation": "Start / Pause (Sijak/Ilsi Jeongji)", "detail": "Begin or pause the running cycle"},
+        {"korean": "온도", "translation": "Temperature (Ondo)", "detail": "Water temperature — 30°C for most clothes, 60°C for towels"},
+        {"korean": "헹굼횟수", "translation": "Rinse count (Heunggum Hoetsu)", "detail": "Number of rinse cycles — more rinses for sensitive skin"},
+        {"korean": "탈수강도", "translation": "Spin speed (Talsu Gangdo)", "detail": "RPM for the spin cycle — higher means drier clothes"},
+        {"korean": "어린이보호", "translation": "Child lock (Eorini Boho)", "detail": "Hold for 3 seconds to activate or deactivate"}
+      ]
+    },
+    {
+      "title": "How to start a wash",
+      "sectionType": "STEPS",
+      "items": [
+        {"detail": "Press 전원 (power button) to turn the machine on"},
+        {"detail": "Select your program — 표준 세탁 for normal everyday clothes"},
+        {"detail": "Pull out the 세제 drawer and add your detergent"},
+        {"detail": "Load clothes — do not overfill, keep to about 70% full"},
+        {"detail": "Close the door firmly until it clicks"},
+        {"detail": "Press 시작 to begin — door locks automatically during the cycle"},
+        {"detail": "Never force the door open during a cycle — wait for it to unlock"}
+      ]
+    },
+    {
+      "title": "Tip",
+      "sectionType": "TIP",
+      "items": [
+        {"detail": "Run 통세척 (drum clean mode) once a month without any clothes inside to prevent mold and bad odors — Korean apartments can be humid. Most machines also have a 세제 clean cycle."}
+      ]
+    }
+  ]
+}

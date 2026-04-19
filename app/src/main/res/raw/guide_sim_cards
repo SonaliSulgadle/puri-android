@@ -1,0 +1,61 @@
+{
+  "sections": [
+    {
+      "title": "Your options at a glance",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "Tourist SIM", "translation": "Short stay under 90 days", "detail": "Buy at Incheon airport or convenience stores. Passport only required. Data-focused, limited or no Korean calls."},
+        {"korean": "Prepaid SIM", "translation": "Flexible, medium-term", "detail": "Available at carrier stores. More data, better rates than tourist SIM."},
+        {"korean": "Postpaid monthly plan", "translation": "Long-term with ARC", "detail": "Cheapest per GB. Requires ARC card + Korean bank account for direct debit."},
+        {"korean": "eSIM", "translation": "No physical SIM", "detail": "Airalo, Roaming Man — activate before arrival. Good for keeping your home number active."}
+      ]
+    },
+    {
+      "title": "At Incheon Airport",
+      "sectionType": "LIST",
+      "items": [
+        {"detail": "All major Korean carriers have counters at arrivals: KT (Olleh), SKT (T World), LG U+"},
+        {"detail": "Also available: SIM kiosks and roaming desk near baggage claim"},
+        {"detail": "Convenient but more expensive per GB than buying in the city"},
+        {"detail": "Good for getting connected immediately on arrival — upgrade later"},
+        {"detail": "Passport required for all SIM purchases — have it accessible, not packed away"}
+      ]
+    },
+    {
+      "title": "Chingu Mobile — recommended for ARC holders",
+      "sectionType": "LIST",
+      "items": [
+        {"detail": "Most popular English-friendly carrier for registered foreigners in Korea"},
+        {"detail": "Plans range from approximately ₩17,000 to ₩40,000/month depending on data allowance and your device type — Android and iPhone pricing may differ slightly"},
+        {"detail": "Requires ARC card + copy of passport — no Korean bank account needed for many plans"},
+        {"detail": "Order online at chingumobile.com — SIM can be mailed to your address or picked up"},
+        {"detail": "Physical stores available in Seoul — one in Hongdae area. Check website for current locations."},
+        {"detail": "Runs on KT network — good nationwide coverage including rural areas"}
+      ]
+    },
+    {
+      "title": "Korean carriers (KT, SKT, LG U+)",
+      "sectionType": "LIST",
+      "items": [
+        {"detail": "Visit any carrier store (T World, Olleh, U+ shop) in any city"},
+        {"detail": "Requires ARC card + passport + Korean bank account for monthly plans"},
+        {"detail": "Monthly plans typically ₩30,000–60,000 for unlimited data"},
+        {"detail": "Staff may have limited English — bring Papago app or a Korean-speaking friend if needed"}
+      ]
+    },
+    {
+      "title": "고속버스 (Express bus app)",
+      "sectionType": "TIP",
+      "items": [
+        {"detail": "Once you have a SIM and data, download these apps: Kobus or Bustago for intercity express bus booking, Korail Talk for KTX, Naver Map for all transit, Kakao T for taxis."}
+      ]
+    },
+    {
+      "title": "Warning",
+      "sectionType": "WARNING",
+      "items": [
+        {"detail": "Tourist SIMs cannot be converted to monthly plans. If you plan to stay more than 2–3 months, get a proper plan after receiving your ARC card — it will be significantly cheaper in the long run."}
+      ]
+    }
+  ]
+}

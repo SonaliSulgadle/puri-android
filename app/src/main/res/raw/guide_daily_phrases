@@ -1,0 +1,67 @@
+{
+  "sections": [
+    {
+      "title": "At restaurants and cafés",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "물 주세요", "translation": "Water, please", "detail": "Mul juseyo" },
+        { "korean": "이거 주세요", "translation": "This one, please", "detail": "Igeo juseyo — point at the menu item" },
+        { "korean": "얼마예요?", "translation": "How much is it?", "detail": "Eolmayeyo?" },
+        { "korean": "포장해 주세요", "translation": "To go, please", "detail": "Pojanghae juseyo" },
+        { "korean": "영수증 주세요", "translation": "Receipt, please", "detail": "Yeongsujeung juseyo" },
+        { "korean": "맛있어요!", "translation": "It's delicious!", "detail": "Massisseoyo — always appreciated by the owner" },
+        { "korean": "하나 더 주세요", "translation": "One more, please", "detail": "Hana deo juseyo" },
+        { "korean": "[food] 없이 해 주세요", "translation": "Without [food], please", "detail": "[food] eopsi hae juseyo — for allergies or preferences" }
+      ]
+    },
+    {
+      "title": "Shopping",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "봉투 주세요", "translation": "A bag, please", "detail": "Bongtu juseyo — bags cost extra" },
+        { "korean": "카드 돼요?", "translation": "Card accepted?", "detail": "Kadeu dwaeyo?" },
+        { "korean": "이거 있어요?", "translation": "Do you have this?", "detail": "Igeo isseoyo?" },
+        { "korean": "영어 메뉴 있어요?", "translation": "English menu?", "detail": "Yeongeo menyu isseoyo?" }
+      ]
+    },
+    {
+      "title": "Transport",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "여기서 세워 주세요", "translation": "Stop here, please", "detail": "Yeogiseo seweo juseyo — for taxis" },
+        { "korean": "[destination] 가 주세요", "translation": "Take me to [place]", "detail": "[destination] ga juseyo" },
+        { "korean": "화장실이 어디예요?", "translation": "Where is the bathroom?", "detail": "Hwajangsiri eodiyeyo?" },
+        { "korean": "문 앞에 놓아 주세요", "translation": "Leave at my door", "detail": "Mun aphe noa juseyo — text this to delivery person" }
+      ]
+    },
+    {
+      "title": "When you don't understand",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "모르겠어요", "translation": "I don't understand", "detail": "Moreugesseoyo" },
+        { "korean": "천천히 말씀해 주세요", "translation": "Please speak slowly", "detail": "Cheoncheonhi malsseum hae juseyo" },
+        { "korean": "영어 할 수 있어요?", "translation": "Can you speak English?", "detail": "Yeongeo hal su isseoyo?" },
+        { "korean": "한국어 잘 못해요", "translation": "My Korean isn't good", "detail": "Hangugeo jal motaeyo" },
+        { "korean": "잠깐만요", "translation": "One moment, please", "detail": "Jamkkanmanyo" }
+      ]
+    },
+    {
+      "title": "Emergencies",
+      "sectionType": "WARNING",
+      "items": [
+        { "korean": "도와주세요!", "translation": "Help!", "detail": "Dowajuseyo" },
+        { "korean": "경찰 불러 주세요", "translation": "Call the police (112)", "detail": "Gyeongchal bulleo juseyo" },
+        { "korean": "병원에 가야 해요", "translation": "I need to go to hospital", "detail": "Byeongwone gaya haeyo" },
+        { "korean": "아파요", "translation": "I'm sick / it hurts here", "detail": "Apayo — point to the area" },
+        { "korean": "알레르기가 있어요", "translation": "I have an allergy", "detail": "Allereugi ga isseoyo" }
+      ]
+    },
+    {
+      "title": "Tip",
+      "sectionType": "TIP",
+      "items": [
+        { "detail": "Any attempt at Korean — even mispronounced — is always appreciated. A broken 감사합니다 (Gamsahamnida — thank you) is always better than silence." }
+      ]
+    }
+  ]
+}
