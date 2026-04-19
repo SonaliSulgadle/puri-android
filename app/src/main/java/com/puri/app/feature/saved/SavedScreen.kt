@@ -42,6 +42,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun SavedScreen(
     onNavigateToSolve: () -> Unit,
+    onNavigateToDetail: (Long) -> Unit,
     viewModel: SavedViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -52,7 +53,7 @@ fun SavedScreen(
             when (effect) {
                 is SavedUiEffect.NavigateToSolve -> onNavigateToSolve()
                 is SavedUiEffect.OpenGuideDetail -> {
-                    // navigate to guide detail screen
+                    onNavigateToDetail(effect.guideId)
                 }
             }
         }

@@ -1,11 +1,10 @@
 package com.puri.app.feature.saved.detail
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.puri.app.data.guides.GuideContentLoader
-import com.puri.app.domain.model.GuideContent
-import com.puri.app.domain.model.SavedGuide
 import com.puri.app.domain.usecase.GetSavedGuidesUseCase
 import com.puri.app.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,33 +26,36 @@ class SavedGuideDetailViewModel @Inject constructor(
         savedStateHandle[Screen.SavedDetail.ARG]
     )
 
-    val uiState: StateFlow<SavedGuideDetailUiState> =
-        getSavedGuidesUseCase()
-            .map { guides ->
-                val guide = guides.find { it.id == guideId }
-                    ?: return@map SavedGuideDetailUiState.Error
-
-                val content = guide.guideKey
-                    ?.let { guideContentLoader.loadContent(it) }
-
-                SavedGuideDetailUiState.Content(
-                    guide = guide,
-                    content = content
+    val uiState: StateFlow<SavedGuideDetailUiState> = getSavedGuidesUseCase()
+        .map { guides ->
+            Log.d("SavedDetail", "Looking for guideId=$guideId in ${guides.size} guides")
+            guides.forEach {
+                Log.d(
+                    "SavedDetail",
+                    "  id=${it.id} guideKey=${it.guideKey} isPreBundled=${it.isPreBundled}"
                 )
             }
-            .catch { emit(SavedGuideDetailUiState.Error) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = SavedGuideDetailUiState.Loading
-            )
-}
 
-sealed interface SavedGuideDetailUiState {
-    data object Loading : SavedGuideDetailUiState
-    data object Error : SavedGuideDetailUiState
-    data class Content(
-        val guide: SavedGuide,
-        val content: GuideContent?
-    ) : SavedGuideDetailUiState
+            val guide = guides.find { it.id == guideId }
+                ?: return@map SavedGuideDetailUiState.Error
+
+            Log.d("SavedDetail", "Found guide: guideKey=${guide.guideKey}")
+
+            val content = guide.guideKey?.let { key ->
+                guideContentLoader.loadContent(key).also {
+                    Log.d("SavedDetail", "Content loaded: ${it?.sections?.size} sections")
+                }
+            }
+
+            SavedGuideDetailUiState.Content(guide = guide, content = content)
+        }
+        .catch { e ->
+            Log.e("SavedDetail", "Error", e)
+            emit(SavedGuideDetailUiState.Error)
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = SavedGuideDetailUiState.Loading
+        )
 }
