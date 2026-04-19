@@ -1,0 +1,60 @@
+{
+  "sections": [
+    {
+      "title": "Service and everyday roles",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "기사님 (Gisa-nim)", "translation": "Driver", "detail": "Use for any driver — bus driver, taxi driver, delivery driver, chauffeur"},
+        {"korean": "사장님 (Sajang-nim)", "translation": "Owner / Boss", "detail": "Convenience store owner, restaurant owner, any small business. Use liberally — Koreans love this."},
+        {"korean": "이모님 (Imo-nim)", "translation": "Auntie (warm term)", "detail": "Middle-aged woman running a food stall, pojangmacha, or small restaurant. Very affectionate — always appreciated."},
+        {"korean": "선생님 (Seonsaeng-nim)", "translation": "Teacher / Professional", "detail": "For teachers, doctors, clinic staff, anyone who teaches or instructs you"},
+        {"korean": "원장님 (Wonjang-nim)", "translation": "Director / Head", "detail": "Clinic director, academy director, head of an institution"},
+        {"korean": "약사님 (Yaksa-nim)", "translation": "Pharmacist", "detail": "Use when speaking to or about the pharmacist at a 약국"},
+        {"korean": "사모님 (Samo-nim)", "translation": "Wife of the owner", "detail": "If the wife manages or runs the business — respectful and appreciated"}
+      ]
+    },
+    {
+      "title": "Building and home",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "집주인 (Jib-juin)", "translation": "Landlord", "detail": "Address them as 사장님 or by their name + 씨 (shi) — never as 집주인 to their face"},
+        {"korean": "관리인 (Gwalliin)", "translation": "Building manager", "detail": "관리인 아저씨 (Ajessi) for male, 관리인 아주머니 (Ajumeoni) for female — friendly and common"},
+        {"korean": "경비원 (Gyeongbiwon)", "translation": "Security guard", "detail": "경비 아저씨 is common and respectful — use when asking for help"}
+      ]
+    },
+    {
+      "title": "Professional titles",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "의사 선생님 (Uisa Seonsaeng-nim)", "translation": "Doctor", "detail": "Always use 선생님 after — never just 의사"},
+        {"korean": "약사님 (Yaksa-nim)", "translation": "Pharmacist", "detail": "At the pharmacy (약국)"},
+        {"korean": "변호사님 (Byeonhosa-nim)", "translation": "Lawyer", "detail": ""},
+        {"korean": "은행원 (Eunhaengwon)", "translation": "Bank teller", "detail": "Just approach — no special title needed at the counter"}
+      ]
+    },
+    {
+      "title": "General address words",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "저기요 (Jeo-gi-yo)", "translation": "Excuse me", "detail": "Safe in all situations — works for any stranger in a service context"},
+        {"korean": "아저씨 (Ajeossi)", "translation": "Middle-aged man", "detail": "Use carefully — can feel rude to men who are younger than they look"},
+        {"korean": "아주머니 (Ajumeoni)", "translation": "Middle-aged woman", "detail": "More neutral, less warm than 이모님"},
+        {"korean": "님 (nim)", "translation": "Honorific suffix", "detail": "Add to the end of any role title to make it polite: 사장 → 사장님, 기사 → 기사님"}
+      ]
+    },
+    {
+      "title": "Warning",
+      "sectionType": "WARNING",
+      "items": [
+        {"detail": "Never address someone as 야 (ya) or 이봐 (ibwa) — these are rude terms used only between very close same-age friends or to people you consider beneath you in status. Always use 저기요 or a proper title."}
+      ]
+    },
+    {
+      "title": "Tip",
+      "sectionType": "TIP",
+      "items": [
+        {"detail": "Calling a restaurant owner 사장님 instead of just waving or saying 저기요 very often gets you noticeably warmer and faster service. Koreans genuinely appreciate the respect — it takes one word."}
+      ]
+    }
+  ]
+}

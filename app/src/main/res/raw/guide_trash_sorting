@@ -1,0 +1,63 @@
+{
+  "sections": [
+    {
+      "title": "The Golden Rule",
+      "sectionType": "WARNING",
+      "items": [
+        {
+          "detail": "General waste MUST go in designated 종량제 봉투 (Jongnyangje Bongthu — pay-per-volume trash bag). These are officially branded bags specific to your district. Fines up to ₩100,000 for violations."
+        }
+      ]
+    },
+    {
+      "title": "Bin types",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "재활용", "translation": "Recyclables (Jae-hwal-yong)", "detail": "Paper, plastic, glass, cans — rinse first" },
+        { "korean": "음식물쓰레기", "translation": "Food waste (Eumsik-mul sseulle-gi)", "detail": "Drain liquid completely, use yellow or green bin or special bag" },
+        { "korean": "일반쓰레기", "translation": "General waste (Ilban sseulle-gi)", "detail": "Only in 종량제 봉투 bags — nothing else accepted" },
+        { "korean": "대형폐기물", "translation": "Large waste (Daehyeong pye-gi-mul)", "detail": "Furniture, appliances — need a paid sticker from your district office or app" },
+        { "korean": "의류", "translation": "Clothing (Uiryu)", "detail": "Donation bin or special clothing bag — not general waste" }
+      ]
+    },
+    {
+      "title": "Recyclable breakdown",
+      "sectionType": "TABLE",
+      "items": [
+        { "korean": "종이류", "translation": "Paper (Jongyi-ryu)", "detail": "Cardboard, newspaper — no food residue, flatten boxes" },
+        { "korean": "플라스틱", "translation": "Plastic (Peullaseutig)", "detail": "Rinse containers, check recycling number 1-7 on bottom" },
+        { "korean": "유리", "translation": "Glass (Yuri)", "detail": "Bottles, jars — remove caps, wrap broken glass in newspaper" },
+        { "korean": "캔", "translation": "Cans (Kaen)", "detail": "Aluminum and steel — rinse clean" },
+        { "korean": "비닐류", "translation": "Vinyl/plastic film (Binil-ryu)", "detail": "Shopping bags, wrap — must be clean and dry" },
+        { "korean": "스티로폼", "translation": "Styrofoam (Seutiropom)", "detail": "Clean packaging only — food residue = general waste" }
+      ]
+    },
+    {
+      "title": "Food waste rules",
+      "sectionType": "LIST",
+      "items": [
+        { "detail": "YES: vegetable scraps, fruit peels, cooked food, small soft bones" },
+        { "detail": "NO: large animal bones, shellfish shells, walnut/chestnut shells, toothpicks, tissues, coffee grounds in filter" },
+        { "detail": "DRAIN ALL liquid before disposal — wet food waste is a common cause of fines" },
+        { "detail": "Collection times vary by building — usually 8PM to midnight. Check your building notice board." }
+      ]
+    },
+    {
+      "title": "Buying trash bags",
+      "sectionType": "LIST",
+      "items": [
+        { "detail": "Available at convenience stores (GS25, CU, 7-Eleven) and supermarkets (이마트, 롯데마트, 홈플러스). Ask at the counter — they are kept behind the desk." },
+        { "detail": "Important: many locations only accept CASH for trash bags. Have coins or small bills ready." },
+        { "detail": "Approximate single bag prices: 5L ≈ ₩300 / 10L ≈ ₩500 / 20L ≈ ₩900. Bundles (rolls of 10) cost differently and vary by district." },
+        { "detail": "Must buy bags for YOUR district (구/동). The design on the bag should match your area. When in doubt, show your address and ask: 이 동네 종량제 봉투 있어요?" }
+      ]
+    },
+    {
+      "title": "Tip",
+      "sectionType": "TIP",
+      "items": [
+        { "detail": "Your building has a designated trash area (쓰레기장). Check notice boards for your building's specific collection schedule. Some buildings have strict time windows." }
+      ]
+    }
+  ]
+}

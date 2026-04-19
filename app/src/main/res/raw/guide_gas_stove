@@ -1,0 +1,63 @@
+{
+  "sections": [
+    {
+      "title": "Safety — read this first",
+      "sectionType": "WARNING",
+      "items": [
+        {"detail": "Always turn off the main gas valve when leaving home for more than a few hours. If you smell gas — do NOT use any switches or open flames. Open all windows immediately, leave the building, and call 119."}
+      ]
+    },
+    {
+      "title": "Common labels on gas stoves",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "점화 (Jeomhwa)", "translation": "Ignition", "detail": "Press and hold to ignite the burner — keep holding until flame appears"},
+        {"korean": "강 (Gang)", "translation": "High / Strong flame", "detail": "Maximum heat setting"},
+        {"korean": "약 (Yak)", "translation": "Low / Weak flame", "detail": "Low heat — for simmering"},
+        {"korean": "잠금 (Jamgeum)", "translation": "Lock / Safety lock", "detail": "Prevents accidental ignition — hold to activate"},
+        {"korean": "타이머 (Taimeo)", "translation": "Timer", "detail": "Auto-shutoff timer — stove turns off after the set time"},
+        {"korean": "자동꺼짐 (Jadong Kkeojim)", "translation": "Auto off", "detail": "Safety feature — shuts off automatically if overheating or flame goes out"},
+        {"korean": "열판 (Yeolpan)", "translation": "Heating plate", "detail": "On electric or induction models — the cooking surface"}
+      ]
+    },
+    {
+      "title": "Main gas valve",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "Handle parallel to pipe", "translation": "Gas is OPEN — flowing", "detail": "Valve handle in line with the pipe means gas is on"},
+        {"korean": "Handle perpendicular to pipe", "translation": "Gas is CLOSED — off", "detail": "Valve handle across the pipe means gas is shut off"}
+      ]
+    },
+    {
+      "title": "How to use the stove",
+      "sectionType": "STEPS",
+      "items": [
+        {"detail": "Check the main gas valve is open — handle should be parallel to the pipe"},
+        {"detail": "Place your pot or pan on the burner before igniting"},
+        {"detail": "Press and hold the ignition button — you will hear clicking until the flame appears"},
+        {"detail": "Adjust the flame dial — 강 (strong) for boiling, 약 (weak) for simmering"},
+        {"detail": "Never leave an open flame unattended — Korea has strict building fire rules"},
+        {"detail": "When finished, turn the burner off, then close the main gas valve"}
+      ]
+    },
+    {
+      "title": "Induction cooktops (인덕션)",
+      "sectionType": "TABLE",
+      "items": [
+        {"korean": "전원 (Jeonwon)", "translation": "Power", "detail": "Main on/off"},
+        {"korean": "화력 (Hwalyeok)", "translation": "Heat level", "detail": "Usually 1–9 or 1–10 — higher number is hotter"},
+        {"korean": "타이머 (Taimeo)", "translation": "Timer", "detail": "Auto shutoff after set time"},
+        {"korean": "잠금 (Jamgeum)", "translation": "Child lock", "detail": "Hold button to lock all controls"},
+        {"korean": "부스터 (Buseuteo)", "translation": "Boost mode", "detail": "Maximum heat — useful for boiling water quickly"},
+        {"korean": "인덕션 전용", "translation": "Induction only", "detail": "You need induction-compatible cookware — look for this symbol on your pots"}
+      ]
+    },
+    {
+      "title": "Emergency",
+      "sectionType": "WARNING",
+      "items": [
+        {"detail": "Smell gas → open all windows, leave immediately, call 119 (emergency) or 1544-4500 (Korea Gas Safety Corporation). Do NOT operate any electrical switches, including lights. Do NOT use an elevator."}
+      ]
+    }
+  ]
+}
