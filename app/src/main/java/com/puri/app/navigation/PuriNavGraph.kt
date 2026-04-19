@@ -3,12 +3,15 @@ package com.puri.app.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.puri.app.feature.history.HistoryScreen
 import com.puri.app.feature.onboarding.OnboardingScreen
 import com.puri.app.feature.profile.ProfileScreen
 import com.puri.app.feature.saved.SavedScreen
+import com.puri.app.feature.saved.detail.SavedGuideDetailScreen
 import com.puri.app.feature.solve.SolveScreen
 
 @Composable
@@ -55,6 +58,9 @@ fun PuriNavGraph(
                     navController.navigate(Screen.Home.route) {
                         launchSingleTop = true
                     }
+                },
+                onNavigateToDetail = { guideId ->
+                    navController.navigate(Screen.SavedDetail.createRoute(guideId))
                 }
             )
         }
@@ -62,5 +68,17 @@ fun PuriNavGraph(
             HistoryScreen()
         }
         composable(Screen.Profile.route) { ProfileScreen() }
+
+        composable(
+            route = Screen.SavedDetail.route,
+            arguments = listOf(
+                navArgument(Screen.SavedDetail.ARG) { type = NavType.LongType }
+            )
+        ) {
+            SavedGuideDetailScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+
     }
 }

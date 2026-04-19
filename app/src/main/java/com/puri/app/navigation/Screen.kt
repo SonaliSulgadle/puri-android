@@ -9,7 +9,13 @@ sealed class Screen(val route: String) {
 
     // Sub-screens (no bottom nav)
     data object Onboarding : Screen("onboarding")
+
     data class SolveResult(val id: Long = -1L) : Screen("solve_result/{id}") {
         fun withId(id: Long) = "solve_result/$id"
+    }
+
+    data object SavedDetail : Screen("saved_detail/{guideId}") {
+        fun createRoute(guideId: Long) = "saved_detail/$guideId"
+        const val ARG = "guideId"
     }
 }

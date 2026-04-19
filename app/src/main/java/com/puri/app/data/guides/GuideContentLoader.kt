@@ -20,7 +20,7 @@ class GuideContentLoader @Inject constructor(
         isLenient = true
     }
 
-    // Cache loaded content — avoid re-reading files every time
+    // Cache loaded content — to avoid re-reading files every time
     private val cache = mutableMapOf<PreBundledGuideKey, GuideContent?>()
 
     fun loadContent(key: PreBundledGuideKey): GuideContent? {
