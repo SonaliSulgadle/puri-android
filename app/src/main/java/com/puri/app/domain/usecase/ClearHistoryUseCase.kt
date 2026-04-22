@@ -1,6 +1,5 @@
 package com.puri.app.domain.usecase
 
-import androidx.room.Query
 import com.puri.app.domain.repository.HistoryRepository
 import javax.inject.Inject
 

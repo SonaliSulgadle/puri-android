@@ -10,4 +10,5 @@ interface HistoryRepository {
     suspend fun deleteHistoryItem(id: Long): Resource<Unit>
     suspend fun clearAllHistory(): Resource<Unit>
     fun getHistoryItem(id: Long): Flow<HistoryItem?>
+    suspend fun clearAll()
 }
