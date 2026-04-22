@@ -82,8 +82,8 @@
     <string name="camera_additional_context_hint">Add context (optional)…</string>
 
     <!-- Navigation -->
-    <string name="nav_home">Home</string>
-    <string name="nav_saved">Saved</string>
+    <string name="nav_solve">Solve</string>
+    <string name="nav_saved">Guides</string>
     <string name="nav_history">History</string>
     <string name="nav_profile">Profile</string>
 
@@ -151,41 +151,6 @@
     <string name="guide_stay_title">Where to stay</string>
     <string name="guide_stay_desc">Gosiwon, one-room, shared house — what to expect.</string>
 
-    <!-- Onboarding -->
-    <string name="onboarding_next">Next →</string>
-    <string name="onboarding_get_started">Start exploring Korea</string>
-    <string name="onboarding_skip">Skip for now</string>
-
-    <!-- Page 1: Trash -->
-    <string name="onboarding_page1_headline">How do I sort this trash?</string>
-    <string name="onboarding_page1_problem">Wait, does this plastic go in general waste?</string>
-    <string name="onboarding_page1_line1">재활용</string>
-    <string name="onboarding_page1_line1t">Recyclable — rinse and place in plastic bin</string>
-    <string name="onboarding_page1_line2">일반쓰레기</string>
-    <string name="onboarding_page1_line2t">General waste — use designated bag</string>
-    <string name="onboarding_page1_line3">음식물쓰레기</string>
-    <string name="onboarding_page1_line3t">Food waste — drain liquid first</string>
-
-    <!-- Page 2: Transport -->
-    <string name="onboarding_page2_headline">Navigate Korea with confidence.</string>
-    <string name="onboarding_page2_problem">How do I top up my subway card at this machine?</string>
-    <string name="onboarding_page2_line1">교통카드 충전</string>
-    <string name="onboarding_page2_line1t">Card recharge — tap card, select amount</string>
-    <string name="onboarding_page2_line2">T-Money</string>
-    <string name="onboarding_page2_line2t">Works on all Seoul buses and metro</string>
-    <string name="onboarding_page2_line3">기후동행카드</string>
-    <string name="onboarding_page2_line3t">Monthly unlimited card for Seoul</string>
-
-    <!-- Page 3: Appliances -->
-    <string name="onboarding_page3_headline">Any Korean text, explained instantly.</string>
-    <string name="onboarding_page3_problem">Which button starts the washing machine?</string>
-    <string name="onboarding_page3_line1">표준 세탁</string>
-    <string name="onboarding_page3_line1t">Standard Wash — best for everyday clothes</string>
-    <string name="onboarding_page3_line2">시작/일시정지</string>
-    <string name="onboarding_page3_line2t">Start / Pause the cycle</string>
-    <string name="onboarding_page3_line3">전원</string>
-    <string name="onboarding_page3_line3t">Power button</string>
-
     <string name="home_guides_title">Seoul City Guide →</string>
     <string name="home_guides_subtitle">Trash, transport, medical, appliances and more</string>
     <string name="guides_offline_label">12 GUIDES OFFLINE</string>
@@ -194,4 +159,43 @@
     <string name="response_title">Results</string>
     <string name="saved_detail_title">Guide Details</string>
     <string name="tip_label">Tip</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_next">Continue →</string>
+    <string name="onboarding_get_started">Start exploring Korea</string>
+    <string name="onboarding_skip">Skip</string>
+
+    <!-- Page 1 — image to text -->
+    <string name="onboarding_page1_headline">Snap. Solve. Done.</string>
+    <string name="onboarding_page1_subtitle">Point your camera at anything confusing in Korea</string>
+
+    <!-- Page 2 — text to text -->
+    <string name="onboarding_page2_headline">Just ask anything.</string>
+    <string name="onboarding_page2_subtitle">No camera needed — type your question in plain English</string>
+
+    <!-- Page 3 — offline guides -->
+    <string name="onboarding_page3_headline">12 guides. No internet.</string>
+    <string name="onboarding_page3_subtitle">Essential Korean life guides work completely offline</string>
+
+    <!-- Offline guide preview labels -->
+    <string name="onboarding_guide_trash">Trash sorting</string>
+    <string name="onboarding_guide_subway">Subway &amp; T-Money</string>
+    <string name="onboarding_guide_washing">Washing machine</string>
+    <string name="onboarding_guide_medical">Medical clinics</string>
+    <string name="onboarding_guide_phrases">Daily phrases</string>
+    <string name="onboarding_guide_more">+7 more guides →</string>
+    <string name="onboarding_offline_badge">Works offline</string>
+
+    <string name="puri_brand_badge_label">풀이</string>
+    <string name="onboarding_you_label">You</string>
+    <string name="puri_ai_title">Puri AI</string>
+    <string name="answered_label">✓ Answered</string>
+    <string name="onboarding_photo_sent_label">Photo sent</string>
+    <string name="onboarding_answer_bubble_label">🫧 Korean washing machine\n표준 세탁 → Standard Wash\n시작 → Press to begin</string>
+    <string name="emoji_camera">📷</string>
+    <string name="emoji_bubble">🫧</string>
+    <string name="onboarding_text_demo_label">\"Where does a banana peel go?\"</string>
+    <string name="onboarding_text_answer_bubble">🗑️ Banana peel → Food waste\n음식물쓰레기\n→ Yellow or green bin\n→ Drain liquid first</string>
+    <string name="puri_label">PURI</string>
+
 </resources>

@@ -18,8 +18,7 @@ class LaunchViewModel @Inject constructor(
 
     val startDestination: StateFlow<String?> = getFirstLaunchUseCase()
         .map { isFirst ->
-            Screen.Onboarding.route
-//            if (isFirst) Screen.Onboarding.route else Screen.Home.route
+            if (isFirst) Screen.Onboarding.route else Screen.Home.route
         }
         .stateIn(
             scope = viewModelScope,
