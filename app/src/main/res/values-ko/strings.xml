@@ -82,8 +82,8 @@
     <string name="camera_additional_context_hint">추가 설명 (선택사항)…</string>
 
     <!-- Navigation -->
-    <string name="nav_home">홈</string>
-    <string name="nav_saved">저장됨</string>
+    <string name="nav_solve">풀기</string>
+    <string name="nav_saved">가이드</string>
     <string name="nav_history">기록</string>
     <string name="nav_profile">프로필</string>
 
@@ -146,9 +146,15 @@
     <string name="guide_stay_title">숙소 안내</string>
     <string name="guide_stay_desc">고시원, 원룸, 쉐어하우스 — 무엇을 기대할 수 있는지.</string>
 
-    <string name="onboarding_next">다음 →</string>
-    <string name="onboarding_get_started">시작하기</string>
-    <string name="onboarding_skip">나중에</string>
-
     <string name="home_guides_title">서울 생활 가이드 →</string>
+
+    <string name="onboarding_next">계속하기 →</string>
+    <string name="onboarding_get_started">한국 생활 시작하기</string>
+    <string name="onboarding_skip">건너뛰기</string>
+    <string name="onboarding_page1_headline">찍고. 풀고. 완료.</string>
+    <string name="onboarding_page1_subtitle">한국에서 헷갈리는 것에 카메라를 대보세요</string>
+    <string name="onboarding_page2_headline">무엇이든 물어보세요.</string>
+    <string name="onboarding_page2_subtitle">카메라 없이 영어로 질문하면 바로 답을 드려요</string>
+    <string name="onboarding_page3_headline">12개 가이드. 인터넷 없이도.</string>
+    <string name="onboarding_page3_subtitle">필수 한국 생활 가이드를 오프라인에서도 이용하세요</string>
 </resources>
