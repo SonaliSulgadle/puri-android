@@ -198,4 +198,27 @@
     <string name="onboarding_text_answer_bubble">🗑️ Banana peel → Food waste\n음식물쓰레기\n→ Yellow or green bin\n→ Drain liquid first</string>
     <string name="puri_label">PURI</string>
 
+    <string name="profile_title">Profile</string>
+    <string name="profile_app_tagline">Daily life solver for foreigners in Korea</string>
+    <string name="profile_stat_today">Today</string>
+    <string name="profile_stat_total">Total solves</string>
+    <string name="profile_stat_saved">Saved</string>
+    <string name="profile_section_data">Your data</string>
+    <string name="profile_section_app">App</string>
+    <string name="profile_clear_history">Clear solve history</string>
+    <string name="profile_clear_saved_solves">Clear saved solves</string>
+    <string name="profile_rate_app">Rate Puri on Play Store</string>
+    <string name="profile_privacy_policy">Privacy policy</string>
+    <string name="profile_version">Version</string>
+    <string name="profile_clear_history_title">Clear history?</string>
+    <string name="profile_clear_history_body">All your solve history will be permanently deleted. Pre-bundled guides are not affected.</string>
+    <string name="profile_clear_saved_title">Clear saved solves?</string>
+    <string name="profile_clear_saved_body">Your personally saved solves will be deleted. Pre-bundled guides are not affected.</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="profile_history_cleared">Solve history cleared</string>
+    <string name="profile_saved_cleared">Saved solves cleared</string>
+    <string name="profile_local_data_title">Your data stays on your device</string>
+    <string name="profile_local_data_body">No account required. Puri does not upload your solve history or personal data. Everything is stored locally and deleted when you uninstall the app.</string>
+
 </resources>

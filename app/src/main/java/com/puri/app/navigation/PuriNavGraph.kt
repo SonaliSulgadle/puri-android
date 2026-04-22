@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.puri.app.feature.history.HistoryScreen
 import com.puri.app.feature.onboarding.OnboardingScreen
+import com.puri.app.feature.profile.PrivacyPolicyScreen
 import com.puri.app.feature.profile.ProfileScreen
 import com.puri.app.feature.saved.SavedScreen
 import com.puri.app.feature.saved.detail.SavedGuideDetailScreen
@@ -55,6 +56,12 @@ fun PuriNavGraph(
             )
         ) {
             SavedGuideDetailScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(route = Screen.PrivacyPolicy.route) {
+            PrivacyPolicyScreen(
                 onBack = { navController.popBackStack() }
             )
         }
@@ -134,7 +141,11 @@ fun MainScaffold(navController: NavHostController) {
             }
 
             composable(Screen.Profile.route) {
-                ProfileScreen()
+                ProfileScreen(
+                    onNavigateToPrivacyPolicy = {
+                        navController.navigate(Screen.PrivacyPolicy.route)
+                    }
+                )
             }
         }
     }
