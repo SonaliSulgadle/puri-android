@@ -29,4 +29,7 @@ interface HistoryDao {
 
     @Query("SELECT * FROM history WHERE id = :id")
     suspend fun getHistoryItemOnce(id: Long): HistoryEntity?
+
+    @Query("DELETE FROM history")
+    suspend fun deleteAll()
 }
