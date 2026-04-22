@@ -1,0 +1,58 @@
+package com.puri.app.feature.onboarding
+
+import androidx.compose.ui.graphics.Color
+import com.puri.app.R
+
+enum class PageType {
+    IMAGE_TO_TEXT,
+    TEXT_TO_TEXT,
+    OFFLINE_GUIDES
+}
+
+data class PageResource(
+    val backgroundGradient: List<Color>,
+    val bigEmoji: String,
+    val headlineRes: Int,
+    val subtitleRes: Int,
+    val accentColor: Color,
+    val pageType: PageType
+)
+
+val pageResources = listOf(
+    PageResource(
+        backgroundGradient = listOf(
+            Color(0xFF0D0B1E),
+            Color(0xFF1A1040),
+            Color(0xFF2A1860)
+        ),
+        bigEmoji = "📷",
+        headlineRes = R.string.onboarding_page1_headline,
+        subtitleRes = R.string.onboarding_page1_subtitle,
+        accentColor = Color(0xFF6A9EFF),
+        pageType = PageType.IMAGE_TO_TEXT
+    ),
+    PageResource(
+        backgroundGradient = listOf(
+            Color(0xFF050F1A),
+            Color(0xFF0A1F30),
+            Color(0xFF083828)
+        ),
+        bigEmoji = "💬",
+        headlineRes = R.string.onboarding_page2_headline,
+        subtitleRes = R.string.onboarding_page2_subtitle,
+        accentColor = Color(0xFF4DCFB4),
+        pageType = PageType.TEXT_TO_TEXT
+    ),
+    PageResource(
+        backgroundGradient = listOf(
+            Color(0xFF12071E),
+            Color(0xFF1E0B38),
+            Color(0xFF2A0E50)
+        ),
+        bigEmoji = "📚",
+        headlineRes = R.string.onboarding_page3_headline,
+        subtitleRes = R.string.onboarding_page3_subtitle,
+        accentColor = Color(0xFFB07EFF),
+        pageType = PageType.OFFLINE_GUIDES
+    )
+)
