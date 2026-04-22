@@ -52,4 +52,6 @@ class HistoryRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Resource.Error(PuriError.Unknown(e))
         }
+
+    override suspend fun clearAll() = historyDao.deleteAll()
 }
