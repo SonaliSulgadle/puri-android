@@ -221,4 +221,9 @@
     <string name="profile_local_data_title">Your data stays on your device</string>
     <string name="profile_local_data_body">No account required. Puri does not upload your solve history or personal data. Everything is stored locally and deleted when you uninstall the app.</string>
 
+    <string name="history_detail_title">Solve result</string>
+    <string name="guide_content_unavailable">Content for this guide is not available!</string>
+    <string name="guide_offline_ready_label">📴  OFFLINE READY</string>
+    <string name="seoul_life_guides_label">Seoul Life Guides</string>
+    <string name="essential_guides_info">12 essential guides — trash, transit,\\nmedical, appliances and more.</string>
 </resources>
