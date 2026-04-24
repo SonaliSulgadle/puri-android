@@ -25,5 +25,5 @@ sealed interface HistoryUiState {
 
 sealed interface HistoryUiEffect {
     data class ShowSnackbar(val messageRes: Int) : HistoryUiEffect
-    data class NavigateToResult(val item: HistoryItem) : HistoryUiEffect
+    data class NavigateToResult(val historyItemId: Long) : HistoryUiEffect
 }

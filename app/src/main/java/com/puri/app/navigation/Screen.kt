@@ -19,4 +19,9 @@ sealed class Screen(val route: String) {
         fun createRoute(guideId: Long) = "saved_detail/$guideId"
         const val ARG = "guideId"
     }
+
+    data object HistoryDetail : Screen("history_detail/{historyItemId}") {
+        fun createRoute(historyItemId: Long) = "history_detail/$historyItemId"
+        const val ARG = "historyItemId"
+    }
 }

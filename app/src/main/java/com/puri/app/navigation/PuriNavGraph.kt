@@ -14,6 +14,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.puri.app.feature.history.HistoryScreen
+import com.puri.app.feature.history.detail.HistoryDetailScreen
 import com.puri.app.feature.onboarding.OnboardingScreen
 import com.puri.app.feature.profile.PrivacyPolicyScreen
 import com.puri.app.feature.profile.ProfileScreen
@@ -62,6 +63,17 @@ fun PuriNavGraph(
 
         composable(route = Screen.PrivacyPolicy.route) {
             PrivacyPolicyScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.HistoryDetail.route,
+            arguments = listOf(
+                navArgument(Screen.HistoryDetail.ARG) { type = NavType.LongType }
+            )
+        ) {
+            HistoryDetailScreen(
                 onBack = { navController.popBackStack() }
             )
         }
@@ -137,7 +149,13 @@ fun MainScaffold(navController: NavHostController) {
             }
 
             composable(Screen.History.route) {
-                HistoryScreen()
+                HistoryScreen(
+                    onNavigateToDetail = { historyItemId ->
+                        navController.navigate(
+                            Screen.HistoryDetail.createRoute(historyItemId)
+                        )
+                    }
+                )
             }
 
             composable(Screen.Profile.route) {

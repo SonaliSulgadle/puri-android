@@ -99,7 +99,7 @@ class HistoryViewModel @Inject constructor(
     private fun viewItem(id: Long) {
         val item = allItems.find { it.id == id } ?: return
         viewModelScope.launch {
-            _effects.send(HistoryUiEffect.NavigateToResult(item))
+            _effects.send(HistoryUiEffect.NavigateToResult(item.id))
         }
     }
 }

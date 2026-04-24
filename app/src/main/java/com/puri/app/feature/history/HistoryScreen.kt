@@ -37,6 +37,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -45,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -62,18 +64,32 @@ import com.puri.app.core.util.DateTimeUtils
 import com.puri.app.domain.model.HistoryItem
 import com.puri.app.feature.solve.components.CategoryChip
 import com.puri.app.util.TestFixtures
+import kotlinx.coroutines.flow.collectLatest
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryScreen(
+    onNavigateToDetail: (Long) -> Unit,
     viewModel: HistoryViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
+    LaunchedEffect(Unit) {
+        viewModel.effects.collectLatest { effect ->
+            when (effect) {
+                is HistoryUiEffect.NavigateToResult ->
+                    onNavigateToDetail(effect.historyItemId)
+
+                is HistoryUiEffect.ShowSnackbar ->
+                    snackbarHostState.showSnackbar(context.getString(effect.messageRes))
+            }
+        }
+    }
     Scaffold(
         topBar = {
             PuriTopBar(
