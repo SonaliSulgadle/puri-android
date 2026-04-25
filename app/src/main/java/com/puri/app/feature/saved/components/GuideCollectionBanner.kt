@@ -38,7 +38,7 @@ fun GuideCollectionBanner(modifier: Modifier = Modifier) {
     ) {
         // Decorative emoji
         Text(
-            text = "🇰🇷",
+            text = stringResource(R.string.korea_flag_emoji),
             fontSize = 80.sp,
             color = Color.White.copy(alpha = 0.08f),
             modifier = Modifier.align(Alignment.CenterEnd)
@@ -50,7 +50,7 @@ fun GuideCollectionBanner(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .clip(RoundedCornerShape(100.dp))
                     .background(Color.White.copy(alpha = 0.15f))
-                    .padding(horizontal = 10.dp, vertical = 4.dp)
+                    .padding(horizontal = 10.dp, vertical = dimensionResource(R.dimen.spacing_xs))
             ) {
                 Text(
                     text = stringResource(R.string.guide_offline_ready_label),
@@ -69,7 +69,7 @@ fun GuideCollectionBanner(modifier: Modifier = Modifier) {
                 fontWeight = FontWeight.ExtraBold
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xs)))
 
             Text(
                 text = stringResource(R.string.essential_guides_info),
