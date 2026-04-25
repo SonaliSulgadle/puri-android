@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -25,13 +26,15 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.domain.model.SavedGuide
-import com.puri.app.feature.saved.components.FeaturedGuideCard
+import com.puri.app.feature.saved.components.GuideCollectionBanner
 import com.puri.app.feature.saved.components.GuideListItem
 import com.puri.app.feature.saved.components.OfflineBanner
 import com.puri.app.feature.saved.components.SavedEmptyState
@@ -125,13 +128,8 @@ private fun SavedContent(
         }
 
         // Featured guide — large card
-        state.featuredGuide?.let { guide ->
-            item(key = "featured_${guide.id}") {
-                FeaturedGuideCard(
-                    guide = guide,
-                    onClick = { onGuideClick(guide) }
-                )
-            }
+        item(key = "collection_banner") {
+            GuideCollectionBanner()
         }
 
         // Pre-bundled guides section
@@ -143,11 +141,14 @@ private fun SavedContent(
                     fontWeight = FontWeight.Bold
                 )
             }
-            items(
-                items = state.preBundledGuides.filter { !it.isFeatured },
-                key = { "bundled_${it.id}" }
-            ) { guide ->
-                GuideListItem(guide = guide, onClick = { onGuideClick(guide) })
+            items(state.preBundledGuides, key = { "row_${it.id}" }) { guide ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        dimensionResource(R.dimen.spacing_md)
+                    )
+                ) {
+                    GuideListItem(guide = guide, onClick = { onGuideClick(guide) })
+                }
             }
         }
 
@@ -180,5 +181,13 @@ private fun SavedContent(
 private fun SavedLoadingState(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         CircularProgressIndicator(color = IndigoPrimary)
+    }
+}
+
+@PreviewLightDark
+@Composable
+fun PreviewSavedScreen() {
+    PuriTheme {
+        SavedScreen({}, {})
     }
 }

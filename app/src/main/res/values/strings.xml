@@ -226,4 +226,6 @@
     <string name="guide_offline_ready_label">📴  OFFLINE READY</string>
     <string name="seoul_life_guides_label">Seoul Life Guides</string>
     <string name="essential_guides_info">12 essential guides — trash, transit,\\nmedical, appliances and more.</string>
+    <string name="korea_flag_emoji">🇰🇷</string>
+    <string name="available_offline_label">📴  Available offline</string>
 </resources>

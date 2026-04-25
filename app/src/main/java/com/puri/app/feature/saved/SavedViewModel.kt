@@ -70,7 +70,7 @@ class SavedViewModel @Inject constructor(
     }
 
     private fun buildPreBundledGuides(): List<SavedGuide> = listOf(
-        guide(PreBundledGuideKey.TRASH_SORTING, Category.TRASH, featured = true),
+        guide(PreBundledGuideKey.TRASH_SORTING, Category.TRASH),
         guide(PreBundledGuideKey.WASHING_MACHINE, Category.APPLIANCE),
         guide(PreBundledGuideKey.SUBWAY_TMONEY, Category.TRANSPORT),
         guide(PreBundledGuideKey.GAS_STOVE, Category.APPLIANCE),
