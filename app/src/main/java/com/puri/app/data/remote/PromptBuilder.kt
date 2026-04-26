@@ -199,4 +199,47 @@ Do not provide general background unless it directly affects what the user shoul
 $RESPONSE_FORMAT
 """.trimIndent()
     }
+
+    fun buildAddressPrompt(rawAddress: String): String = """
+You are a Korean address normalization assistant for foreigners in South Korea.
+
+The user has this address: "$rawAddress"
+
+This address may be in any of these formats:
+- 지번 (old land lot): 서울 마포구 서교동 395-166
+- 도로명 (road name, preferred): 서울 마포구 와우산로29길 17  
+- English/romanized: 17, Wausan-ro 29-gil, Mapo-gu, Seoul
+- Building/landmark name: 홍대입구역 2번출구 스타벅스
+- Informal/partial: 홍대 근처 골목
+
+Your task:
+1. Identify the format
+2. Convert to 도로명주소 (road name address) suitable for Naver Map
+3. If already 도로명, confirm it without modification
+4. For famous landmarks/stations, provide the actual address
+5. Keep 도/시/구/동 structure complete
+6. If impossible to determine precisely, say so — never fabricate numbers
+
+Respond EXACTLY in this format with no other text before or after:
+TYPE: [지번|도로명|영문|건물명|불완전]
+NORMALIZED: [complete Korean 도로명주소]
+SHORT: [shorter form for Naver Map — omit 특별시/광역시 prefix]
+CONFIDENCE: [HIGH|MEDIUM|LOW]
+NOTE: [one sentence caveat, or NONE]
+
+Examples:
+Input: 마포구 서교동 395-166
+TYPE: 지번
+NORMALIZED: 서울특별시 마포구 와우산로29길 17
+SHORT: 마포구 와우산로29길 17
+CONFIDENCE: HIGH
+NOTE: NONE
+
+Input: near Hongdae exit 9
+TYPE: 불완전
+NORMALIZED: 서울특별시 마포구 홍대입구역
+SHORT: 마포구 홍대입구역
+CONFIDENCE: LOW
+NOTE: The description is approximate — search for the specific destination separately.
+""".trimIndent()
 }

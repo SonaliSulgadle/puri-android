@@ -32,6 +32,7 @@ import com.puri.app.R
 import com.puri.app.core.common.saveToTempFile
 import com.puri.app.core.permission.PermissionManager
 import com.puri.app.core.util.HapticUtils
+import com.puri.app.feature.solve.SolveIntent.*
 import com.puri.app.feature.solve.components.CameraScreen
 import com.puri.app.feature.solve.components.DailyLimitCard
 import com.puri.app.feature.solve.components.HomeContent
@@ -48,6 +49,7 @@ import kotlinx.coroutines.withContext
 fun SolveScreen(
     onNavigateToSaved: () -> Unit,
     onNavigateToHistory: () -> Unit,
+    onOpenAddressConverter: () -> Unit,
     viewModel: SolveViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -141,6 +143,7 @@ fun SolveScreen(
                 SolveUiState.UnsafeContent -> 5
                 SolveUiState.DailyLimitReached -> 6
                 is SolveUiState.Error -> 7
+                is SolveUiState.AddressResult -> 8
             }
         },
         transitionSpec = {
@@ -179,11 +182,12 @@ fun SolveScreen(
                 onOpenCamera = onOpenCamera,
                 onOpenGallery = onOpenGallery,
                 onSubmitQuery = {
-                    viewModel.onIntent(SolveIntent.TextQueryChanged(it))
+                    viewModel.onIntent(TextQueryChanged(it))
                     viewModel.onIntent(SolveIntent.SubmitTextQuery)
                 },
                 onViewAllHistory = onNavigateToHistory,
-                onNavigateToSaved = onNavigateToSaved
+                onNavigateToSaved = onNavigateToSaved,
+                onOpenAddressConverter = onOpenAddressConverter
             )
 
             SolveUiState.CameraOpen -> {
@@ -193,7 +197,7 @@ fun SolveScreen(
                 CameraScreen(
                     onPhotoCaptured = { bitmap, contextText ->
                         val uri = bitmap.saveToTempFile(context)?.toString()
-                        viewModel.onIntent(SolveIntent.ImageCaptured(bitmap, uri))
+                        viewModel.onIntent(ImageCaptured(bitmap, uri))
                     },
                     onDismiss = { viewModel.onIntent(SolveIntent.ClearResult) }
                 )
@@ -249,6 +253,8 @@ fun SolveScreen(
                 }
                 Box(modifier = Modifier.fillMaxSize())
             }
+
+            is SolveUiState.AddressResult -> onOpenAddressConverter()
         }
     }
 }
