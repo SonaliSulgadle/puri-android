@@ -49,6 +49,8 @@ sealed interface SolveUiState {
     data object DailyLimitReached : SolveUiState
 
     data class Error(val error: PuriError) : SolveUiState
+
+    data class AddressResult(val result: AddressResult) : SolveUiState
 }
 
 sealed interface SolveUiEffect {
