@@ -24,4 +24,7 @@ sealed class Screen(val route: String) {
         fun createRoute(historyItemId: Long) = "history_detail/$historyItemId"
         const val ARG = "historyItemId"
     }
+
+    data object AddressConverter : Screen("address_converter")
+    data object AddressResult : Screen("address_result")
 }

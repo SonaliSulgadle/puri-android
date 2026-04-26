@@ -228,4 +228,20 @@
     <string name="essential_guides_info">12 essential guides — trash, transit,\\nmedical, appliances and more.</string>
     <string name="korea_flag_emoji">🇰🇷</string>
     <string name="available_offline_label">📴  Available offline</string>
+
+    <string name="address_title">Address Converter</string>
+    <string name="address_result_title">Converted address</string>
+    <string name="address_headline">Convert any Korean address</string>
+    <string name="address_subtitle">Paste any format — get a Naver Map–ready address instantly</string>
+    <string name="address_input_hint">Paste address here…\n\nWorks with: 지번, 도로명, English,\nbuilding names, partial descriptions</string>
+    <string name="address_examples">e.g. 서교동 395-166  •  홍대 스타벅스 옆  •  Hongdae exit 9</string>
+    <string name="address_convert_button">Convert address →</string>
+    <string name="address_converted_label">Naver Map–ready address</string>
+    <string name="address_original_label">Your input</string>
+    <string name="address_copy_button">Copy address</string>
+    <string name="address_open_naver">Open in Naver Map</string>
+    <string name="address_open_browser">Search in browser</string>
+    <string name="address_copied">Address copied to clipboard</string>
+    <string name="address_disclaimer">AI-generated result — always verify important addresses before visiting</string>
+    <string name="address_chip_label">Address converter</string>
 </resources>

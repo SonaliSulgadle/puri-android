@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -13,6 +15,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.puri.app.feature.address.AddressConverterScreen
+import com.puri.app.feature.address.AddressResultScreen
+import com.puri.app.feature.address.AddressViewModel
 import com.puri.app.feature.history.HistoryScreen
 import com.puri.app.feature.history.detail.HistoryDetailScreen
 import com.puri.app.feature.onboarding.OnboardingScreen
@@ -77,6 +82,31 @@ fun PuriNavGraph(
                 onBack = { navController.popBackStack() }
             )
         }
+
+        composable(Screen.AddressConverter.route) {
+            val viewModel: AddressViewModel = hiltViewModel()
+            AddressConverterScreen(
+                onBack = { navController.popBackStack() },
+                onResultReady = {
+                    navController.navigate(Screen.AddressResult.route) {
+                        launchSingleTop = true
+                    }
+                },
+                viewModel = viewModel
+            )
+        }
+
+        composable(Screen.AddressResult.route) {
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry(Screen.AddressConverter.route)
+            }
+            val viewModel: AddressViewModel = hiltViewModel(parentEntry)
+            AddressResultScreen(
+                onBack = { navController.popBackStack() },
+                viewModel = viewModel
+            )
+        }
+
     }
 }
 
@@ -127,6 +157,11 @@ fun MainScaffold(navController: NavHostController) {
                             launchSingleTop = true
                             restoreState = true
                         }
+                    },
+                    onOpenAddressConverter = {
+                        navController.navigate(
+                            Screen.AddressConverter.route
+                        )
                     }
                 )
             }
