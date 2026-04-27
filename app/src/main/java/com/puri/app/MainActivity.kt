@@ -38,42 +38,39 @@ class MainActivity : ComponentActivity() {
             launchViewModel.startDestination.value == null
         }
 
-        // Splash exit animation
         splashScreen.setOnExitAnimationListener { splashScreenView ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                val scaleX = ObjectAnimator.ofFloat(
-                    splashScreenView.iconView, View.SCALE_X, 1f, 1.3f
-                )
-                val scaleY = ObjectAnimator.ofFloat(
-                    splashScreenView.iconView, View.SCALE_Y, 1f, 1.3f
-                )
-                val iconAlpha = ObjectAnimator.ofFloat(
-                    splashScreenView.iconView, View.ALPHA, 1f, 0f
-                )
+                val iconView = splashScreenView.iconView
+
                 val bgAlpha = ObjectAnimator.ofFloat(
                     splashScreenView.view, View.ALPHA, 1f, 0f
-                )
-
-                listOf(scaleX, scaleY, iconAlpha, bgAlpha).forEach { it.duration = 400L }
-                scaleX.interpolator = OvershootInterpolator()
-                scaleY.interpolator = OvershootInterpolator()
-                bgAlpha.interpolator = AccelerateInterpolator()
-
-                bgAlpha.doOnEnd { splashScreenView.remove() }
-
-                AnimatorSet().apply {
-                    playTogether(scaleX, scaleY, iconAlpha, bgAlpha)
-                    start()
+                ).apply {
+                    duration = 350L
+                    interpolator = AccelerateInterpolator()
+                    doOnEnd { splashScreenView.remove() }
                 }
-            } else {
-                // Simple fade for pre-API 31
-                ObjectAnimator
-                    .ofFloat(splashScreenView.view, View.ALPHA, 1f, 0f)
-                    .apply {
-                        duration = 300L
-                        doOnEnd { splashScreenView.remove() }
+
+                if (iconView != null) {
+                    val scaleX = ObjectAnimator.ofFloat(iconView, View.SCALE_X, 1f, 1.3f)
+                        .apply { duration = 350L; interpolator = OvershootInterpolator() }
+                    val scaleY = ObjectAnimator.ofFloat(iconView, View.SCALE_Y, 1f, 1.3f)
+                        .apply { duration = 350L; interpolator = OvershootInterpolator() }
+                    val iconAlpha = ObjectAnimator.ofFloat(iconView, View.ALPHA, 1f, 0f)
+                        .apply { duration = 300L }
+
+                    AnimatorSet().apply {
+                        playTogether(bgAlpha, scaleX, scaleY, iconAlpha)
                         start()
                     }
+                } else {
+                    bgAlpha.start()
+                }
+            } else {
+                ObjectAnimator.ofFloat(splashScreenView.view, View.ALPHA, 1f, 0f).apply {
+                    duration = 300L
+                    doOnEnd { splashScreenView.remove() }
+                    start()
+                }
             }
         }
 
