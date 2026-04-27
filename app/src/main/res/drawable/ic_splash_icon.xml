@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Purple outer ring (drawn as filled annulus: outer circle minus inner) -->
+    <path
+        android:fillColor="#6A37D4"
+        android:pathData="M54,6 C83.3,6 102,24.7 102,54 C102,83.3 83.3,102 54,102 C24.7,102 6,83.3 6,54 C6,24.7 24.7,6 54,6 Z M54,16 C29.1,16 16,29.1 16,54 C16,78.9 29.1,92 54,92 C78.9,92 92,78.9 92,54 C92,29.1 78.9,16 54,16 Z" />
+
+    <!-- Indigo inner filled circle -->
+    <path
+        android:fillColor="#4D51B1"
+        android:pathData="M54,18 C77.7,18 90,30.3 90,54 C90,77.7 77.7,90 54,90 C30.3,90 18,77.7 18,54 C18,30.3 30.3,18 54,18 Z" />
+
+</vector>

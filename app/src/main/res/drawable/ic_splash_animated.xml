@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="108dp"
+            android:height="108dp"
+            android:viewportWidth="108"
+            android:viewportHeight="108">
+
+            <!-- Static background — indigo circle, always visible -->
+            <path
+                android:fillColor="#4D51B1"
+                android:pathData="M54,18 C77.7,18 90,30.3 90,54 C90,77.7 77.7,90 54,90 C30.3,90 18,77.7 18,54 C18,30.3 30.3,18 54,18 Z" />
+
+            <!--
+                Animated outer ring — stroked path, trimPathEnd animates 0→1
+                Using a STROKED circle so trimPathEnd works correctly
+            -->
+            <path
+                android:name="outer_ring"
+                android:fillColor="#00000000"
+                android:pathData="M54,8 C81.6,8 100,26.4 100,54 C100,81.6 81.6,100 54,100 C26.4,100 8,81.6 8,54 C8,26.4 26.4,8 54,8 Z"
+                android:strokeWidth="8"
+                android:strokeColor="#7B61FF"
+                android:trimPathStart="0"
+                android:trimPathEnd="0" />
+
+            <!--
+                풀이 as stroked paths — trimPathEnd animates each stroke
+                Simplified to readable strokes at this size
+            -->
+
+            <!-- Horizontal top of ㅍ -->
+            <path
+                android:name="s1"
+                android:fillColor="#00000000"
+                android:pathData="M38,36 L70,36"
+                android:strokeWidth="5"
+                android:strokeColor="#FFFFFF"
+                android:strokeLineCap="round"
+                android:trimPathEnd="0" />
+
+            <!-- Left vertical of ㅍ -->
+            <path
+                android:name="s2"
+                android:fillColor="#00000000"
+                android:pathData="M38,36 L38,48"
+                android:strokeWidth="5"
+                android:strokeColor="#FFFFFF"
+                android:strokeLineCap="round"
+                android:trimPathEnd="0" />
+
+            <!-- Right vertical of ㅍ -->
+            <path
+                android:name="s3"
+                android:fillColor="#00000000"
+                android:pathData="M70,36 L70,48"
+                android:strokeWidth="5"
+                android:strokeColor="#FFFFFF"
+                android:strokeLineCap="round"
+                android:trimPathEnd="0" />
+
+            <!-- ㅜ horizontal -->
+            <path
+                android:name="s4"
+                android:fillColor="#00000000"
+                android:pathData="M38,50 L70,50"
+                android:strokeWidth="5"
+                android:strokeColor="#FFFFFF"
+                android:strokeLineCap="round"
+                android:trimPathEnd="0" />
+
+            <!-- ㅜ vertical drop -->
+            <path
+                android:name="s5"
+                android:fillColor="#00000000"
+                android:pathData="M54,50 L54,60"
+                android:strokeWidth="5"
+                android:strokeColor="#FFFFFF"
+                android:strokeLineCap="round"
+                android:trimPathEnd="0" />
+
+            <!-- ㄹ — simplified as zigzag -->
+            <path
+                android:name="s6"
+                android:fillColor="#00000000"
+                android:pathData="M38,63 L70,63 L70,69 L38,69 L38,75 L70,75"
+                android:strokeWidth="5"
+                android:strokeColor="#FFFFFF"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"
+                android:trimPathEnd="0" />
+        </vector>
+    </aapt:attr>
+
+    <!-- Outer ring: 0→550ms -->
+    <target android:name="outer_ring">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="550"
+                android:interpolator="@android:interpolator/decelerate_quad"
+                android:propertyName="trimPathEnd"
+                android:valueFrom="0"
+                android:valueTo="1" />
+        </aapt:attr>
+    </target>
+
+    <!-- s1 (ㅍ top): 400→530ms -->
+    <target android:name="s1">
+        <aapt:attr name="android:animation">
+            <set android:ordering="sequentially">
+                <objectAnimator
+                    android:duration="400"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="0" />
+                <objectAnimator
+                    android:duration="130"
+                    android:interpolator="@android:interpolator/decelerate_quad"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="1" />
+            </set>
+        </aapt:attr>
+    </target>
+
+    <!-- s2 (ㅍ left): 500→600ms -->
+    <target android:name="s2">
+        <aapt:attr name="android:animation">
+            <set android:ordering="sequentially">
+                <objectAnimator
+                    android:duration="500"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="0" />
+                <objectAnimator
+                    android:duration="100"
+                    android:interpolator="@android:interpolator/decelerate_quad"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="1" />
+            </set>
+        </aapt:attr>
+    </target>
+
+    <!-- s3 (ㅍ right): 500→600ms -->
+    <target android:name="s3">
+        <aapt:attr name="android:animation">
+            <set android:ordering="sequentially">
+                <objectAnimator
+                    android:duration="500"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="0" />
+                <objectAnimator
+                    android:duration="100"
+                    android:interpolator="@android:interpolator/decelerate_quad"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="1" />
+            </set>
+        </aapt:attr>
+    </target>
+
+    <!-- s4 (ㅜ horiz): 570→670ms -->
+    <target android:name="s4">
+        <aapt:attr name="android:animation">
+            <set android:ordering="sequentially">
+                <objectAnimator
+                    android:duration="570"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="0" />
+                <objectAnimator
+                    android:duration="100"
+                    android:interpolator="@android:interpolator/decelerate_quad"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="1" />
+            </set>
+        </aapt:attr>
+    </target>
+
+    <!-- s5 (ㅜ drop): 630→710ms -->
+    <target android:name="s5">
+        <aapt:attr name="android:animation">
+            <set android:ordering="sequentially">
+                <objectAnimator
+                    android:duration="630"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="0" />
+                <objectAnimator
+                    android:duration="80"
+                    android:interpolator="@android:interpolator/decelerate_quad"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="1" />
+            </set>
+        </aapt:attr>
+    </target>
+
+    <!-- s6 (ㄹ zigzag): 680→800ms -->
+    <target android:name="s6">
+        <aapt:attr name="android:animation">
+            <set android:ordering="sequentially">
+                <objectAnimator
+                    android:duration="680"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="0" />
+                <objectAnimator
+                    android:duration="120"
+                    android:interpolator="@android:interpolator/decelerate_quad"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0"
+                    android:valueTo="1" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>
