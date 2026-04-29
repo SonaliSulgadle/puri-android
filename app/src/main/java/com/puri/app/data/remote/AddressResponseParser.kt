@@ -1,6 +1,5 @@
 package com.puri.app.data.remote
 
-import android.util.Log
 import com.puri.app.domain.model.AddressConfidence
 import com.puri.app.domain.model.AddressResult
 import com.puri.app.domain.model.AddressType
@@ -12,25 +11,17 @@ import javax.inject.Singleton
 class AddressResponseParser @Inject constructor() {
 
     fun parse(rawResponse: String, originalInput: String): AddressResult? {
-        if (rawResponse.isBlank()) return null
-
-        val lines = rawResponse.lines()
-            .map { it.trim() }
-            .filter { it.isNotBlank() }
-
-        Log.d("AddressParser", "Parsing response:\n$rawResponse")
-
+        val lines = rawResponse.lines().map { it.trim() }.filter { it.isNotBlank() }
         val typeRaw = extractField(lines, "TYPE")
-        val normalized = extractField(lines, "NORMALIZED")
+        val normalized = extractField(lines, "NORMALIZED") ?: return null
         val shortForm = extractField(lines, "SHORT")
+        val locationDetail = extractField(lines, "DETAIL")
+            ?.takeIf { it.uppercase() != "NONE" && it.isNotBlank() }
         val confidenceRaw = extractField(lines, "CONFIDENCE")
         val note = extractField(lines, "NOTE")
             ?.takeIf { it.uppercase() != "NONE" && it.isNotBlank() }
 
-        if (normalized.isNullOrBlank()) {
-            Log.w("AddressParser", "No NORMALIZED field found")
-            return null
-        }
+        if (normalized.isBlank()) return null
 
         val displayShort = shortForm?.takeIf { it.isNotBlank() } ?: normalized
         val encoded = URLEncoder.encode(displayShort, "UTF-8")
@@ -40,6 +31,7 @@ class AddressResponseParser @Inject constructor() {
             addressType = parseType(typeRaw),
             normalized = normalized,
             shortForm = displayShort,
+            locationDetail = locationDetail,
             confidence = parseConfidence(confidenceRaw),
             note = note,
             naverMapAppUrl = "nmap://search?query=$encoded&appname=com.puri.app",

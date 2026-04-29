@@ -34,7 +34,7 @@ class GeminiDataSource @Inject constructor(
         additionalContext: String?,
         language: AppLanguage
     ): Resource<SolveResult> = withRetry {
-        val prompt = promptBuilder.buildImagePrompt(additionalContext, language)
+        val prompt = promptBuilder.buildImagePrompt(additionalContext)
         val base64Image = bitmap.toBase64()
 
         val request = GeminiRequest(

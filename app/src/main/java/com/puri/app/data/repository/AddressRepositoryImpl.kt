@@ -10,6 +10,7 @@ import com.puri.app.data.remote.PromptBuilder
 import com.puri.app.data.remote.model.GeminiContent
 import com.puri.app.data.remote.model.GeminiPart
 import com.puri.app.data.remote.model.GeminiRequest
+import com.puri.app.data.remote.model.GenerationConfig
 import com.puri.app.domain.model.AddressResult
 import com.puri.app.domain.repository.AddressRepository
 import kotlinx.coroutines.delay
@@ -27,15 +28,20 @@ class AddressRepositoryImpl @Inject constructor(
         return withRetry(maxAttempts = 2) {
             val prompt = promptBuilder.buildAddressPrompt(rawAddress)
 
+            val request = GeminiRequest(
+                contents = listOf(
+                    GeminiContent(parts = listOf(GeminiPart(text = prompt)))
+                ),
+                generationConfig = GenerationConfig(
+                    temperature = 0f,    // ← deterministic
+                    maxOutputTokens = 300,
+                    topP = 1f,
+                    topK = 1      // greedy decoding
+                )
+            )
             val response = api.generateContent(
                 apiKey = BuildConfig.GEMINI_API_KEY,
-                request = GeminiRequest(
-                    contents = listOf(
-                        GeminiContent(
-                            parts = listOf(GeminiPart(text = prompt))
-                        )
-                    )
-                )
+                request = request
             )
 
             if (!response.isSuccessful) {
