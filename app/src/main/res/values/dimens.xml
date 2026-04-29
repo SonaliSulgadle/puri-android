@@ -39,4 +39,7 @@
 
     <!-- Screen padding -->
     <dimen name="screen_horizontal_padding">20dp</dimen>
+
+    <dimen name="address_input_height">150dp</dimen>
+    <dimen name="icon_button_sm">36dp</dimen>
 </resources>
