@@ -1,10 +1,12 @@
 package com.puri.app.domain.model
 
+// domain/model/AddressResult.kt
 data class AddressResult(
     val original: String,
     val addressType: AddressType,
-    val normalized: String,
-    val shortForm: String,
+    val normalized: String,       // searchable road address
+    val shortForm: String,       // for Naver Map search
+    val locationDetail: String?,      // floor, unit, building name — preserved separately
     val confidence: AddressConfidence,
     val note: String?,
     val naverMapAppUrl: String,  // nmap:// deep link
