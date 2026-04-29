@@ -1,11 +1,6 @@
 package com.puri.app.feature.solve.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -26,14 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
 import com.puri.app.core.ui.components.PuriTopBar
@@ -88,32 +79,7 @@ fun HomeContent(
                 },
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_sm)))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(100.dp))
-                        .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                        .clickable { onOpenAddressConverter() }
-                        .padding(horizontal = 14.dp, vertical = 7.dp)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
-                        Text("📍", style = MaterialTheme.typography.bodySmall)
-                        Text(
-                            text = stringResource(R.string.address_chip_label),
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                }
-            }
+
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xl)))
             SnapAndSolveCard(
                 onCameraClick = onOpenCamera,
@@ -121,6 +87,12 @@ fun HomeContent(
             )
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_lg)))
             SeoulCityGuideCard(onClick = onNavigateToSaved)
+
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
+
+            AddressConverterCard(
+                onClick = onOpenAddressConverter
+            )
             if (state.recentSolves.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
                 RecentSolvesSection(

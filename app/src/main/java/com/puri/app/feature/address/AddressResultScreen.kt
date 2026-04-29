@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -179,6 +180,36 @@ fun AddressResultScreen(
                         ConfidencePill(confidence = result.confidence)
                         Spacer(modifier = Modifier.width(8.dp))
                         AddressTypePill(type = result.addressType)
+                    }
+                }
+            }
+
+            result.locationDetail?.let { detail ->
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_lg)))
+                        .background(IndigoPrimary.copy(alpha = 0.08f))
+                        .padding(dimensionResource(R.dimen.spacing_md)),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_sm))
+                ) {
+                    Text(text = "📍", style = MaterialTheme.typography.bodyLarge)
+                    Column {
+                        Text(
+                            text = stringResource(R.string.address_detail_label),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = IndigoPrimary,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = detail,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontWeight = FontWeight.SemiBold
+                        )
                     }
                 }
             }
