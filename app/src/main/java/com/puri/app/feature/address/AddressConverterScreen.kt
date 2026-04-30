@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -46,6 +47,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -107,7 +109,9 @@ fun AddressConverterScreen(
             )
         },
         snackbarHost = { SnackbarHost(snackbarHost) },
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier
+            .statusBarsPadding()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
         Column(
@@ -199,6 +203,26 @@ fun AddressConverterScreen(
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.55f)
                 )
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
+
+                Text(
+                    text = pluralStringResource(
+                        id = R.plurals.address_converts_remaining,
+                        count = uiState.convertsRemaining,
+                        uiState.convertsRemaining
+                    ),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = when {
+                        uiState.convertsRemaining <= 1 ->
+                            MaterialTheme.colorScheme.error
+
+                        uiState.convertsRemaining <= 2 ->
+                            Color(0xFFE65100)
+
+                        else ->
+                            MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.55f)
+                    }
+                )
 
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
 
@@ -285,7 +309,7 @@ private fun AddressHeroHeader() {
     ) {
         // Decorative emoji
         Text(
-            text = "📍",
+            text = stringResource(R.string.address_pin_emoji),
             fontSize = 100.sp,
             modifier = Modifier.align(Alignment.TopEnd),
             color = Color.White.copy(alpha = 0.06f)

@@ -258,4 +258,5 @@
     </plurals>
 
     <string name="error_address_limit_reached">Daily address conversion limit reached. Resets at midnight.</string>
+    <string name="address_pin_emoji">📍</string>
 </resources>

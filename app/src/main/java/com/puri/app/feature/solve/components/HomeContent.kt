@@ -43,6 +43,7 @@ fun HomeContent(
     onViewAllHistory: () -> Unit,
     onNavigateToSaved: () -> Unit,
     onOpenAddressConverter: () -> Unit,
+    onNavigateToHistoryDetail : (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -97,7 +98,8 @@ fun HomeContent(
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
                 RecentSolvesSection(
                     recentSolves = state.recentSolves,
-                    onViewAll = onViewAllHistory
+                    onViewAll = onViewAllHistory,
+                    onNavigateToHistoryDetail = onNavigateToHistoryDetail
                 )
             } else {
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
@@ -146,7 +148,8 @@ private fun HomeContentPreview() {
             onSubmitQuery = {},
             onViewAllHistory = {},
             onNavigateToSaved = {},
-            onOpenAddressConverter = {}
+            onOpenAddressConverter = {},
+            onNavigateToHistoryDetail = {}
         )
     }
 }
