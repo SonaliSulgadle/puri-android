@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -102,7 +103,9 @@ fun AddressResultScreen(
             )
         },
         snackbarHost = { SnackbarHost(snackbarHost) },
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier
+            .statusBarsPadding()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
         Column(
@@ -196,7 +199,10 @@ fun AddressResultScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_sm))
                 ) {
-                    Text(text = "📍", style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        text = stringResource(R.string.address_pin_emoji),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
                     Column {
                         Text(
                             text = stringResource(R.string.address_detail_label),

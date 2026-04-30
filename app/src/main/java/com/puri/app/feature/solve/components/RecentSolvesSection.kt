@@ -1,7 +1,9 @@
 package com.puri.app.feature.solve.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,27 +26,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.puri.app.R
+import com.puri.app.core.ui.mapper.toChipColor
 import com.puri.app.core.ui.theme.IndigoPrimary
 import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.core.util.DateTimeUtils
 import com.puri.app.domain.model.HistoryItem
 import com.puri.app.util.TestFixtures
-import kotlin.math.ceil
 
 @Composable
 fun RecentSolvesSection(
     recentSolves: List<HistoryItem>,
     onViewAll: () -> Unit,
+    onNavigateToHistoryDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val cardHeight = dimensionResource(R.dimen.recent_solve_card_height)
     val spacing = dimensionResource(R.dimen.spacing_md)
-    val rows = ceil(recentSolves.size / 2.0).toInt()
-    val gridHeight = (cardHeight * rows) + (spacing * (rows - 1).coerceAtLeast(0))
+
+    val leftItems = recentSolves.filterIndexed { index, _ -> index % 2 == 0 }
+    val rightItems = recentSolves.filterIndexed { index, _ -> index % 2 != 0 }
 
     Column(modifier = modifier) {
+        // ── Header ─────────────────────────────────────────────────────
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -63,29 +68,38 @@ fun RecentSolvesSection(
             )
         }
 
-        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
+        Spacer(modifier = Modifier.height(spacing))
 
-        val rows = recentSolves.take(4).chunked(2)
-        rows.forEachIndexed { rowIndex, rowItems ->
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    dimensionResource(R.dimen.spacing_md)
-                ),
-                modifier = Modifier.fillMaxWidth()
+        // ── Two-column staggered ────────────────────────────────────────
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(spacing),
+            verticalAlignment = Alignment.Top   // ← Top alignment — columns grow downward independently
+        ) {
+            // Left column — items 0, 2
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(spacing)
             ) {
-                rowItems.forEach { item ->
+                leftItems.forEach { item ->
                     RecentSolveCard(
                         item = item,
-                        modifier = Modifier.weight(1f)
+                        onClick = { onNavigateToHistoryDetail(item.id) }
                     )
                 }
-                // If only one item in last row, fill remaining space
-                if (rowItems.size == 1) {
-                    Spacer(modifier = Modifier.weight(1f))
-                }
             }
-            if (rowIndex < rows.lastIndex) {
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
+
+            // Right column — items 1, 3
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(spacing)
+            ) {
+                rightItems.forEach { item ->
+                    RecentSolveCard(
+                        item = item,
+                        onClick = { onNavigateToHistoryDetail(item.id) }
+                    )
+                }
             }
         }
     }
@@ -94,10 +108,14 @@ fun RecentSolvesSection(
 @Composable
 private fun RecentSolveCard(
     item: HistoryItem,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val categoryColor = item.solveResult.category.toChipColor()
+
     Card(
-        modifier = modifier,
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(dimensionResource(R.dimen.radius_xl)),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
@@ -105,9 +123,10 @@ private fun RecentSolveCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column {
-            item.solveResult.imageUri?.let { uri ->
+            // ── Visual area ─────────────────────────────────────────────
+            if (item.solveResult.imageUri != null) {
                 AsyncImage(
-                    model = uri,
+                    model = item.solveResult.imageUri,
                     contentDescription = stringResource(R.string.cd_solve_image),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -120,20 +139,48 @@ private fun RecentSolveCard(
                             )
                         )
                 )
+            } else {
+                // Text query — emoji placeholder, shorter than image
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(72.dp)
+                        .clip(
+                            RoundedCornerShape(
+                                topStart = dimensionResource(R.dimen.radius_xl),
+                                topEnd = dimensionResource(R.dimen.radius_xl)
+                            )
+                        )
+                        .background(categoryColor.copy(alpha = 0.12f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = item.solveResult.category.emoji,
+                        fontSize = 28.sp
+                    )
+                }
             }
+
+            // ── Text content ────────────────────────────────────────────
             Column(
                 modifier = Modifier.padding(dimensionResource(R.dimen.spacing_md))
             ) {
                 CategoryChip(category = item.solveResult.category)
+
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xs)))
+
                 Text(
-                    text = item.solveResult.whatThisIs,
+                    text = item.solveResult.whatThisIs.ifBlank {
+                        item.solveResult.inputQuery ?: stringResource(R.string.history_unknown_item)
+                    },
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
+
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xs)))
+
                 Text(
                     text = DateTimeUtils.formatRelativeTimestamp(item.timestamp),
                     style = MaterialTheme.typography.labelSmall,
@@ -144,6 +191,7 @@ private fun RecentSolveCard(
     }
 }
 
+
 @PreviewLightDark
 @Composable
 private fun RecentSolvesSectionPreview() {
@@ -151,10 +199,12 @@ private fun RecentSolvesSectionPreview() {
         RecentSolvesSection(
             recentSolves = listOf(
                 TestFixtures.historyItemToday,
+                TestFixtures.historyItemYesterday,
                 TestFixtures.historyItemToday,
                 TestFixtures.historyItemYesterday,
             ),
             onViewAll = {},
+            onNavigateToHistoryDetail = {},
             modifier = Modifier.padding(dimensionResource(R.dimen.spacing_xl))
         )
     }

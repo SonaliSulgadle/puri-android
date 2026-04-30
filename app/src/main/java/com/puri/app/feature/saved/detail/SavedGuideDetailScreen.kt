@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -73,7 +74,6 @@ import com.puri.app.feature.solve.components.WarningBlock
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SavedGuideDetailScreen(
-    modifier: Modifier = Modifier,
     onBack: () -> Unit,
     viewModel: SavedGuideDetailViewModel = hiltViewModel()
 ) {
@@ -103,7 +103,9 @@ fun SavedGuideDetailScreen(
                 }
             )
         },
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier
+            .statusBarsPadding()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
         when (val state = uiState) {
@@ -131,7 +133,7 @@ fun SavedGuideDetailScreen(
                 SavedGuideDetailContent(
                     guide = state.guide,
                     content = state.content,
-                    modifier = modifier
+                    modifier = Modifier.padding(padding)
                 )
         }
     }
