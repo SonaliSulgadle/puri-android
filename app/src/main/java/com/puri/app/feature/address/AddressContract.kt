@@ -13,7 +13,8 @@ data class AddressUiState(
     val input: String = "",
     val isLoading: Boolean = false,
     val result: AddressResult? = null,
-    val showError: Boolean = false
+    val showError: Boolean = false,
+    val convertsRemaining: Int = 5
 )
 
 sealed interface AddressUiEffect {
