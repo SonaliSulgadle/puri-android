@@ -1,6 +1,8 @@
 package com.puri.app.core.util
 
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
 
@@ -46,4 +48,6 @@ object DateTimeUtils {
             }
         }
     }
+
+    fun todayEpochDay(): Long = LocalDate.now(ZoneId.of("Asia/Seoul")).toEpochDay()
 }
