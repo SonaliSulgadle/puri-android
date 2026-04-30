@@ -9,6 +9,8 @@ import com.puri.app.data.remote.model.GeminiContent
 import com.puri.app.data.remote.model.GeminiPart
 import com.puri.app.data.remote.model.GeminiRequest
 import com.puri.app.data.remote.model.InlineData
+import com.puri.app.data.remote.prompt.ImagePromptBuilder
+import com.puri.app.data.remote.prompt.TextPromptBuilder
 import com.puri.app.domain.model.AppLanguage
 import com.puri.app.domain.model.SolveResult
 import kotlinx.coroutines.delay
@@ -19,7 +21,8 @@ import kotlin.math.pow
 @Singleton
 class GeminiDataSource @Inject constructor(
     private val api: GeminiApi,
-    private val promptBuilder: PromptBuilder,
+    private val imagePromptBuilder: ImagePromptBuilder,
+    private val textPromptBuilder: TextPromptBuilder,
     private val parser: GeminiResponseParser
 ) {
     companion object {
@@ -34,7 +37,7 @@ class GeminiDataSource @Inject constructor(
         additionalContext: String?,
         language: AppLanguage
     ): Resource<SolveResult> = withRetry {
-        val prompt = promptBuilder.buildImagePrompt(additionalContext)
+        val prompt = imagePromptBuilder.build(additionalContext)
         val base64Image = bitmap.toBase64()
 
         val request = GeminiRequest(
@@ -65,7 +68,7 @@ class GeminiDataSource @Inject constructor(
         query: String,
         language: AppLanguage
     ): Resource<SolveResult> = withRetry {
-        val prompt = promptBuilder.buildTextPrompt(query, language)
+        val prompt = textPromptBuilder.build(query, language)
 
         val request = GeminiRequest(
             contents = listOf(
