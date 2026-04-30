@@ -212,7 +212,7 @@ class HistoryViewModelTest {
 
                 val effect = awaitItem()
                 assertThat(effect).isInstanceOf(HistoryUiEffect.NavigateToResult::class.java)
-                assertThat((effect as HistoryUiEffect.NavigateToResult).item.id)
+                assertThat((effect as HistoryUiEffect.NavigateToResult).historyItemId)
                     .isEqualTo(TestFixtures.historyItemToday.id)
 
                 cancelAndIgnoreRemainingEvents()
