@@ -3,8 +3,10 @@ package com.puri.app.feature.address
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.puri.app.R
+import com.puri.app.core.common.PuriError
 import com.puri.app.core.common.Resource
 import com.puri.app.domain.usecase.ConvertAddressUseCase
+import com.puri.app.domain.usecase.address.GetAddressConvertsRemainingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddressViewModel @Inject constructor(
-    private val convertAddressUseCase: ConvertAddressUseCase
+    private val convertAddressUseCase: ConvertAddressUseCase,
+    private val getAddressConvertsRemainingUseCase: GetAddressConvertsRemainingUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddressUiState())
@@ -25,6 +28,14 @@ class AddressViewModel @Inject constructor(
 
     private val _effects = Channel<AddressUiEffect>(Channel.BUFFERED)
     val effects = _effects.receiveAsFlow()
+
+    init {
+        viewModelScope.launch {
+            getAddressConvertsRemainingUseCase().collect { remaining ->
+                _uiState.update { it.copy(convertsRemaining = remaining) }
+            }
+        }
+    }
 
     fun onIntent(intent: AddressIntent) {
         when (intent) {
@@ -67,12 +78,18 @@ class AddressViewModel @Inject constructor(
                 }
 
                 is Resource.Error -> {
-                    _uiState.update {
-                        it.copy(isLoading = false, showError = true)
+                    _uiState.update { it.copy(isLoading = false) }
+                    val messageRes = when (result.error) {
+                        PuriError.AddressLimitReached ->
+                            R.string.error_address_limit_reached
+
+                        PuriError.DailyLimitReached ->
+                            R.string.error_daily_limit_reached
+
+                        else ->
+                            R.string.error_unknown
                     }
-                    _effects.send(
-                        AddressUiEffect.ShowSnackbar(R.string.error_unknown)
-                    )
+                    _effects.send(AddressUiEffect.ShowSnackbar(messageRes))
                 }
 
                 Resource.Loading -> Unit

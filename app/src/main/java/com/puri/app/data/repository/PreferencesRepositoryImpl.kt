@@ -16,11 +16,14 @@ class PreferencesRepositoryImpl @Inject constructor(
     override val appLanguage: Flow<AppLanguage> = puriPreferences.appLanguage
     override val dailySolvesRemaining: Flow<Int> = puriPreferences.dailySolvesRemaining
     override val dailySolvesLimit: Int = PuriPreferences.DAILY_LIMIT
+    override val addressConvertsRemaining: Flow<Int>
+        get() = puriPreferences.addressConvertsRemaining
 
     override suspend fun setFirstLaunchComplete() = puriPreferences.setFirstLaunchComplete()
     override suspend fun setAppLanguage(language: AppLanguage) =
         puriPreferences.setAppLanguage(language)
 
     override suspend fun decrementDailySolves() = puriPreferences.decrementDailySolves()
-    override suspend fun resetDailySolves() = puriPreferences.resetDailySolves()
+    override suspend fun decrementAddressConverts() = puriPreferences.decrementAddressConverts()
+
 }

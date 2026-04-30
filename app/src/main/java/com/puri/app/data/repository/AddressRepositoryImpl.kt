@@ -6,11 +6,11 @@ import com.puri.app.core.common.PuriError
 import com.puri.app.core.common.Resource
 import com.puri.app.data.remote.AddressResponseParser
 import com.puri.app.data.remote.GeminiApi
-import com.puri.app.data.remote.PromptBuilder
 import com.puri.app.data.remote.model.GeminiContent
 import com.puri.app.data.remote.model.GeminiPart
 import com.puri.app.data.remote.model.GeminiRequest
 import com.puri.app.data.remote.model.GenerationConfig
+import com.puri.app.data.remote.prompt.AddressPromptBuilder
 import com.puri.app.domain.model.AddressResult
 import com.puri.app.domain.repository.AddressRepository
 import kotlinx.coroutines.delay
@@ -20,13 +20,13 @@ import javax.inject.Singleton
 @Singleton
 class AddressRepositoryImpl @Inject constructor(
     private val api: GeminiApi,
-    private val promptBuilder: PromptBuilder,
+    private val addressPromptBuilder: AddressPromptBuilder,
     private val parser: AddressResponseParser
 ) : AddressRepository {
 
     override suspend fun convertAddress(rawAddress: String): Resource<AddressResult> {
         return withRetry(maxAttempts = 2) {
-            val prompt = promptBuilder.buildAddressPrompt(rawAddress)
+            val prompt = addressPromptBuilder.build(rawAddress)
 
             val request = GeminiRequest(
                 contents = listOf(

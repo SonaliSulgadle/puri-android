@@ -3,6 +3,7 @@ package com.puri.app.core.common
 sealed class PuriError {
     // Solve errors
     data object DailyLimitReached : PuriError()
+    data object AddressLimitReached : PuriError()
     data object EmptyQuery : PuriError()
     data object ImageTooBlurry : PuriError()
     data object UnsafeContent : PuriError()

@@ -4,7 +4,8 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.puri.app.data.remote.GeminiApi
 import com.puri.app.data.remote.GeminiDataSource
 import com.puri.app.data.remote.GeminiResponseParser
-import com.puri.app.data.remote.PromptBuilder
+import com.puri.app.data.remote.prompt.ImagePromptBuilder
+import com.puri.app.data.remote.prompt.TextPromptBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,17 +67,14 @@ object GeminiModule {
 
     @Provides
     @Singleton
-    fun providePromptBuilder(): PromptBuilder = PromptBuilder()
-
-    @Provides
-    @Singleton
     fun provideGeminiResponseParser(): GeminiResponseParser = GeminiResponseParser()
 
     @Provides
     @Singleton
     fun provideGeminiDataSource(
         api: GeminiApi,
-        promptBuilder: PromptBuilder,
+        imagePromptBuilder: ImagePromptBuilder,
+        textPromptBuilder: TextPromptBuilder,
         parser: GeminiResponseParser
-    ): GeminiDataSource = GeminiDataSource(api, promptBuilder, parser)
+    ): GeminiDataSource = GeminiDataSource(api, imagePromptBuilder, textPromptBuilder, parser)
 }

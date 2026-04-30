@@ -7,6 +7,7 @@ import com.puri.app.core.common.PuriError
 @StringRes
 fun PuriError.toMessageRes(): Int = when (this) {
     PuriError.DailyLimitReached -> R.string.error_daily_limit_reached
+    PuriError.AddressLimitReached -> R.string.error_daily_limit_reached
     PuriError.EmptyQuery -> R.string.error_empty_query
     PuriError.ImageTooBlurry -> R.string.error_image_too_blurry
     PuriError.UnsafeContent -> R.string.error_unsafe_content

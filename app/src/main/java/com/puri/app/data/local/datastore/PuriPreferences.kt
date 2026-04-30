@@ -7,11 +7,11 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.puri.app.core.util.DateTimeUtils.todayEpochDay
 import com.puri.app.domain.model.AppLanguage
+import com.puri.app.domain.model.DailyLimits
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.time.LocalDate
-import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,9 +22,10 @@ class PuriPreferences @Inject constructor(
     companion object {
         private val KEY_FIRST_LAUNCH = booleanPreferencesKey("first_launch")
         private val KEY_APP_LANGUAGE = stringPreferencesKey("app_language")
-        private val KEY_DAILY_SOLVES = intPreferencesKey("daily_solves_remaining")
-        private val KEY_LAST_RESET_DATE = longPreferencesKey("last_reset_date_epoch")
-
+        private val DAILY_SOLVES_REMAINING = intPreferencesKey("daily_solves_remaining")
+        private val DAILY_SOLVES_RESET_DATE = longPreferencesKey("last_reset_date_epoch")
+        val ADDRESS_CONVERTS_REMAINING = intPreferencesKey("address_converts_remaining")
+        val ADDRESS_CONVERTS_RESET_DATE = longPreferencesKey("address_converts_reset_date")
         const val DAILY_LIMIT = 10
     }
 
@@ -36,12 +37,16 @@ class PuriPreferences @Inject constructor(
         AppLanguage.fromCode(prefs[KEY_APP_LANGUAGE] ?: AppLanguage.ENGLISH.code)
     }
 
-    val dailySolvesRemaining: Flow<Int> = dataStore.data.map { prefs ->
-        val lastReset = prefs[KEY_LAST_RESET_DATE] ?: 0L
-        val today = LocalDate.now(ZoneId.of("Asia/Seoul")).toEpochDay()
-        if (lastReset < today) DAILY_LIMIT
-        else prefs[KEY_DAILY_SOLVES] ?: DAILY_LIMIT
-    }
+    val dailySolvesRemaining: Flow<Int> = dataStore.data
+        .map { prefs ->
+            val resetDate = prefs[DAILY_SOLVES_RESET_DATE] ?: 0L
+            val todayEpoch = todayEpochDay()
+            if (resetDate < todayEpoch) {
+                DailyLimits.SNAP_AND_SOLVE
+            } else {
+                prefs[DAILY_SOLVES_REMAINING] ?: DailyLimits.SNAP_AND_SOLVE
+            }
+        }
 
     suspend fun setFirstLaunchComplete() {
         dataStore.edit { it[KEY_FIRST_LAUNCH] = false }
@@ -53,24 +58,44 @@ class PuriPreferences @Inject constructor(
 
     suspend fun decrementDailySolves() {
         dataStore.edit { prefs ->
-            val today = LocalDate.now(ZoneId.of("Asia/Seoul")).toEpochDay()
-            val lastReset = prefs[KEY_LAST_RESET_DATE] ?: 0L
+            val todayEpoch = todayEpochDay()
+            val resetDate = prefs[DAILY_SOLVES_RESET_DATE] ?: 0L
 
-            if (lastReset < today) {
-                // First solve of the day — reset counter then decrement
-                prefs[KEY_DAILY_SOLVES] = DAILY_LIMIT - 1
-                prefs[KEY_LAST_RESET_DATE] = today
+            val current = if (resetDate < todayEpoch) {
+                prefs[DAILY_SOLVES_RESET_DATE] = todayEpoch
+                DailyLimits.SNAP_AND_SOLVE
             } else {
-                val current = prefs[KEY_DAILY_SOLVES] ?: DAILY_LIMIT
-                prefs[KEY_DAILY_SOLVES] = maxOf(0, current - 1)
+                prefs[DAILY_SOLVES_REMAINING] ?: DailyLimits.SNAP_AND_SOLVE
             }
+
+            prefs[DAILY_SOLVES_REMAINING] = (current - 1).coerceAtLeast(0)
         }
     }
 
-    suspend fun resetDailySolves() {
+    val addressConvertsRemaining: Flow<Int> = dataStore.data
+        .map { prefs ->
+            val resetDate = prefs[ADDRESS_CONVERTS_RESET_DATE] ?: 0L
+            val todayEpoch = todayEpochDay()
+            if (resetDate < todayEpoch) {
+                DailyLimits.ADDRESS_CONVERT  // new day — return max
+            } else {
+                prefs[ADDRESS_CONVERTS_REMAINING] ?: DailyLimits.ADDRESS_CONVERT
+            }
+        }
+
+    suspend fun decrementAddressConverts() {
         dataStore.edit { prefs ->
-            prefs[KEY_DAILY_SOLVES] = DAILY_LIMIT
-            prefs[KEY_LAST_RESET_DATE] = LocalDate.now(ZoneId.of("Asia/Seoul")).toEpochDay()
+            val todayEpoch = todayEpochDay()
+            val resetDate = prefs[ADDRESS_CONVERTS_RESET_DATE] ?: 0L
+
+            val current = if (resetDate < todayEpoch) {
+                prefs[ADDRESS_CONVERTS_RESET_DATE] = todayEpoch
+                DailyLimits.ADDRESS_CONVERT
+            } else {
+                prefs[ADDRESS_CONVERTS_REMAINING] ?: DailyLimits.ADDRESS_CONVERT
+            }
+
+            prefs[ADDRESS_CONVERTS_REMAINING] = (current - 1).coerceAtLeast(0)
         }
     }
 }

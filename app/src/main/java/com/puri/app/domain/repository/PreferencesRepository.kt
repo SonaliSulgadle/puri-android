@@ -5,12 +5,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferencesRepository {
     val isFirstLaunch: Flow<Boolean>
-    val appLanguage: Flow<AppLanguage>
+    val appLanguage: Flow<AppLanguage> // V2
     val dailySolvesRemaining: Flow<Int>
     val dailySolvesLimit: Int
+    val addressConvertsRemaining: Flow<Int>
 
     suspend fun setFirstLaunchComplete()
-    suspend fun setAppLanguage(language: AppLanguage)
+    suspend fun setAppLanguage(language: AppLanguage) // V2
     suspend fun decrementDailySolves()
-    suspend fun resetDailySolves()
+    suspend fun decrementAddressConverts()
 }

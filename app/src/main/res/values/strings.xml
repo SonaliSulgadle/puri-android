@@ -245,10 +245,17 @@
     <string name="address_disclaimer">AI-generated result — always verify important addresses before visiting</string>
     <string name="address_chip_label">Address converter</string>
     <string name="address_detail_label">LOCATION DETAIL</string>
-    <string name="address_badge">📍 ADDRESS TOOL</string>
+    <string name="address_badge">ADDRESS TOOL</string>
     <string name="address_card_title">Address not found on Naver Map?</string>
-    <string name="address_card_subtitle">Paste any format — get a searchable Korean address</string>
+    <string name="address_card_subtitle">Paste any format — get a searchable Korean address instantly</string>
     <string name="address_input_label">Paste your address</string>
     <string name="address_converting">Converting…</string>
     <string name="cd_clear">Clear</string>
+
+    <plurals name="address_converts_remaining">
+        <item quantity="one">%d conversion remaining today</item>
+        <item quantity="other">%d conversions remaining today</item>
+    </plurals>
+
+    <string name="error_address_limit_reached">Daily address conversion limit reached. Resets at midnight.</string>
 </resources>

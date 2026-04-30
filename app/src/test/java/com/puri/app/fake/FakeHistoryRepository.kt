@@ -33,4 +33,8 @@ class FakeHistoryRepository : HistoryRepository {
 
     override fun getHistoryItem(id: Long): Flow<HistoryItem?> =
         MutableStateFlow(savedItems.find { it.id == id })
+
+    override suspend fun clearAll() {
+        TODO("Not yet implemented")
+    }
 }
