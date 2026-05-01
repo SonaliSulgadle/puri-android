@@ -162,6 +162,9 @@ fun MainScaffold(navController: NavHostController) {
                         navController.navigate(
                             Screen.AddressConverter.route
                         )
+                    },
+                    onNavigateToHistoryDetail = { historyItemId ->
+                        navController.navigate(Screen.HistoryDetail.createRoute(historyItemId))
                     }
                 )
             }
