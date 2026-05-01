@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.puri.app.R
 import com.puri.app.core.common.PuriError
+import com.puri.app.core.analytics.Analytics
+import com.puri.app.core.analytics.PuriEvent
 import com.puri.app.core.common.Resource
 import com.puri.app.domain.usecase.ConvertAddressUseCase
 import com.puri.app.domain.usecase.address.GetAddressConvertsRemainingUseCase
@@ -21,6 +23,7 @@ import javax.inject.Inject
 class AddressViewModel @Inject constructor(
     private val convertAddressUseCase: ConvertAddressUseCase,
     private val getAddressConvertsRemainingUseCase: GetAddressConvertsRemainingUseCase,
+    private val analytics: Analytics
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddressUiState())
@@ -68,6 +71,13 @@ class AddressViewModel @Inject constructor(
 
             when (val result = convertAddressUseCase(input)) {
                 is Resource.Success -> {
+                    analytics.log(
+                        PuriEvent.AddressConverted(
+                            addressType = result.data.addressType.name.lowercase(),
+                            confidence = result.data.confidence.name.lowercase(),
+                            hasDetail = result.data.locationDetail != null
+                        )
+                    )
                     _uiState.update {
                         it.copy(
                             isLoading = false,

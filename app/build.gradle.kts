@@ -131,6 +131,11 @@ dependencies {
 
     implementation(libs.turbine)
 
+    val firebaseBom = platform(libs.firebase.bom)
+    implementation(firebaseBom)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
+
     // Testing
     testImplementation(libs.junit)
 

@@ -32,7 +32,8 @@ import com.puri.app.R
 import com.puri.app.core.common.saveToTempFile
 import com.puri.app.core.permission.PermissionManager
 import com.puri.app.core.util.HapticUtils
-import com.puri.app.feature.solve.SolveIntent.*
+import com.puri.app.feature.solve.SolveIntent.ImageCaptured
+import com.puri.app.feature.solve.SolveIntent.TextQueryChanged
 import com.puri.app.feature.solve.components.CameraScreen
 import com.puri.app.feature.solve.components.DailyLimitCard
 import com.puri.app.feature.solve.components.HomeContent
@@ -49,6 +50,7 @@ import kotlinx.coroutines.withContext
 fun SolveScreen(
     onNavigateToSaved: () -> Unit,
     onNavigateToHistory: () -> Unit,
+    onNavigateToHistoryDetail: (Long) -> Unit,
     onOpenAddressConverter: () -> Unit,
     viewModel: SolveViewModel = hiltViewModel()
 ) {
@@ -187,7 +189,8 @@ fun SolveScreen(
                 },
                 onViewAllHistory = onNavigateToHistory,
                 onNavigateToSaved = onNavigateToSaved,
-                onOpenAddressConverter = onOpenAddressConverter
+                onOpenAddressConverter = onOpenAddressConverter,
+                onNavigateToHistoryDetail = onNavigateToHistoryDetail
             )
 
             SolveUiState.CameraOpen -> {

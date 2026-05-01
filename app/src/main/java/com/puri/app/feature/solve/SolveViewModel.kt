@@ -3,6 +3,8 @@ package com.puri.app.feature.solve
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.puri.app.R
+import com.puri.app.core.analytics.Analytics
+import com.puri.app.core.analytics.PuriEvent
 import com.puri.app.core.common.PuriError
 import com.puri.app.core.common.Resource
 import com.puri.app.core.common.compressForGemini
@@ -36,7 +38,8 @@ class SolveViewModel @Inject constructor(
     private val solveTextUseCase: SolveTextUseCase,
     private val saveGuideUseCase: SaveGuideUseCase,
     private val getHistoryUseCase: GetHistoryUseCase,
-    private val getDailySolvesRemainingUseCase: GetDailySolvesRemainingUseCase
+    private val getDailySolvesRemainingUseCase: GetDailySolvesRemainingUseCase,
+    private val analytics: Analytics
 ) : ViewModel() {
 
     private val _effects = Channel<SolveUiEffect>(Channel.BUFFERED)
@@ -114,6 +117,7 @@ class SolveViewModel @Inject constructor(
     }
 
     private fun handleImageCaptured(intent: SolveIntent.ImageCaptured) {
+        analytics.log(PuriEvent.SolveStarted("image"))
         viewModelScope.launch {
             _activeState.value = SolveUiState.Loading
 
@@ -136,14 +140,32 @@ class SolveViewModel @Inject constructor(
             if (elapsed < 1500) delay(1500 - elapsed)
 
             when (result) {
-                is Resource.Success -> handleSolveSuccess(result.data)
-                is Resource.Error -> handleSolveError(result.error)
+                is Resource.Success -> {
+                    val duration = System.currentTimeMillis() - startTime
+                    analytics.log(
+                        PuriEvent.SolveCompleted(
+                            type = "image",
+                            category = result.data.category.name.lowercase(),
+                            confidence = result.data.confidenceLevel.name.lowercase(),
+                            durationMs = duration
+                        )
+                    )
+                    handleSolveSuccess(result.data)
+                }
+
+                is Resource.Error -> {
+                    analytics.log(PuriEvent.SolveFailed("image", result.error.javaClass.simpleName))
+                    handleSolveError(result.error)
+                }
+
                 Resource.Loading -> Unit
             }
         }
     }
 
     private fun handleTextQuery() {
+        analytics.log(PuriEvent.SolveStarted("text"))
+        val startTime = System.currentTimeMillis()
         if (currentTextQuery.isBlank()) {
             sendEffect(SolveUiEffect.ShowSnackbar(R.string.error_empty_query))
             return
@@ -155,8 +177,23 @@ class SolveViewModel @Inject constructor(
             val result = solveTextUseCase(currentTextQuery)
 
             when (result) {
-                is Resource.Success -> handleSolveSuccess(result.data)
-                is Resource.Error -> handleSolveError(result.error)
+                is Resource.Success -> {
+                    analytics.log(
+                        PuriEvent.SolveCompleted(
+                            type = "text",
+                            category = result.data.category.name.lowercase(),
+                            confidence = result.data.confidenceLevel.name.lowercase(),
+                            durationMs = System.currentTimeMillis() - startTime
+                        )
+                    )
+                    handleSolveSuccess(result.data)
+                }
+
+                is Resource.Error -> {
+                    analytics.log(PuriEvent.SolveFailed("text", result.error.javaClass.simpleName))
+                    handleSolveError(result.error)
+                }
+
                 Resource.Loading -> Unit
             }
         }
