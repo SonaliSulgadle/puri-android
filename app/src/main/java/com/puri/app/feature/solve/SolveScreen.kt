@@ -30,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
 import com.puri.app.core.common.saveToTempFile
+import com.puri.app.core.common.scaleToSafe
 import com.puri.app.core.permission.PermissionManager
 import com.puri.app.core.util.HapticUtils
 import com.puri.app.feature.solve.SolveIntent.ImageCaptured
@@ -54,23 +55,18 @@ fun SolveScreen(
     onOpenAddressConverter: () -> Unit,
     viewModel: SolveViewModel = hiltViewModel()
 ) {
+    // Single source of truth — no isLoading
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarHost = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    // ── Permission launchers ───────────────────────────────────────────────
     val cameraPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        if (granted) {
-            viewModel.onIntent(SolveIntent.OpenCamera)
-        } else {
-            scope.launch {
-                snackbarHostState.showSnackbar(
-                    context.getString(R.string.permission_camera_denied)
-                )
-            }
+        if (granted) viewModel.onIntent(SolveIntent.OpenCamera)
+        else scope.launch {
+            snackbarHost.showSnackbar(context.getString(R.string.permission_camera_denied))
         }
     }
 
@@ -80,7 +76,7 @@ fun SolveScreen(
         uri ?: return@rememberLauncherForActivityResult
         scope.launch {
             val bitmap = withContext(Dispatchers.IO) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val raw = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     ImageDecoder.decodeBitmap(
                         ImageDecoder.createSource(context.contentResolver, uri)
                     )
@@ -88,26 +84,27 @@ fun SolveScreen(
                     @Suppress("DEPRECATION")
                     MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
                 }
+                // Scale immediately on IO thread — prevents OOM
+                raw.scaleToSafe()
             }
-            viewModel.onIntent(
-                SolveIntent.GalleryImageSelected(bitmap, uri.toString())
-            )
+            viewModel.onIntent(SolveIntent.GalleryImageSelected(bitmap, uri.toString()))
         }
     }
 
-    // ── Effect collection ──────────────────────────────────────────────────
     LaunchedEffect(Unit) {
         viewModel.effects.collectLatest { effect ->
             when (effect) {
-                is SolveUiEffect.ShowSnackbar -> scope.launch {
-                    snackbarHostState.showSnackbar(context.getString(effect.messageRes))
-                }
+                is SolveUiEffect.ShowSnackbar ->
+                    scope.launch {
+                        snackbarHost.showSnackbar(context.getString(effect.messageRes))
+                    }
 
-                SolveUiEffect.ShowSaveConfirmation -> scope.launch {
-                    snackbarHostState.showSnackbar(
-                        context.getString(R.string.solve_saved_confirmation)
-                    )
-                }
+                SolveUiEffect.ShowSaveConfirmation ->
+                    scope.launch {
+                        snackbarHost.showSnackbar(
+                            context.getString(R.string.solve_saved_confirmation)
+                        )
+                    }
 
                 SolveUiEffect.NavigateToHistory -> onNavigateToHistory()
                 SolveUiEffect.TriggerHaptic -> HapticUtils.triggerLight(context)
@@ -115,13 +112,11 @@ fun SolveScreen(
         }
     }
 
-    // ── Camera open helper — called from HomeContent ───────────────────────
     val onOpenCamera: () -> Unit = {
-        if (PermissionManager.hasCameraPermission(context)) {
+        if (PermissionManager.hasCameraPermission(context))
             viewModel.onIntent(SolveIntent.OpenCamera)
-        } else {
+        else
             cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-        }
     }
 
     val onOpenGallery: () -> Unit = {
@@ -130,7 +125,16 @@ fun SolveScreen(
         )
     }
 
-    // ── State rendering ────────────────────────────────────────────────────
+    BackHandler(
+        enabled = uiState !is SolveUiState.Idle
+    ) {
+        when (uiState) {
+            SolveUiState.Loading -> { /* block back during loading */
+            }
+
+            else -> viewModel.onIntent(SolveIntent.ClearResult)
+        }
+    }
 
     AnimatedContent(
         targetState = uiState,
@@ -150,71 +154,62 @@ fun SolveScreen(
         },
         transitionSpec = {
             when {
-                targetState is SolveUiState.Loading -> {
-                    // Camera → Loading: fade in shimmer
-                    fadeIn(tween(200)) togetherWith fadeOut(tween(200))
-                }
-
-                targetState is SolveUiState.Success -> {
-                    // Loading → Success: slide up
+                targetState is SolveUiState.Success ->
                     slideInVertically(tween(400)) { it / 3 } + fadeIn(tween(400)) togetherWith
                             fadeOut(tween(200))
-                }
-                // Any → Idle: fade
-                targetState is SolveUiState.Idle -> {
+
+                targetState is SolveUiState.Idle ->
                     fadeIn(tween(300)) togetherWith fadeOut(tween(200))
-                }
-                // Camera open: slide from bottom
-                targetState is SolveUiState.CameraOpen -> {
+
+                targetState is SolveUiState.CameraOpen ->
                     slideInVertically(tween(350)) { it } + fadeIn(tween(350)) togetherWith
                             fadeOut(tween(200))
-                }
 
-                else -> fadeIn(tween(250)) togetherWith fadeOut(tween(200))
+                targetState is SolveUiState.Loading ->
+                    fadeIn(tween(150)) togetherWith fadeOut(tween(150))
 
+                else ->
+                    fadeIn(tween(250)) togetherWith fadeOut(tween(200))
             }
         },
-        label = "solve_state_transition",
+        label = "solve_state_transition"
     ) { state ->
-
         when (state) {
-            is SolveUiState.Idle -> HomeContent(
-                state = state,
-                snackbarHostState = snackbarHostState,
-                onOpenCamera = onOpenCamera,
-                onOpenGallery = onOpenGallery,
-                onSubmitQuery = {
-                    viewModel.onIntent(TextQueryChanged(it))
-                    viewModel.onIntent(SolveIntent.SubmitTextQuery)
-                },
-                onViewAllHistory = onNavigateToHistory,
-                onNavigateToSaved = onNavigateToSaved,
-                onOpenAddressConverter = onOpenAddressConverter,
-                onNavigateToHistoryDetail = onNavigateToHistoryDetail
-            )
 
-            SolveUiState.CameraOpen -> {
-                BackHandler {
-                    viewModel.onIntent(SolveIntent.ClearResult)
-                }
+            is SolveUiState.Idle ->
+                HomeContent(
+                    state = state,
+                    snackbarHostState = snackbarHost,
+                    onOpenCamera = onOpenCamera,
+                    onOpenGallery = onOpenGallery,
+                    onSubmitQuery = {
+                        viewModel.onIntent(TextQueryChanged(it))
+                        viewModel.onIntent(SolveIntent.SubmitTextQuery)
+                    },
+                    onViewAllHistory = onNavigateToHistory,
+                    onNavigateToSaved = onNavigateToSaved,
+                    onOpenAddressConverter = onOpenAddressConverter,
+                    onNavigateToHistoryDetail = onNavigateToHistoryDetail
+                )
+
+            SolveUiState.Loading ->
+                LoadingContent(modifier = Modifier.fillMaxSize())
+
+            SolveUiState.CameraOpen ->
                 CameraScreen(
-                    onPhotoCaptured = { bitmap, contextText ->
-                        val uri = bitmap.saveToTempFile(context)?.toString()
-                        viewModel.onIntent(ImageCaptured(bitmap, uri))
+                    onPhotoCaptured = { bitmap, _ ->
+                        scope.launch {
+                            val safe = withContext(Dispatchers.Default) {
+                                bitmap.scaleToSafe()
+                            }
+                            val uri = safe.saveToTempFile(context)?.toString()
+                            viewModel.onIntent(ImageCaptured(safe, uri))
+                        }
                     },
                     onDismiss = { viewModel.onIntent(SolveIntent.ClearResult) }
                 )
-            }
 
-            is SolveUiState.Loading -> {
-                BackHandler(enabled = true) { }
-                LoadingContent()
-            }
-
-            is SolveUiState.Success -> {
-                BackHandler {
-                    viewModel.onIntent(SolveIntent.ClearResult)
-                }
+            is SolveUiState.Success ->
                 ResponseCard(
                     result = state.result,
                     isSaved = state.isSaved,
@@ -222,36 +217,33 @@ fun SolveScreen(
                     onSolveAgain = { viewModel.onIntent(SolveIntent.ClearResult) },
                     onBack = { viewModel.onIntent(SolveIntent.ClearResult) }
                 )
-            }
 
-            is SolveUiState.Uncertain -> {
-                BackHandler {
-                    viewModel.onIntent(SolveIntent.Retry)
-                }
+            is SolveUiState.Uncertain ->
                 RetryCard(
                     bitmap = state.bitmap,
                     onRetry = { viewModel.onIntent(SolveIntent.Retry) },
                     onUseSaved = onNavigateToSaved
                 )
-            }
 
-            SolveUiState.UnsafeContent -> UnsafeContentCard(
-                onDismiss = { viewModel.onIntent(SolveIntent.ClearResult) },
-                onCallEmergency = {
-                    context.startActivity(
-                        Intent(Intent.ACTION_DIAL, "tel:119".toUri())
-                    )
-                }
-            )
+            SolveUiState.UnsafeContent ->
+                UnsafeContentCard(
+                    onDismiss = { viewModel.onIntent(SolveIntent.ClearResult) },
+                    onCallEmergency = {
+                        context.startActivity(
+                            Intent(Intent.ACTION_DIAL, "tel:119".toUri())
+                        )
+                    }
+                )
 
-            SolveUiState.DailyLimitReached -> DailyLimitCard(
-                onViewHistory = onNavigateToHistory,
-                onBrowseSaved = onNavigateToSaved
-            )
+            SolveUiState.DailyLimitReached ->
+                DailyLimitCard(
+                    onViewHistory = onNavigateToHistory,
+                    onBrowseSaved = onNavigateToSaved
+                )
 
             is SolveUiState.Error -> {
                 LaunchedEffect(state) {
-                    snackbarHostState.showSnackbar(context.getString(R.string.error_unknown))
+                    snackbarHost.showSnackbar(context.getString(R.string.error_unknown))
                     viewModel.onIntent(SolveIntent.ClearResult)
                 }
                 Box(modifier = Modifier.fillMaxSize())

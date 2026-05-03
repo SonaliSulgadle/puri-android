@@ -19,19 +19,24 @@ import com.puri.app.domain.usecase.SolveImageUseCase
 import com.puri.app.domain.usecase.SolveTextUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.yield
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SolveViewModel @Inject constructor(
     private val solveImageUseCase: SolveImageUseCase,
@@ -47,8 +52,8 @@ class SolveViewModel @Inject constructor(
 
     private var currentTextQuery = ""
     private var additionalContext = ""
+    private var activeJob: Job? = null
 
-    // Non-idle state — null = "show the idle/home screen"
     private val _activeState = MutableStateFlow<SolveUiState?>(null)
 
     private val idleData: StateFlow<SolveUiState.Idle> = combine(
@@ -59,47 +64,72 @@ class SolveViewModel @Inject constructor(
             dailySolvesRemaining = remaining,
             recentSolves = history.take(4)
         )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Eagerly,
-        initialValue = SolveUiState.Idle()
-    )
+    }
+        .distinctUntilChanged()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = SolveUiState.Idle()
+        )
 
-    val uiState: StateFlow<SolveUiState> = combine(
-        _activeState,
-        idleData
-    ) { active, idle ->
-        active ?: idle
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = SolveUiState.Idle()
-    )
+    val uiState: StateFlow<SolveUiState> = _activeState
+        .flatMapLatest { active ->
+            if (active != null) flowOf(active) else idleData
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = SolveUiState.Idle()
+        )
 
     fun onIntent(intent: SolveIntent) {
         when (intent) {
+
             SolveIntent.OpenCamera ->
                 _activeState.value = SolveUiState.CameraOpen
 
             SolveIntent.OpenGallery -> Unit
-            is SolveIntent.ImageCaptured ->
-                handleImageCaptured(intent)
 
-            is SolveIntent.GalleryImageSelected ->
-                handleImageCaptured(SolveIntent.ImageCaptured(intent.bitmap, intent.imageUri))
+            is SolveIntent.ImageCaptured -> {
+                _activeState.value = SolveUiState.Loading
+                activeJob?.cancel()
+                activeJob = viewModelScope.launch {
+                    doImageSolve(intent)
+                }
+            }
+
+            is SolveIntent.GalleryImageSelected -> {
+                _activeState.value = SolveUiState.Loading
+                activeJob?.cancel()
+                activeJob = viewModelScope.launch {
+                    doImageSolve(
+                        SolveIntent.ImageCaptured(intent.bitmap, intent.imageUri)
+                    )
+                }
+            }
 
             is SolveIntent.TextQueryChanged ->
                 currentTextQuery = intent.query
 
-            SolveIntent.SubmitTextQuery ->
-                handleTextQuery()
+            SolveIntent.SubmitTextQuery -> {
+                if (currentTextQuery.isBlank()) {
+                    viewModelScope.launch {
+                        _effects.send(SolveUiEffect.ShowSnackbar(R.string.error_empty_query))
+                    }
+                    return
+                }
+                _activeState.value = SolveUiState.Loading
+                activeJob?.cancel()
+                activeJob = viewModelScope.launch {
+                    doTextSolve()
+                }
+            }
 
             SolveIntent.Retry,
-            SolveIntent.ClearResult ->
-                returnToIdle()
+            SolveIntent.ClearResult -> returnToIdle()
 
             SolveIntent.SaveResult ->
-                handleSaveResult()
+                viewModelScope.launch { doSaveResult() }
 
             is SolveIntent.AdditionalContextChanged ->
                 additionalContext = intent.context
@@ -111,91 +141,87 @@ class SolveViewModel @Inject constructor(
     }
 
     private fun returnToIdle() {
+        activeJob?.cancel()
+        activeJob = null
         additionalContext = ""
         currentTextQuery = ""
-        _activeState.value = null  // null → combine shows idleData
+        _activeState.value = null
     }
 
-    private fun handleImageCaptured(intent: SolveIntent.ImageCaptured) {
+
+    private suspend fun doImageSolve(intent: SolveIntent.ImageCaptured) {
+        _effects.send(SolveUiEffect.TriggerHaptic)
         analytics.log(PuriEvent.SolveStarted("image"))
-        viewModelScope.launch {
-            _activeState.value = SolveUiState.Loading
 
-            // Step 2: Haptic feedback
-            sendEffect(SolveUiEffect.TriggerHaptic)
-            yield()
+        val startTime = System.currentTimeMillis()
 
-            val compressed = withContext(Dispatchers.Default) {
-                intent.bitmap.compressForGemini()
+        val compressed = withContext(Dispatchers.Default) {
+            intent.bitmap.compressForGemini().also { result ->
+                if (result !== intent.bitmap && !intent.bitmap.isRecycled) {
+                    intent.bitmap.recycle()
+                }
             }
+        }
 
-            val startTime = System.currentTimeMillis()
-            val result = solveImageUseCase(
-                bitmap = compressed,
-                imageUri = intent.imageUri,
-                additionalContext = additionalContext.ifBlank { null }
-            )
+        val result = solveImageUseCase(
+            bitmap = compressed,
+            imageUri = intent.imageUri,
+            additionalContext = additionalContext.ifBlank { null }
+        )
 
-            val elapsed = System.currentTimeMillis() - startTime
-            if (elapsed < 1500) delay(1500 - elapsed)
+        val elapsed = System.currentTimeMillis() - startTime
+        if (elapsed < 1500L) delay(1500L - elapsed)
 
-            when (result) {
-                is Resource.Success -> {
-                    val duration = System.currentTimeMillis() - startTime
-                    analytics.log(
-                        PuriEvent.SolveCompleted(
-                            type = "image",
-                            category = result.data.category.name.lowercase(),
-                            confidence = result.data.confidenceLevel.name.lowercase(),
-                            durationMs = duration
-                        )
+        when (result) {
+            is Resource.Success -> {
+                analytics.log(
+                    PuriEvent.SolveCompleted(
+                        type = "image",
+                        category = result.data.category.name.lowercase(),
+                        confidence = result.data.confidenceLevel.name.lowercase(),
+                        durationMs = System.currentTimeMillis() - startTime
                     )
-                    handleSolveSuccess(result.data)
-                }
-
-                is Resource.Error -> {
-                    analytics.log(PuriEvent.SolveFailed("image", result.error.javaClass.simpleName))
-                    handleSolveError(result.error)
-                }
-
-                Resource.Loading -> Unit
+                )
+                handleSolveSuccess(result.data)
             }
+
+            is Resource.Error -> {
+                analytics.log(PuriEvent.SolveFailed("image", result.error.javaClass.simpleName))
+                handleSolveError(result.error)
+            }
+
+            Resource.Loading -> Unit
         }
     }
 
-    private fun handleTextQuery() {
+    private suspend fun doTextSolve() {
         analytics.log(PuriEvent.SolveStarted("text"))
         val startTime = System.currentTimeMillis()
-        if (currentTextQuery.isBlank()) {
-            sendEffect(SolveUiEffect.ShowSnackbar(R.string.error_empty_query))
-            return
-        }
-        viewModelScope.launch {
-            _activeState.value = SolveUiState.Loading
-            yield()
 
-            val result = solveTextUseCase(currentTextQuery)
+        val result = solveTextUseCase(currentTextQuery)
 
-            when (result) {
-                is Resource.Success -> {
-                    analytics.log(
-                        PuriEvent.SolveCompleted(
-                            type = "text",
-                            category = result.data.category.name.lowercase(),
-                            confidence = result.data.confidenceLevel.name.lowercase(),
-                            durationMs = System.currentTimeMillis() - startTime
-                        )
+        val elapsed = System.currentTimeMillis() - startTime
+        if (elapsed < 800L) delay(800L - elapsed)
+
+        when (result) {
+            is Resource.Success -> {
+                analytics.log(
+                    PuriEvent.SolveCompleted(
+                        type = "text",
+                        category = result.data.category.name.lowercase(),
+                        confidence = result.data.confidenceLevel.name.lowercase(),
+                        durationMs = System.currentTimeMillis() - startTime
                     )
-                    handleSolveSuccess(result.data)
-                }
-
-                is Resource.Error -> {
-                    analytics.log(PuriEvent.SolveFailed("text", result.error.javaClass.simpleName))
-                    handleSolveError(result.error)
-                }
-
-                Resource.Loading -> Unit
+                )
+                handleSolveSuccess(result.data)
             }
+
+            is Resource.Error -> {
+                analytics.log(PuriEvent.SolveFailed("text", result.error.javaClass.simpleName))
+                handleSolveError(result.error)
+            }
+
+            Resource.Loading -> Unit
         }
     }
 
@@ -219,30 +245,29 @@ class SolveViewModel @Inject constructor(
         }
     }
 
-    private fun handleSaveResult() {
+    private suspend fun doSaveResult() {
         val state = _activeState.value as? SolveUiState.Success ?: return
-        viewModelScope.launch {
-            val guide = SavedGuide(
-                title = state.result.whatThisIs,
-                description = state.result.description,
-                guideKey = null,
-                category = state.result.category,
-                solveResult = state.result,
-                isPreBundled = false,
-                isFeatured = false,
-                imageUri = state.result.imageUri
-            )
-            when (saveGuideUseCase(guide)) {
-                is Resource.Success -> {
-                    _activeState.value = state.copy(isSaved = true)
-                    sendEffect(SolveUiEffect.ShowSaveConfirmation)
-                }
-
-                is Resource.Error ->
-                    sendEffect(SolveUiEffect.ShowSnackbar(R.string.error_unknown))
-
-                Resource.Loading -> Unit
+        val guide = SavedGuide(
+            title = state.result.whatThisIs,
+            description = state.result.description,
+            guideKey = null,
+            category = state.result.category,
+            solveResult = state.result,
+            isPreBundled = false,
+            isFeatured = false,
+            imageUri = state.result.imageUri
+        )
+        when (saveGuideUseCase(guide)) {
+            is Resource.Success -> {
+                _activeState.value = state.copy(isSaved = true)
+                _effects.send(SolveUiEffect.ShowSaveConfirmation)
+                analytics.log(PuriEvent.ResultSaved(state.result.category.name.lowercase()))
             }
+
+            is Resource.Error ->
+                _effects.send(SolveUiEffect.ShowSnackbar(R.string.error_unknown))
+
+            Resource.Loading -> Unit
         }
     }
 }

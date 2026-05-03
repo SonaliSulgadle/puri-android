@@ -1,7 +1,6 @@
 package com.puri.app.feature.solve.components
 
 import androidx.compose.animation.core.EaseInOut
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -33,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -51,23 +49,11 @@ fun SnapAndSolveCard(
     onGalleryClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Animated shimmer sweep across the card
-    val shimmerTransition = rememberInfiniteTransition(label = "card_shimmer")
-    val shimmerX by shimmerTransition.animateFloat(
-        initialValue = -600f,
-        targetValue = 1200f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "shimmer_x"
-    )
 
-    // Camera button pulse
     val pulseTransition = rememberInfiniteTransition(label = "camera_pulse")
     val pulseScale by pulseTransition.animateFloat(
         initialValue = 1f,
-        targetValue = 1.06f,
+        targetValue = 1.04f,
         animationSpec = infiniteRepeatable(
             animation = tween(1200, easing = EaseInOut),
             repeatMode = RepeatMode.Reverse
@@ -83,28 +69,12 @@ fun SnapAndSolveCard(
         )
     )
 
-    val shimmerBrush = Brush.linearGradient(
-        colors = listOf(
-            Color.White.copy(alpha = 0f),
-            Color.White.copy(alpha = 0.06f),
-            Color.White.copy(alpha = 0f)
-        ),
-        start = Offset(shimmerX - 300f, 0f),
-        end = Offset(shimmerX + 300f, 400f)
-    )
-
     Box(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_xl)))
             .background(cardGradient)
     ) {
-        // Shimmer overlay
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .background(shimmerBrush)
-        )
 
         // Decorative background element — large Korean character
         Text(
