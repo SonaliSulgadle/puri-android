@@ -38,6 +38,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
+import com.puri.app.core.analytics.LocalAnalytics
+import com.puri.app.core.analytics.PuriEvent
+import com.puri.app.core.analytics.ScreenNames
+import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.theme.GradientSnapEnd
 import com.puri.app.core.ui.theme.GradientSnapStart
 import com.puri.app.core.ui.theme.PuriTheme
@@ -55,9 +59,16 @@ fun OnboardingScreen(
     onFinished: () -> Unit,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
+    TrackScreen(ScreenNames.ONBOARDING)
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(pageCount = { uiState.totalPages })
     val scope = rememberCoroutineScope()
+
+    val analytics = LocalAnalytics.current
+    LaunchedEffect(pagerState.currentPage) {
+        analytics.log(PuriEvent.OnboardingPageViewed(pagerState.currentPage))
+    }
 
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }

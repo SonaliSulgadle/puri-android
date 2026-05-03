@@ -57,6 +57,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
+import com.puri.app.core.analytics.ScreenNames
+import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.GradientSnapEnd
 import com.puri.app.core.ui.theme.GradientSnapStart
@@ -71,6 +73,8 @@ fun AddressConverterScreen(
     onResultReady: () -> Unit,
     viewModel: AddressViewModel = hiltViewModel()
 ) {
+    TrackScreen(ScreenNames.ADDRESS_CONVERTER)
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHost = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()

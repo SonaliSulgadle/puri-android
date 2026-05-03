@@ -31,6 +31,8 @@ kotlinxSerialization = "1.7.3"
 kotlinxSerializationConverter = "1.0.0"
 turbine = "1.1.0"
 firebaseBom = "33.7.0"
+firebase="3.0.2"
+google="4.4.2"
 
 [libraries]
 # Core
@@ -122,3 +124,5 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "androidJunit5" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google"}
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase" }

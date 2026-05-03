@@ -2,6 +2,7 @@ package com.puri.app.feature.solve
 
 import android.graphics.Bitmap
 import app.cash.turbine.test
+import com.puri.app.core.analytics.Analytics
 import com.puri.app.core.common.PuriError
 import com.puri.app.core.common.Resource
 import com.puri.app.domain.model.ConfidenceLevel
@@ -43,6 +44,7 @@ class SolveViewModelTest {
 
     private val mockBitmap: Bitmap = mockk(relaxed = true)
 
+    private val analytics = mockk<Analytics>(relaxed = true)
     private lateinit var viewModel: SolveViewModel
 
     @BeforeEach
@@ -66,7 +68,8 @@ class SolveViewModelTest {
             solveTextUseCase = solveTextUseCase,
             saveGuideUseCase = saveGuideUseCase,
             getHistoryUseCase = getHistoryUseCase,
-            getDailySolvesRemainingUseCase = getDailySolvesRemainingUseCase
+            getDailySolvesRemainingUseCase = getDailySolvesRemainingUseCase,
+            analytics = analytics
         )
     }
 
@@ -98,7 +101,7 @@ class SolveViewModelTest {
             coEvery { getDailySolvesRemainingUseCase() } returns flowOf(7)
             viewModel = SolveViewModel(
                 solveImageUseCase, solveTextUseCase, saveGuideUseCase,
-                getHistoryUseCase, getDailySolvesRemainingUseCase
+                getHistoryUseCase, getDailySolvesRemainingUseCase, analytics
             )
             advanceUntilIdle()
             val state = viewModel.uiState.value as SolveUiState.Idle
@@ -112,7 +115,7 @@ class SolveViewModelTest {
                     flowOf(listOf(TestFixtures.historyItemToday, TestFixtures.historyItemYesterday))
             viewModel = SolveViewModel(
                 solveImageUseCase, solveTextUseCase, saveGuideUseCase,
-                getHistoryUseCase, getDailySolvesRemainingUseCase
+                getHistoryUseCase, getDailySolvesRemainingUseCase, analytics
             )
             advanceUntilIdle()
             val state = viewModel.uiState.value as SolveUiState.Idle
@@ -425,7 +428,7 @@ class SolveViewModelTest {
             coEvery { getHistoryUseCase() } returns flowOf(sixItems)
             viewModel = SolveViewModel(
                 solveImageUseCase, solveTextUseCase, saveGuideUseCase,
-                getHistoryUseCase, getDailySolvesRemainingUseCase
+                getHistoryUseCase, getDailySolvesRemainingUseCase, analytics
             )
             advanceUntilIdle()
 

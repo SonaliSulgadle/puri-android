@@ -27,6 +27,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
+import com.puri.app.core.analytics.FeatureNames
+import com.puri.app.core.analytics.LocalAnalytics
+import com.puri.app.core.analytics.PuriEvent
+import com.puri.app.core.analytics.ScreenNames
+import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.feature.solve.SolveUiState
@@ -43,9 +48,12 @@ fun HomeContent(
     onViewAllHistory: () -> Unit,
     onNavigateToSaved: () -> Unit,
     onOpenAddressConverter: () -> Unit,
-    onNavigateToHistoryDetail : (Long) -> Unit,
+    onNavigateToHistoryDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val analytics = LocalAnalytics.current
+    TrackScreen(ScreenNames.HOME)
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Scaffold(
@@ -92,7 +100,11 @@ fun HomeContent(
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
 
             AddressConverterCard(
-                onClick = onOpenAddressConverter
+                onClick = {
+                    analytics.log(PuriEvent.AddressConverterOpened)
+                    analytics.log(PuriEvent.FeatureDiscovered(FeatureNames.ADDRESS_CONVERTER))
+                    onOpenAddressConverter()
+                }
             )
             if (state.recentSolves.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))

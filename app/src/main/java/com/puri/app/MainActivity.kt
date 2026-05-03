@@ -14,18 +14,25 @@ import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
+import com.puri.app.core.analytics.Analytics
+import com.puri.app.core.analytics.LocalAnalytics
 import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.feature.launch.LaunchViewModel
 import com.puri.app.navigation.PuriNavGraph
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var analytics: Analytics
 
     private val launchViewModel: LaunchViewModel by viewModels()
 
@@ -84,12 +91,14 @@ class MainActivity : ComponentActivity() {
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
-                    startDestination?.let { destination ->
-                        val navController = rememberNavController()
-                        PuriNavGraph(
-                            navController = navController,
-                            startDestination = destination
-                        )
+                    CompositionLocalProvider(LocalAnalytics provides analytics) {
+                        startDestination?.let { destination ->
+                            val navController = rememberNavController()
+                            PuriNavGraph(
+                                navController = navController,
+                                startDestination = destination
+                            )
+                        }
                     }
                 }
             }

@@ -30,6 +30,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
+import com.puri.app.core.analytics.ScreenNames
+import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.IndigoPrimary
 import com.puri.app.core.ui.theme.PuriTheme
@@ -48,6 +50,8 @@ fun SavedScreen(
     onNavigateToDetail: (Long) -> Unit,
     viewModel: SavedViewModel = hiltViewModel()
 ) {
+    TrackScreen(ScreenNames.SAVED_GUIDES)
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 

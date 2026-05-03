@@ -12,23 +12,22 @@ import javax.inject.Singleton
 @Singleton
 class Analytics @Inject constructor() {
 
-    private val firebase: FirebaseAnalytics by lazy { Firebase.analytics }
+    private val firebase: FirebaseAnalytics by lazy {
+        Firebase.analytics
+    }
 
     fun log(event: PuriEvent) {
-        val params = buildBundle(event)
-
         if (BuildConfig.DEBUG) {
-            Log.d("PuriAnalytics", "📊 ${event.name} | ${bundleToString(params)}")
-            firebase.logEvent(event.name, params)
+            Log.d("PuriAnalytics", "📊 ${event.name} params=${buildBundle(event)}")
             return
         }
-
-        firebase.logEvent(event.name, params)
+        firebase.logEvent(event.name, buildBundle(event))
     }
 
     fun setScreen(screenName: String) {
         if (BuildConfig.DEBUG) {
             Log.d("PuriAnalytics", "📱 Screen: $screenName")
+            return
         }
         firebase.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, Bundle().apply {
             putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)

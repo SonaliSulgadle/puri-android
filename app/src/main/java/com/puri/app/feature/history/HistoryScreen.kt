@@ -57,6 +57,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
+import com.puri.app.core.analytics.ScreenNames
+import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.IndigoPrimary
 import com.puri.app.core.ui.theme.PuriTheme
@@ -73,6 +75,8 @@ fun HistoryScreen(
     onNavigateToDetail: (Long) -> Unit,
     viewModel: HistoryViewModel = hiltViewModel()
 ) {
+    TrackScreen(ScreenNames.HISTORY)
+
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }

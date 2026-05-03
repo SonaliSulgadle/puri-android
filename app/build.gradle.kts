@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.junit5)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.kotlinx.serialization)
 }
 
@@ -69,6 +71,9 @@ android {
         arg("room.schemaLocation", "$projectDir/schemas")
         arg("room.incremental", "true")
         arg("room.generateKotlin", "true")
+    }
+    androidResources {
+        noCompress += "json"
     }
 }
 
