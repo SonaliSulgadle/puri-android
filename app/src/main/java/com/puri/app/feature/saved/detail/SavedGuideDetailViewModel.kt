@@ -4,6 +4,9 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.puri.app.core.analytics.Analytics
+import com.puri.app.core.analytics.FeatureNames
+import com.puri.app.core.analytics.PuriEvent
 import com.puri.app.data.guides.GuideContentLoader
 import com.puri.app.domain.usecase.GetSavedGuidesUseCase
 import com.puri.app.navigation.Screen
@@ -21,7 +24,8 @@ import javax.inject.Inject
 class SavedGuideDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getSavedGuidesUseCase: GetSavedGuidesUseCase,
-    private val guideContentLoader: GuideContentLoader
+    private val guideContentLoader: GuideContentLoader,
+    private val analytics: Analytics
 ) : ViewModel() {
 
     private val guideId: Long = checkNotNull(
@@ -57,4 +61,14 @@ class SavedGuideDetailViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = SavedGuideDetailUiState.Loading
         )
+
+    init {
+        analytics.log(
+            PuriEvent.GuideOpened(
+                guideKey = guideId.toString(),
+                isPreBundled = true
+            )
+        )
+        analytics.log(PuriEvent.FeatureDiscovered(FeatureNames.GUIDE_DETAIL))
+    }
 }

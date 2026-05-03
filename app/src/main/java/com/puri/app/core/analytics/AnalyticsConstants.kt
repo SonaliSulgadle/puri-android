@@ -18,4 +18,7 @@ object FeatureNames {
     const val OFFLINE_GUIDE = "offline_guide"
     const val SNAP_AND_SOLVE = "snap_and_solve"
     const val TEXT_SOLVE = "text_solve"
+    const val GALLERY_SOLVE = "gallery_solve"
+    const val GUIDE_DETAIL = "guide_detail"
+    const val HISTORY_DETAIL = "history_detail"
 }

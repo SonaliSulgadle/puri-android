@@ -45,3 +45,27 @@ fun Bitmap.saveToTempFile(context: Context): Uri? = try {
 } catch (e: Exception) {
     null
 }
+
+/**
+ * Scales bitmap down to safe size for Gemini API.
+ * Gemini accepts up to 1568px on longest side.
+ * Target: ~1024px longest side = ~4MB uncompressed = safe for all devices.
+ *
+ * Also handles the OOM case where the original bitmap is already huge.
+ * Recycles original bitmap after scaling.
+ */
+fun Bitmap.scaleToSafe(maxLongestSide: Int = 1024): Bitmap {
+    val longestSide = maxOf(width, height)
+    if (longestSide <= maxLongestSide) return this  // already safe
+
+    val scale = maxLongestSide.toFloat() / longestSide
+    val newWidth = (width * scale).toInt()
+    val newHeight = (height * scale).toInt()
+
+    val scaled = this.scale(newWidth, newHeight)
+
+    // Recycle original immediately to free the ~170MB
+    if (scaled !== this) recycle()
+
+    return scaled
+}

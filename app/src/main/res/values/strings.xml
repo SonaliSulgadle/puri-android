@@ -29,6 +29,7 @@
 
     <!-- Errors -->
     <string name="error_empty_query">Please enter a question first.</string>
+    <string name="error_empty_address">Please enter a address first.</string>
     <string name="error_daily_limit_reached">You\'ve used all 10 daily solves. Come back tomorrow!</string>
     <string name="error_image_too_blurry">This image is too blurry. Try a clearer photo.</string>
     <string name="error_unsafe_content">For safety, please contact a professional or call 119.</string>
