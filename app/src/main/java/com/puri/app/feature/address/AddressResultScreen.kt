@@ -42,6 +42,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -60,6 +61,10 @@ import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
+import com.puri.app.core.analytics.LocalAnalytics
+import com.puri.app.core.analytics.PuriEvent
+import com.puri.app.core.analytics.ScreenNames
+import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.IndigoPrimary
 import com.puri.app.domain.model.AddressConfidence
@@ -72,6 +77,9 @@ fun AddressResultScreen(
     onBack: () -> Unit,
     viewModel: AddressViewModel = hiltViewModel()
 ) {
+    val analytics = LocalAnalytics.current
+    TrackScreen(ScreenNames.ADDRESS_RESULT)
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHost = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -80,11 +88,10 @@ fun AddressResultScreen(
 
     BackHandler { onBack() }
 
-    // If result is null (e.g. back navigation), go back
-    val result = uiState.result ?: run {
-        onBack()
-        return
+    LaunchedEffect(uiState.result) {
+        if (uiState.result == null) onBack()
     }
+    val result = uiState.result ?: return
 
     Scaffold(
         topBar = {
@@ -254,6 +261,7 @@ fun AddressResultScreen(
                             context.getString(R.string.address_copied)
                         )
                     }
+                    analytics.log(PuriEvent.AddressCopied)
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(100.dp),
@@ -278,6 +286,7 @@ fun AddressResultScreen(
             // Open in Naver Map (app) — secondary
             OutlinedButton(
                 onClick = {
+                    analytics.log(PuriEvent.AddressOpenedNaver)
                     val naverIntent = Intent(Intent.ACTION_VIEW).apply {
                         data = result.naverMapAppUrl.toUri()
                         setPackage("com.nhn.android.nmap")

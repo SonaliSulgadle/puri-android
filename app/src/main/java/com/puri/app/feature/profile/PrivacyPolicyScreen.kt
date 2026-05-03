@@ -27,6 +27,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import com.puri.app.R
+import com.puri.app.core.analytics.ScreenNames
+import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.IndigoPrimary
 
@@ -35,6 +37,8 @@ private const val PRIVACY_POLICY_URL = "https://sonalisulgadle.github.io/puri-pr
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrivacyPolicyScreen(onBack: () -> Unit) {
+    TrackScreen(ScreenNames.PRIVACY_POLICY)
+
     var webView by remember { mutableStateOf<WebView?>(null) }
     var isLoading by remember { mutableStateOf(true) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -93,6 +97,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                         loadUrl(PRIVACY_POLICY_URL)
                     }
                 },
+                onRelease = { webView -> webView.destroy() },
                 modifier = Modifier.fillMaxSize()
             )
 

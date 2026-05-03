@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -45,16 +46,18 @@ class ProfileViewModel @Inject constructor(
                 getDailySolvesRemainingUseCase()
             ) { history, saved, remaining ->
                 Triple(history, saved, remaining)
-            }.collect { (history, saved, remaining) ->
-                _uiState.update { current ->
-                    current.copy(
-                        todaySolves = 10 - remaining,
-                        dailyLimit = 10,
-                        totalSolves = history.size,
-                        totalSaved = saved.count { !it.isPreBundled }
-                    )
-                }
             }
+                .distinctUntilChanged()
+                .collect { (history, saved, remaining) ->
+                    _uiState.update { current ->
+                        current.copy(
+                            todaySolves = 10 - remaining,
+                            dailyLimit = 10,
+                            totalSolves = history.size,
+                            totalSaved = saved.count { !it.isPreBundled }
+                        )
+                    }
+                }
         }
     }
 

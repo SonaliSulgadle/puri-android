@@ -3,13 +3,14 @@ package com.puri.app.feature.address
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.puri.app.R
-import com.puri.app.core.common.PuriError
 import com.puri.app.core.analytics.Analytics
 import com.puri.app.core.analytics.PuriEvent
+import com.puri.app.core.common.PuriError
 import com.puri.app.core.common.Resource
 import com.puri.app.domain.usecase.ConvertAddressUseCase
 import com.puri.app.domain.usecase.address.GetAddressConvertsRemainingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,6 +26,8 @@ class AddressViewModel @Inject constructor(
     private val getAddressConvertsRemainingUseCase: GetAddressConvertsRemainingUseCase,
     private val analytics: Analytics
 ) : ViewModel() {
+
+    private var convertJob: Job? = null
 
     private val _uiState = MutableStateFlow(AddressUiState())
     val uiState: StateFlow<AddressUiState> = _uiState.asStateFlow()
@@ -61,12 +64,13 @@ class AddressViewModel @Inject constructor(
         val input = _uiState.value.input.trim()
         if (input.isBlank()) {
             viewModelScope.launch {
-                _effects.send(AddressUiEffect.ShowSnackbar(R.string.error_empty_query))
+                _effects.send(AddressUiEffect.ShowSnackbar(R.string.error_empty_address))
             }
             return
         }
+        convertJob?.cancel()
 
-        viewModelScope.launch {
+        convertJob = viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, showError = false) }
 
             when (val result = convertAddressUseCase(input)) {

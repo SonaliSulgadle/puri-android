@@ -58,6 +58,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.puri.app.R
+import com.puri.app.core.analytics.ScreenNames
+import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.mapper.toChipColor
 import com.puri.app.core.ui.theme.IndigoPrimary
@@ -77,6 +79,8 @@ fun HistoryDetailScreen(
     onBack: () -> Unit,
     viewModel: HistoryDetailViewModel = hiltViewModel()
 ) {
+    TrackScreen(ScreenNames.HISTORY_DETAIL)
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 

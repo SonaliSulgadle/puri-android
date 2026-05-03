@@ -44,6 +44,8 @@ import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
+import com.puri.app.core.analytics.ScreenNames
+import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.feature.profile.components.LocalDataCard
@@ -62,6 +64,8 @@ fun ProfileScreen(
     onNavigateToPrivacyPolicy: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    TrackScreen(ScreenNames.PROFILE)
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
