@@ -16,6 +16,7 @@ val localProperties = Properties().apply {
     val localPropsFile = rootProject.file("local.properties")
     if (localPropsFile.exists()) load(localPropsFile.inputStream())
 }
+
 android {
     namespace = "com.puri.app"
     compileSdk = 36
@@ -28,56 +29,110 @@ android {
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
 
         buildConfigField(
-            "String",
-            "GEMINI_API_KEY",
+            "String", "GEMINI_API_KEY",
             "\"${localProperties.getProperty("GEMINI_API_KEY", "")}\""
         )
     }
 
-    buildTypes {
-        debug {
-            isDebuggable = true
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
-        }
-        release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    buildFeatures {
-        compose = true
-        buildConfig = true
-    }
-    testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
-        }
-    }
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
         arg("room.incremental", "true")
         arg("room.generateKotlin", "true")
     }
+
+    signingConfigs {
+        create("release") {
+            storeFile = localProperties.getProperty("KEYSTORE_PATH")?.let { file(it) }
+            storePassword = localProperties.getProperty("KEYSTORE_PASSWORD")
+            keyAlias = localProperties.getProperty("KEY_ALIAS")
+            keyPassword = localProperties.getProperty("KEY_PASSWORD")
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            isDebuggable = true
+            isMinifyEnabled = false
+
+            buildConfigField(
+                "String", "GEMINI_API_KEY",
+                "\"${
+                    localProperties.getProperty(
+                        "GEMINI_API_KEY_DEBUG",
+                        localProperties.getProperty("GEMINI_API_KEY", "")
+                    )
+                }\""
+            )
+        }
+
+        release {
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+
+            signingConfig = signingConfigs.getByName("release")
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
+    }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+            optIn.addAll(
+                "androidx.compose.material3.ExperimentalMaterial3Api",
+                "androidx.compose.foundation.ExperimentalFoundationApi",
+                "androidx.compose.foundation.layout.ExperimentalLayoutApi",
+                "kotlinx.coroutines.ExperimentalCoroutinesApi"
+            )
+        }
+    }
+
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
+
+    packaging {
+        resources {
+            excludes += setOf(
+                "/META-INF/{AL2.0,LGPL2.1}",
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md"
+            )
+        }
+        jniLibs.useLegacyPackaging = false
+    }
+
     androidResources {
         noCompress += "json"
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            all { it.useJUnitPlatform() }
+        }
     }
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+
     // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.splashscreen)
@@ -88,23 +143,23 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.activity.compose)
 
-    // Compose BOM — version controlled from catalog
-    val composeBom = platform(libs.compose.bom)
-    implementation(composeBom)
+    // Compose BOM
+    implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
+    implementation(libs.material.icons)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
 
-    // Hilt DI
+    // Navigation
+    implementation(libs.navigation.compose)
+
+    // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
-
-    // Navigation
-    implementation(libs.navigation.compose)
 
     // Room
     implementation(libs.room.runtime)
@@ -126,37 +181,33 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.android)
 
-    implementation(libs.material.icons)
-
+    // Network
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.turbine)
-
-    val firebaseBom = platform(libs.firebase.bom)
-    implementation(firebaseBom)
-    implementation(libs.firebase.crashlytics)
+    // Firebase
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.auth)
 
     // Testing
     testImplementation(libs.junit)
-
     testImplementation(libs.coroutines.test)
-
     testImplementation(libs.junit5.api)
     testImplementation(libs.junit5.params)
+    testImplementation(libs.mockk)
+    testImplementation(libs.assertj)
+    testImplementation(libs.turbine)
     testRuntimeOnly(libs.junit5.engine)
     testRuntimeOnly(libs.junit.platform.launcher)
 
-    testImplementation(libs.mockk)
-    testImplementation(libs.assertj)
-
-    androidTestImplementation(libs.junit.android)      // JUnit4 runner for instrumentation
-    androidTestImplementation(libs.espresso.core)      // UI testing
-    androidTestImplementation(libs.room.testing)       // MigrationTestHelper
-    androidTestImplementation(libs.hilt.android.testing)  // Hilt in tests
+    androidTestImplementation(libs.junit.android)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.room.testing)
+    androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.compiler)
 }
