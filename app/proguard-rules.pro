@@ -1,80 +1,116 @@
-# ── Kotlin ────────────────────────────────────────────
--keep class kotlin.** { *; }
--keep class kotlinx.** { *; }
--dontwarn kotlin.**
+# ════════════════════════════════════════════════════════
+# PURI — ProGuard Rules
+# Last updated: V1 release
+# ════════════════════════════════════════════════════════
 
-# ── Coroutines ────────────────────────────────────────
+# ── GENERAL ATTRIBUTES ───────────────────────────────────────────────────────
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepattributes InnerClasses
+-keepattributes SourceFile,LineNumberTable
+# Rename to SourceFile so stack traces show file names not "Unknown Source"
+-renamesourcefileattribute SourceFile
+
+# ── KOTLIN ───────────────────────────────────────────────────────────────────
+# Kotlin metadata for reflection-based libraries (Hilt, serialization)
+-keep class kotlin.Metadata { *; }
+-keep class kotlin.reflect.** { *; }
+-dontwarn kotlin.**
+# Kotlin coroutines internals — for dispatcher resolution at runtime
 -keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
 -keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
+-keepclassmembers class kotlinx.coroutines.** { volatile <fields>; }
 -dontwarn kotlinx.coroutines.**
 
-# ── Hilt / Dagger ─────────────────────────────────────
+# ── KOTLINX SERIALIZATION ────────────────────────────────────────────────────
+-dontnote kotlinx.serialization.AnnotationsKt
+-keepclassmembers class kotlinx.serialization.json.** { *** Companion; }
+# Keep serializer() method on all @Serializable classes
+-keepclasseswithmembers class ** {
+    @kotlinx.serialization.Serializable <methods>;
+}
+# Keep the generated serializer infrastructure for every @Serializable class
+-keep @kotlinx.serialization.Serializable class * {
+    *** Companion;
+    static ** $serializer;
+    static ** INSTANCE;
+}
+-keepclassmembers @kotlinx.serialization.Serializable class * {
+    *** Companion;
+    kotlinx.serialization.KSerializer serializer(...);
+    private *** $$delegate_0;
+}
+
+# ── RETROFIT ─────────────────────────────────────────────────────────────────
+-keep class retrofit2.** { *; }
+-keep interface retrofit2.** { *; }
+-dontwarn retrofit2.**
+# Keep all @retrofit2.http.* annotated methods (GET, POST, etc.)
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+# Retrofit's Response/Call generics need signature info
+-keepattributes Exceptions
+
+# ── OKHTTP ───────────────────────────────────────────────────────────────────
+-keep class okhttp3.** { *; }
+-dontwarn okhttp3.**
+-dontwarn okio.**
+# OkHttp's internal platform detection uses reflection
+-keep class okhttp3.internal.platform.** { *; }
+
+# ── HILT / DAGGER ────────────────────────────────────────────────────────────
 -keep class dagger.hilt.** { *; }
 -keep class javax.inject.** { *; }
 -keep @dagger.hilt.android.HiltAndroidApp class * { *; }
 -keep @dagger.hilt.InstallIn class * { *; }
 -keep @dagger.hilt.android.AndroidEntryPoint class * { *; }
+-keep @dagger.hilt.android.lifecycle.HiltViewModel class * extends androidx.lifecycle.ViewModel { *; }
+-keep class **_HiltModules { *; }
+-keep class **_HiltModules$* { *; }
+-keep class *_ComponentTreeDeps { *; }
+-keep class *_HiltComponents { *; }
 
-# ── Room ──────────────────────────────────────────────
--keep class * extends androidx.room.RoomDatabase
+# ── ROOM ─────────────────────────────────────────────────────────────────────
+-keep class * extends androidx.room.RoomDatabase { *; }
 -keep @androidx.room.Entity class * { *; }
 -keep @androidx.room.Dao interface * { *; }
+-keep @androidx.room.Database class * { *; }
+# TypeConverters are called via reflection
+-keep class * extends androidx.room.TypeConverter { *; }
 -dontwarn androidx.room.**
 
-# ── Gemini AI SDK ─────────────────────────────────────
--keep class com.google.ai.client.generativeai.** { *; }
--dontwarn com.google.ai.client.generativeai.**
+# ── FIREBASE ─────────────────────────────────────────────────────────────────
+-keep class com.google.firebase.** { *; }
+-keep class com.google.android.gms.** { *; }
+-dontwarn com.google.firebase.**
+-dontwarn com.google.android.gms.**
+# Crashlytics needs class names to be preserved for stack trace symbolication
+-keep public class * extends java.lang.Exception
 
-# ── Retrofit / OkHttp (used internally by Gemini SDK) ─
--dontwarn okhttp3.**
--dontwarn retrofit2.**
--keep class okhttp3.** { *; }
-
-# ── Coil ──────────────────────────────────────────────
--dontwarn coil.**
-
-# ── DataStore ─────────────────────────────────────────
--keep class androidx.datastore.** { *; }
-
-# ── Compose ───────────────────────────────────────────
--keep class androidx.compose.** { *; }
--dontwarn androidx.compose.**
-
-# ── Domain models — never obfuscate these ─────────────
-# They get serialized/deserialized via Room and DataStore
+# ── PURI DATA MODELS ─────────────────────────────────────────────────────────
 -keep class com.puri.app.domain.model.** { *; }
 -keep class com.puri.app.data.local.db.** { *; }
-
-# ── Puri Application ──────────────────────────────────
--keep class com.puri.app.PuriApplication { *; }
-
-# Retrofit
--keepattributes Signature
--keepattributes *Annotation*
--keep class retrofit2.** { *; }
--dontwarn retrofit2.**
-
-# OkHttp
--keep class okhttp3.** { *; }
--dontwarn okhttp3.**
--dontwarn okio.**
-
-# Kotlinx Serialization
--keepattributes *Annotation*, InnerClasses
--dontnote kotlinx.serialization.AnnotationsKt
--keepclassmembers class kotlinx.serialization.json.** { *** Companion; }
--keepclasseswithmembers class kotlinx.serialization.** {
-    kotlinx.serialization.KSerializer serializer(...);
-}
-
-# Keep all Gemini request/response models — serialization needs field names
--keep @kotlinx.serialization.Serializable class * { *; }
--keepclassmembers @kotlinx.serialization.Serializable class * {
-    *** Companion;
-    *** serialVersionUID;
-    static ** $serializer;
-    private *** $$delegate_0;
-}
-
-# Puri data models
 -keep class com.puri.app.data.remote.model.** { *; }
+-keep class com.puri.app.data.guides.** { *; }
+
+# ── COIL ─────────────────────────────────────────────────────────────────────
+-dontwarn coil.**
+-keep class coil.** { *; }
+
+# ── COMPOSE ──────────────────────────────────────────────────────────────────
+-keep class androidx.compose.** { *; }
+-dontwarn androidx.compose.**
+-keep class androidx.compose.ui.tooling.** { *; }
+
+# ── DATASTORE ────────────────────────────────────────────────────────────────
+-keep class androidx.datastore.** { *; }
+-dontwarn androidx.datastore.**
+
+# ── CAMERAX ──────────────────────────────────────────────────────────────────
+-keep class androidx.camera.** { *; }
+-dontwarn androidx.camera.**
+
+# ── APPLICATION CLASS ─────────────────────────────────────────────────────────
+-keep class com.puri.app.PuriApplication { *; }
+-keep class com.puri.app.BuildConfig { *; }
