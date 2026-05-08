@@ -36,7 +36,6 @@ fun PuriTopBar(
         navigationIcon = navigationIcon,
         actions = { actions() },
         scrollBehavior = scrollBehavior,
-        windowInsets = WindowInsets(0.dp),
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.surface,
             scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,

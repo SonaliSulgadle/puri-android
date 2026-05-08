@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AccelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -45,38 +44,36 @@ class MainActivity : ComponentActivity() {
             launchViewModel.startDestination.value == null
         }
 
-        splashScreen.setOnExitAnimationListener { splashScreenView ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (savedInstanceState == null) {
+            splashScreen.setOnExitAnimationListener { splashScreenView ->
                 val iconView = splashScreenView.iconView
-
-                val bgAlpha = ObjectAnimator.ofFloat(
-                    splashScreenView.view, View.ALPHA, 1f, 0f
-                ).apply {
-                    duration = 350L
-                    interpolator = AccelerateInterpolator()
-                    doOnEnd { splashScreenView.remove() }
+                if (iconView == null) {
+                    splashScreenView.remove()
+                    return@setOnExitAnimationListener
                 }
-
-                if (iconView != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     val scaleX = ObjectAnimator.ofFloat(iconView, View.SCALE_X, 1f, 1.3f)
-                        .apply { duration = 350L; interpolator = OvershootInterpolator() }
                     val scaleY = ObjectAnimator.ofFloat(iconView, View.SCALE_Y, 1f, 1.3f)
-                        .apply { duration = 350L; interpolator = OvershootInterpolator() }
                     val iconAlpha = ObjectAnimator.ofFloat(iconView, View.ALPHA, 1f, 0f)
-                        .apply { duration = 300L }
-
+                    val bgAlpha = ObjectAnimator.ofFloat(splashScreenView.view, View.ALPHA, 1f, 0f)
+                    listOf(scaleX, scaleY, iconAlpha, bgAlpha).forEach { it.duration = 400L }
+                    scaleX.interpolator = OvershootInterpolator()
+                    scaleY.interpolator = OvershootInterpolator()
+                    bgAlpha.doOnEnd { splashScreenView.remove() }
                     AnimatorSet().apply {
-                        playTogether(bgAlpha, scaleX, scaleY, iconAlpha)
-                        start()
+                        playTogether(
+                            scaleX,
+                            scaleY,
+                            iconAlpha,
+                            bgAlpha
+                        ); start()
                     }
                 } else {
-                    bgAlpha.start()
-                }
-            } else {
-                ObjectAnimator.ofFloat(splashScreenView.view, View.ALPHA, 1f, 0f).apply {
-                    duration = 300L
-                    doOnEnd { splashScreenView.remove() }
-                    start()
+                    ObjectAnimator.ofFloat(splashScreenView.view, View.ALPHA, 1f, 0f).apply {
+                        duration = 300L
+                        doOnEnd { splashScreenView.remove() }
+                        start()
+                    }
                 }
             }
         }

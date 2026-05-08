@@ -65,7 +65,6 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
             )
         },
         modifier = Modifier
-            .statusBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { padding ->
         Box(
