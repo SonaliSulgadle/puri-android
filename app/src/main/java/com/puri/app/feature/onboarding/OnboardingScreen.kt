@@ -45,6 +45,7 @@ import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.theme.GradientSnapEnd
 import com.puri.app.core.ui.theme.GradientSnapStart
 import com.puri.app.core.ui.theme.PuriTheme
+import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.feature.onboarding.components.ImageToTextDemo
 import com.puri.app.feature.onboarding.components.OfflineGuidesDemo
 import com.puri.app.feature.onboarding.components.OnboardingDots
@@ -90,6 +91,7 @@ fun OnboardingScreen(
             }
         }
     }
+    StatusBarIconColor(darkIcons = false)
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -202,7 +204,6 @@ private fun OnboardingPageContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .statusBarsPadding()
                 .padding(
                     horizontal = dimensionResource(R.dimen.screen_horizontal_padding),
                     vertical = 32.dp

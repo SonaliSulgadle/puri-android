@@ -108,7 +108,6 @@ fun HistoryDetailScreen(
             )
         },
         modifier = Modifier
-            .statusBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.background
     ) { padding ->

@@ -111,7 +111,6 @@ fun AddressResultScreen(
         },
         snackbarHost = { SnackbarHost(snackbarHost) },
         modifier = Modifier
-            .statusBarsPadding()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
