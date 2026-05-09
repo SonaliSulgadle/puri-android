@@ -74,13 +74,16 @@ android {
             isDebuggable = false
             isMinifyEnabled = true
             isShrinkResources = true
-
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
             signingConfig = signingConfigs.getByName("release")
+
+            buildConfigField(
+                "String", "GEMINI_API_KEY",
+                "\"${localProperties.getProperty("GEMINI_API_KEY", "")}\""
+            )
         }
     }
 
