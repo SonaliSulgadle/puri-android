@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -67,6 +68,7 @@ import com.puri.app.core.analytics.ScreenNames
 import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.domain.model.AddressConfidence
 import com.puri.app.domain.model.AddressType
 import kotlinx.coroutines.launch
@@ -92,6 +94,10 @@ fun AddressResultScreen(
         if (uiState.result == null) onBack()
     }
     val result = uiState.result ?: return
+
+
+    val isDark = isSystemInDarkTheme()
+    StatusBarIconColor(darkIcons = !isDark)
 
     Scaffold(
         topBar = {
