@@ -37,15 +37,34 @@ import com.puri.app.core.ui.theme.IndigoPrimary
 import com.puri.app.core.ui.theme.PuriTheme
 import kotlinx.coroutines.delay
 
-private val loadingMessages = listOf(
-    R.string.loading_message_1,
-    R.string.loading_message_2,
-    R.string.loading_message_3,
-    R.string.loading_message_4
-)
+enum class LoadingType {
+    IMAGE,  // Snap & Solve — analysing photo
+    TEXT    // Ask anything — finding answer
+}
 
 @Composable
-fun LoadingContent(modifier: Modifier = Modifier) {
+fun LoadingContent(
+    type: LoadingType = LoadingType.IMAGE,
+    modifier: Modifier = Modifier
+) {
+    val loadingMessages = remember(type) {
+        when (type) {
+            LoadingType.IMAGE -> listOf(
+                R.string.loading_image_1,
+                R.string.loading_image_2,
+                R.string.loading_image_3,
+                R.string.loading_image_4
+            )
+
+            LoadingType.TEXT -> listOf(
+                R.string.loading_text_1,
+                R.string.loading_text_2,
+                R.string.loading_text_3,
+                R.string.loading_text_4
+            )
+        }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         ShimmerResponseCard()
 
@@ -54,13 +73,13 @@ fun LoadingContent(modifier: Modifier = Modifier) {
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 120.dp)
         ) {
-            LoadingPill()
+            LoadingPill(loadingMessages)
         }
     }
 }
 
 @Composable
-private fun LoadingPill() {
+private fun LoadingPill(loadingMessages: List<Int>) {
     var messageIndex by remember { mutableIntStateOf(0) }
     LaunchedEffect(Unit) {
         while (true) {

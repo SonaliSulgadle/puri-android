@@ -20,10 +20,16 @@
     <string name="home_greeting">Good morning</string>
     <string name="home_tagline">What can I help you solve today?</string>
 
-    <string name="loading_message_1">Analysing your photo…</string>
-    <string name="loading_message_2">Checking Korean context…</string>
-    <string name="loading_message_3">Preparing your guide…</string>
-    <string name="loading_message_4">Almost ready…</string>
+    <!-- strings.xml -->
+    <string name="loading_image_1">Reading Korean text…</string>
+    <string name="loading_image_2">Analysing what this is…</string>
+    <string name="loading_image_3">Checking Korean guidelines…</string>
+    <string name="loading_image_4">Almost ready…</string>
+
+    <string name="loading_text_1">Finding the answer…</string>
+    <string name="loading_text_2">Checking Korean guidelines…</string>
+    <string name="loading_text_3">Looking this up…</string>
+    <string name="loading_text_4">Almost ready…</string>
 
     <string name="home_choose_gallery">Choose from Gallery</string>
 

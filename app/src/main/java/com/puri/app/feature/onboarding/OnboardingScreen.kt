@@ -10,16 +10,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.puri.app.R
 import com.puri.app.core.analytics.LocalAnalytics
 import com.puri.app.core.analytics.PuriEvent
@@ -45,7 +47,6 @@ import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.theme.GradientSnapEnd
 import com.puri.app.core.ui.theme.GradientSnapStart
 import com.puri.app.core.ui.theme.PuriTheme
-import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.feature.onboarding.components.ImageToTextDemo
 import com.puri.app.feature.onboarding.components.OfflineGuidesDemo
 import com.puri.app.feature.onboarding.components.OnboardingDots
@@ -91,8 +92,20 @@ fun OnboardingScreen(
             }
         }
     }
-    StatusBarIconColor(darkIcons = false)
 
+    val systemUiController = rememberSystemUiController()
+    DisposableEffect(Unit) {
+        systemUiController.setStatusBarColor(
+            color = Color.Transparent,
+            darkIcons = false  // white icons on dark background
+        )
+        onDispose {
+            systemUiController.setStatusBarColor(
+                color = Color.Transparent,
+                darkIcons = true  // dark icons for main app (light theme)
+            )
+        }
+    }
     Box(modifier = Modifier.fillMaxSize()) {
 
         HorizontalPager(

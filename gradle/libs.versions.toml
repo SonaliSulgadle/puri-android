@@ -34,6 +34,7 @@ firebaseBom = "33.7.0"
 firebase-crashlytics = "3.0.2"
 google-services = "4.4.2"
 desugar = "2.1.4"
+accompanist-systemuicontroller = "0.34.0"
 
 [libraries]
 # Core
@@ -119,6 +120,8 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
 
 desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugar"  }
+
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist-systemuicontroller" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

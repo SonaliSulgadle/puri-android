@@ -24,10 +24,15 @@
     <string name="home_tagline">오늘은 무엇을 도와드릴까요?</string>
 
     <!-- Loading -->
-    <string name="loading_message_1">사진을 분석하고 있어요…</string>
-    <string name="loading_message_2">한국 관련 정보를 확인하고 있어요…</string>
-    <string name="loading_message_3">가이드를 준비하고 있어요…</string>
-    <string name="loading_message_4">거의 다 됐어요…</string>
+    <string name="loading_image_1">한국어 텍스트 읽는 중…</string>
+    <string name="loading_image_2">분석 중…</string>
+    <string name="loading_image_3">한국 기준 확인 중…</string>
+    <string name="loading_image_4">거의 완료…</string>
+
+    <string name="loading_text_1">답변 찾는 중…</string>
+    <string name="loading_text_2">한국 기준 확인 중…</string>
+    <string name="loading_text_3">알아보는 중…</string>
+    <string name="loading_text_4">거의 완료…</string>
 
     <!-- Errors -->
     <string name="error_empty_query">질문을 입력해주세요.</string>
