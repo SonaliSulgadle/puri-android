@@ -17,6 +17,7 @@ import com.puri.app.domain.usecase.GetHistoryUseCase
 import com.puri.app.domain.usecase.SaveGuideUseCase
 import com.puri.app.domain.usecase.SolveImageUseCase
 import com.puri.app.domain.usecase.SolveTextUseCase
+import com.puri.app.feature.solve.components.LoadingType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,6 +27,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -53,6 +55,9 @@ class SolveViewModel @Inject constructor(
     private var currentTextQuery = ""
     private var additionalContext = ""
     private var activeJob: Job? = null
+
+    private val _loadingType = MutableStateFlow(LoadingType.IMAGE)
+    val loadingType: StateFlow<LoadingType> = _loadingType.asStateFlow()
 
     private val _activeState = MutableStateFlow<SolveUiState?>(null)
 
@@ -91,6 +96,7 @@ class SolveViewModel @Inject constructor(
             SolveIntent.OpenGallery -> Unit
 
             is SolveIntent.ImageCaptured -> {
+                _loadingType.value = LoadingType.IMAGE
                 _activeState.value = SolveUiState.Loading
                 activeJob?.cancel()
                 activeJob = viewModelScope.launch {
@@ -118,6 +124,7 @@ class SolveViewModel @Inject constructor(
                     }
                     return
                 }
+                _loadingType.value = LoadingType.TEXT
                 _activeState.value = SolveUiState.Loading
                 activeJob?.cancel()
                 activeJob = viewModelScope.launch {

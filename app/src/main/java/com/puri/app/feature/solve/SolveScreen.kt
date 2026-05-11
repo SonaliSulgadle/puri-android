@@ -60,6 +60,7 @@ fun SolveScreen(
     val context = LocalContext.current
     val snackbarHost = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val loadingType by viewModel.loadingType.collectAsStateWithLifecycle()
 
     val cameraPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -193,7 +194,10 @@ fun SolveScreen(
                 )
 
             SolveUiState.Loading ->
-                LoadingContent(modifier = Modifier.fillMaxSize())
+                LoadingContent(
+                    type = loadingType,
+                    modifier = Modifier.fillMaxSize()
+                )
 
             SolveUiState.CameraOpen ->
                 CameraScreen(
