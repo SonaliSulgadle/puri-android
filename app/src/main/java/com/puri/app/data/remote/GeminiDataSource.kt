@@ -8,12 +8,14 @@ import com.puri.app.core.common.toBase64
 import com.puri.app.data.remote.model.GeminiContent
 import com.puri.app.data.remote.model.GeminiPart
 import com.puri.app.data.remote.model.GeminiRequest
+import com.puri.app.data.remote.model.GeminiResponse
 import com.puri.app.data.remote.model.InlineData
 import com.puri.app.data.remote.prompt.ImagePromptBuilder
 import com.puri.app.data.remote.prompt.TextPromptBuilder
 import com.puri.app.domain.model.AppLanguage
 import com.puri.app.domain.model.SolveResult
 import kotlinx.coroutines.delay
+import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.pow
@@ -87,7 +89,7 @@ class GeminiDataSource @Inject constructor(
     }
 
     private fun parseResponse(
-        response: retrofit2.Response<com.puri.app.data.remote.model.GeminiResponse>,
+        response: Response<GeminiResponse>,
         imageUri: String?,
         inputQuery: String?
     ): Resource<SolveResult> {
@@ -161,6 +163,7 @@ class GeminiDataSource @Inject constructor(
     private fun classifyException(e: Exception): PuriError {
         val message = e.message?.lowercase() ?: ""
         return when {
+
             message.contains("quota") ||
                     message.contains("429") -> PuriError.ApiError(429)
 
@@ -171,6 +174,10 @@ class GeminiDataSource @Inject constructor(
             message.contains("network") ||
                     message.contains("resolve") ||
                     message.contains("connect") -> PuriError.NoInternet
+
+            e is java.net.SocketTimeoutException ||
+                    message.contains("timeout") ||
+                    message.contains("timed out") -> PuriError.Timeout
 
             else -> PuriError.Unknown(e)
         }
