@@ -1,6 +1,8 @@
 package com.puri.app.feature.solve.components
 
 import android.graphics.Bitmap
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
 import androidx.camera.view.PreviewView
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -26,6 +28,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,7 +49,11 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.viewinterop.AndroidView
 import com.puri.app.R
 import com.puri.app.core.camera.CameraManager
+import com.puri.app.core.common.fixRotationFromDisplay
+import com.puri.app.core.common.scaleToSafe
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun CameraScreen(
@@ -58,22 +65,33 @@ fun CameraScreen(
     val scope = rememberCoroutineScope()
     var additionalContext by remember { mutableStateOf("") }
     var isCapturing by remember { mutableStateOf(false) }
+    var captureError by remember { mutableStateOf<String?>(null) }
 
     val cameraManager = remember { CameraManager(context) }
     val previewView = remember { PreviewView(context) }
 
-    LaunchedEffect(Unit) {
-        cameraManager.startCamera(lifecycleOwner, previewView)
+    // Start camera — restart if lifecycleOwner changes
+    LaunchedEffect(lifecycleOwner) {
+        try {
+            cameraManager.startCamera(lifecycleOwner, previewView)
+        } catch (e: Exception) {
+            // Camera failed to start — notify and dismiss
+            captureError = "Camera failed to start. Please try again."
+        }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            cameraManager.release()
+        }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // ── Camera viewfinder ──────────────────────────────────────────
         AndroidView(
             factory = { previewView },
             modifier = Modifier.fillMaxSize()
         )
 
-        // ── Top gradient for control visibility ───────────────────────
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -85,7 +103,6 @@ fun CameraScreen(
                 )
         )
 
-        // ── Close button ───────────────────────────────────────────────
         IconButton(
             onClick = onDismiss,
             modifier = Modifier
@@ -99,7 +116,6 @@ fun CameraScreen(
             )
         }
 
-        // ── Hint ───────────────────────────────────────────────────────
         Text(
             text = stringResource(R.string.camera_hint),
             style = MaterialTheme.typography.bodyMedium,
@@ -109,7 +125,24 @@ fun CameraScreen(
                 .padding(top = dimensionResource(R.dimen.spacing_xl) * 2)
         )
 
-        // ── Bottom controls ────────────────────────────────────────────
+        // Show capture error as overlay if something went wrong
+        captureError?.let { error ->
+            Box(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(dimensionResource(R.dimen.spacing_xl))
+                    .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_xl)))
+                    .background(Color.Black.copy(alpha = 0.7f))
+                    .padding(dimensionResource(R.dimen.spacing_lg))
+            ) {
+                Text(
+                    text = error,
+                    color = Color.White,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
+
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -144,17 +177,51 @@ fun CameraScreen(
                 isCapturing = isCapturing,
                 onClick = {
                     if (!isCapturing) {
+                        captureError = null
                         scope.launch {
+                            isCapturing = true
                             try {
-                                isCapturing = true
                                 val bitmap = cameraManager.capturePhoto()
+
+                                // Fix rotation on background thread
+                                // CameraX sensors often return images rotated 90° when phone
+                                // is held portrait — the sensor is physically landscape
+                                val corrected = withContext(Dispatchers.Default) {
+                                    bitmap.fixRotationFromDisplay(
+                                        cameraManager.getSensorRotation()
+                                    ).scaleToSafe()
+                                }
+
                                 onPhotoCaptured(
-                                    bitmap,
+                                    corrected,
                                     additionalContext.ifBlank { null }
                                 )
-                            } finally {
-                                isCapturing = false
                                 onDismiss()
+                            } catch (e: ImageCaptureException) {
+                                // CameraX-specific capture failure
+                                // Common causes: camera in use by another app,
+                                // insufficient storage, hardware error
+                                captureError = when (e.imageCaptureError) {
+                                    ImageCapture.ERROR_CAMERA_CLOSED ->
+                                        context.getString(R.string.camera_error_closed)
+
+                                    ImageCapture.ERROR_CAPTURE_FAILED ->
+                                        context.getString(R.string.camera_error_capture_failed)
+
+                                    ImageCapture.ERROR_FILE_IO ->
+                                        context.getString(R.string.camera_error_storage)
+
+                                    ImageCapture.ERROR_INVALID_CAMERA ->
+                                        context.getString(R.string.camera_error_invalid)
+
+                                    else ->
+                                        context.getString(R.string.camera_error_generic)
+                                }
+                                isCapturing = false
+                            } catch (e: Exception) {
+                                // Unexpected errors — bitmap processing failure etc
+                                captureError = context.getString(R.string.camera_error_generic)
+                                isCapturing = false
                             }
                         }
                     }
