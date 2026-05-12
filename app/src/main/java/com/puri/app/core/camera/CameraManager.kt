@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.view.Surface
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -21,35 +22,34 @@ import kotlin.coroutines.resumeWithException
 class CameraManager(private val context: Context) {
 
     private var imageCapture: ImageCapture? = null
+    private var cameraProvider: ProcessCameraProvider? = null
 
-    fun startCamera(
-        lifecycleOwner: LifecycleOwner,
-        previewView: PreviewView
-    ) {
+    fun startCamera(lifecycleOwner: LifecycleOwner, previewView: PreviewView) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
-
         cameraProviderFuture.addListener({
-            val cameraProvider = cameraProviderFuture.get()
+            cameraProvider = cameraProviderFuture.get()
 
-            val preview = Preview.Builder().build().also {
-                it.surfaceProvider = previewView.surfaceProvider
-            }
+            // Set target rotation from current display rotation
+            // This is the KEY fix for landscape capture
+            val rotation = previewView.display?.rotation ?: Surface.ROTATION_0
+
+            val preview = Preview.Builder()
+                .setTargetRotation(rotation)
+                .build()
+                .also { it.surfaceProvider = previewView.surfaceProvider }
 
             imageCapture = ImageCapture.Builder()
+                .setTargetRotation(rotation)  // ← tells CameraX current display rotation
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build()
 
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(
-                    lifecycleOwner,
-                    CameraSelector.DEFAULT_BACK_CAMERA,
-                    preview,
-                    imageCapture
-                )
-            } catch (e: Exception) {
-                // Camera binding failed — device may not have camera
-            }
+            cameraProvider?.unbindAll()
+            cameraProvider?.bindToLifecycle(
+                lifecycleOwner,
+                CameraSelector.DEFAULT_BACK_CAMERA,
+                preview,
+                imageCapture
+            )
         }, ContextCompat.getMainExecutor(context))
     }
 
@@ -89,5 +89,28 @@ class CameraManager(private val context: Context) {
         if (rotationDegrees == 0) return this
         val matrix = Matrix().apply { postRotate(rotationDegrees.toFloat()) }
         return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
+    }
+
+    // Returns degrees the captured image needs to be rotated to appear upright
+    // When setTargetRotation is set correctly, CameraX handles this automatically
+    // This is a fallback for devices where automatic rotation isn't applied
+    fun getSensorRotation(): Int {
+        return imageCapture?.targetRotation?.let { rotation ->
+            when (rotation) {
+                Surface.ROTATION_0 -> 0
+                Surface.ROTATION_90 -> 90
+                Surface.ROTATION_180 -> 180
+                Surface.ROTATION_270 -> 270
+                else -> 0
+            }
+        } ?: 0
+    }
+
+    // Release camera resources explicitly
+    // Called from DisposableEffect.onDispose in CameraScreen
+    fun release() {
+        cameraProvider?.unbindAll()
+        cameraProvider = null
+        imageCapture = null
     }
 }
