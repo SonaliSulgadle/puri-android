@@ -1,6 +1,5 @@
 package com.puri.app.data.repository
 
-import android.util.Log
 import com.puri.app.BuildConfig
 import com.puri.app.core.common.PuriError
 import com.puri.app.core.common.Resource
@@ -56,8 +55,6 @@ class AddressRepositoryImpl @Inject constructor(
                 ?.firstOrNull()
                 ?.text
                 ?: return@withRetry Resource.Error(PuriError.Unknown())
-
-            Log.d("AddressRepo", "Raw response: $rawText")
 
             val result = parser.parse(rawText, rawAddress)
                 ?: return@withRetry Resource.Error(PuriError.Unknown())
