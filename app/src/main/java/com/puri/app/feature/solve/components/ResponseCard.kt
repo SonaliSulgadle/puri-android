@@ -220,40 +220,42 @@ fun ResponseCard(
 
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xl)))
 
-                AnimatedVisibility(
-                    visible = isVisible,
-                    enter = fadeIn(tween(300, delayMillis = 200)) +
-                            slideInVertically(tween(300, delayMillis = 200)) { it / 4 }
-                ) {
-                    SectionHeader(
-                        icon = Icons.Outlined.ArrowDownward,
-                        title = stringResource(R.string.response_what_to_do)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
-
-                result.steps.forEachIndexed { index, step ->
-                    var stepVisible by remember { mutableStateOf(false) }
-
-                    LaunchedEffect(key1 = step.order) {
-                        delay(300L + (index * 100L))
-                        stepVisible = true
-                    }
+                if (result.steps.isNotEmpty()) {
 
                     AnimatedVisibility(
-                        visible = stepVisible,
-                        enter = fadeIn(tween(250)) + slideInHorizontally(tween(250)) { -it / 3 }
+                        visible = isVisible,
+                        enter = fadeIn(tween(300, delayMillis = 200)) +
+                                slideInVertically(tween(300, delayMillis = 200)) { it / 4 }
                     ) {
-                        StepItem(step = step)
+                        SectionHeader(
+                            icon = Icons.Outlined.ArrowDownward,
+                            title = stringResource(R.string.response_what_to_do)
+                        )
                     }
 
-                    if (index < result.steps.lastIndex) {
-                        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_sm)))
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
+
+                    result.steps.forEachIndexed { index, step ->
+                        var stepVisible by remember { mutableStateOf(false) }
+
+                        LaunchedEffect(key1 = step.order) {
+                            delay(300L + (index * 100L))
+                            stepVisible = true
+                        }
+
+                        AnimatedVisibility(
+                            visible = stepVisible,
+                            enter = fadeIn(tween(250)) + slideInHorizontally(tween(250)) { -it / 3 }
+                        ) {
+                            StepItem(step = step)
+                        }
+
+                        if (index < result.steps.lastIndex) {
+                            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_sm)))
+                        }
                     }
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
                 }
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
-
                 result.recommendedAction?.let { action ->
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
                     RecommendedActionCard(action = action)

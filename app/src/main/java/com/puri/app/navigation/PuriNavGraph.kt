@@ -2,7 +2,6 @@ package com.puri.app.navigation
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -139,14 +138,12 @@ fun MainScaffold(navController: NavHostController) {
                 }
             )
         },
-        contentWindowInsets = WindowInsets.navigationBars
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
         NavHost(
             navController = bottomNavController,
             startDestination = Screen.Home.route,
-            modifier = Modifier.padding(
-                bottom = padding.calculateBottomPadding()
-            )
+            modifier = Modifier.padding(padding)
         ) {
             composable(Screen.Home.route) {
                 SolveScreen(

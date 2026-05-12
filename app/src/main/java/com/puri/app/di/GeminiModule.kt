@@ -44,8 +44,8 @@ object GeminiModule {
         return OkHttpClient.Builder()
             .addInterceptor(logging)
             .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)  // Gemini can take time on large images
-            .writeTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)  // Gemini can take time on large images
+            .writeTimeout(120, TimeUnit.SECONDS)
             .build()
     }
 

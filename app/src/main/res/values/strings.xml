@@ -40,12 +40,48 @@
     <string name="error_image_too_blurry">This image is too blurry. Try a clearer photo.</string>
     <string name="error_unsafe_content">For safety, please contact a professional or call 119.</string>
     <string name="error_no_internet">No internet connection. Check your connection and try again.</string>
+    <string name="error_timeout">The image may be too large or your connection is slow. Try again with better connectivity, or move closer to your WiFi router.</string>
     <string name="error_api_generic">Something went wrong. Please try again.</string>
     <string name="error_unknown">Something went wrong. Please try again.</string>
     <string name="permission_camera_denied">Camera access is needed to snap photos.</string>
     <string name="permission_gallery_denied">Gallery access is needed to pick photos.</string>
     <string name="error_api_quota">Gemini is busy right now. Trying again…</string>
     <string name="error_api_overloaded">Service temporarily unavailable. Please try again in a moment.</string>
+
+    <!-- Error card strings -->
+    <string name="error_try_again">Try again</string>
+    <string name="error_go_back">Go back</string>
+
+    <!-- No internet -->
+    <string name="error_no_internet_title">No internet connection</string>
+    <string name="error_no_internet_body">Puri needs internet to analyse photos and
+    answer questions. Check your connection and try again.\n\nYou can still
+    browse offline guides.</string>
+
+    <!-- Timeout -->
+    <string name="error_timeout_title">Taking too long</string>
+    <string name="error_timeout_body">The image may be too large or your connection
+    is slow. Move closer to WiFi and try again.</string>
+
+    <!-- Rate limit -->
+    <string name="error_rate_limit_title">Too many requests</string>
+    <string name="error_rate_limit_body">Puri is getting a lot of requests right now.
+    Wait a moment and try again.</string>
+
+    <!-- Service down -->
+    <string name="error_service_title">Service temporarily unavailable</string>
+    <string name="error_service_body">The AI service is temporarily down.
+    Try again in a moment.</string>
+
+    <!-- Access error -->
+    <string name="error_access_title">Access error</string>
+    <string name="error_access_body">There was an issue connecting to the AI service.
+    Please try again later.</string>
+
+    <!-- Unknown -->
+    <string name="error_unknown_title">Something went wrong</string>
+    <string name="error_unknown_body">Puri couldn\'t process your request.
+    Please try again.</string>
 
     <!-- Response -->
     <string name="response_analysis_complete">Analysis complete</string>
@@ -121,7 +157,7 @@
     <string name="response_visible_text">What I can see:</string>
     <string name="response_recommended_action">Recommended action</string>
 
-    <string name="saved_title">Saved Guides</string>
+    <string name="saved_title">Guides</string>
     <string name="saved_subtitle">Your essential lifestyle blueprints, accessible even without internet.</string>
     <string name="saved_essential_guides">Essential guides</string>
     <string name="saved_my_saves">My saved solves</string>
@@ -131,6 +167,8 @@
     <string name="saved_snap_solve_cta">Snap &amp; Solve a new problem</string>
     <string name="saved_empty_title">No saved guides yet</string>
     <string name="saved_empty_body">Solve something and save it, or browse your essential guides.</string>
+    <string name="saved_tab_my_saves">My Saves (%d)</string>
+    <string name="saved_my_saves_description">Results you\'ve saved from Snap &amp; Solve</string>
 
     <!-- Pre-bundled guide keys -->
     <string name="guide_trash_title">Trash sorting</string>
@@ -266,4 +304,13 @@
 
     <string name="error_address_limit_reached">Daily address conversion limit reached. Resets at midnight.</string>
     <string name="address_pin_emoji">📍</string>
+
+    <!-- Camera screen -->
+    <string name="camera_error_closed">Camera closed unexpectedly. Tap to retry.</string>
+    <string name="camera_error_capture_failed">Capture failed. Make sure the lens is unobstructed.</string>
+    <string name="camera_error_storage">Storage error. Check available space.</string>
+    <string name="camera_error_invalid">Camera not available. Try reopening.</string>
+    <string name="camera_error_generic">Something went wrong. Please try again.</string>
+    <string name="camera_error_start_failed">Camera failed to start. Please try again.</string>
+    <string name="camera_retry">Tap to retry</string>
 </resources>

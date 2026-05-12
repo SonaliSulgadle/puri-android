@@ -6,6 +6,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.puri.app.BuildConfig
+import com.puri.app.core.util.PuriLog
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +19,7 @@ class Analytics @Inject constructor() {
 
     fun log(event: PuriEvent) {
         if (BuildConfig.DEBUG) {
-            Log.d("PuriAnalytics", "📊 ${event.name} params=${buildBundle(event)}")
+            PuriLog.d("PuriAnalytics", "📊 ${event.name} params=${buildBundle(event)}")
             return
         }
         firebase.logEvent(event.name, buildBundle(event))
@@ -26,7 +27,7 @@ class Analytics @Inject constructor() {
 
     fun setScreen(screenName: String) {
         if (BuildConfig.DEBUG) {
-            Log.d("PuriAnalytics", "📱 Screen: $screenName")
+            PuriLog.d("PuriAnalytics", "📱 Screen: $screenName")
             return
         }
         firebase.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, Bundle().apply {

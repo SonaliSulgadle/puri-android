@@ -1,6 +1,5 @@
 package com.puri.app.feature.saved.detail
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,13 +33,6 @@ class SavedGuideDetailViewModel @Inject constructor(
 
     val uiState: StateFlow<SavedGuideDetailUiState> = getSavedGuidesUseCase()
         .map { guides ->
-            Log.d("SavedDetail", "Looking for guideId=$guideId in ${guides.size} guides")
-            guides.forEach {
-                Log.d(
-                    "SavedDetail",
-                    "  id=${it.id} guideKey=${it.guideKey} isPreBundled=${it.isPreBundled}"
-                )
-            }
 
             val guide = guides.find { it.id == guideId }
                 ?: return@map SavedGuideDetailUiState.Error
