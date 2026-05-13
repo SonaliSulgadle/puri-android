@@ -1,6 +1,7 @@
 package com.puri.app.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.puri.app.core.analytics.Crashlytics
 import com.puri.app.data.remote.GeminiApi
 import com.puri.app.data.remote.GeminiDataSource
 import com.puri.app.data.remote.GeminiResponseParser
@@ -75,6 +76,7 @@ object GeminiModule {
         api: GeminiApi,
         imagePromptBuilder: ImagePromptBuilder,
         textPromptBuilder: TextPromptBuilder,
-        parser: GeminiResponseParser
-    ): GeminiDataSource = GeminiDataSource(api, imagePromptBuilder, textPromptBuilder, parser)
+        parser: GeminiResponseParser,
+        crashlytics: Crashlytics,
+    ): GeminiDataSource = GeminiDataSource(api, imagePromptBuilder, textPromptBuilder, parser, crashlytics)
 }

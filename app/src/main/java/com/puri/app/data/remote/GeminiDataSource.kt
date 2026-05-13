@@ -2,6 +2,7 @@ package com.puri.app.data.remote
 
 import android.graphics.Bitmap
 import com.puri.app.BuildConfig
+import com.puri.app.core.analytics.Crashlytics
 import com.puri.app.core.common.PuriError
 import com.puri.app.core.common.Resource
 import com.puri.app.core.common.toBase64
@@ -25,7 +26,8 @@ class GeminiDataSource @Inject constructor(
     private val api: GeminiApi,
     private val imagePromptBuilder: ImagePromptBuilder,
     private val textPromptBuilder: TextPromptBuilder,
-    private val parser: GeminiResponseParser
+    private val parser: GeminiResponseParser,
+    private val crashlytics: Crashlytics
 ) {
     companion object {
         private const val MAX_RETRIES = 3
@@ -39,6 +41,9 @@ class GeminiDataSource @Inject constructor(
         additionalContext: String?,
         language: AppLanguage
     ): Resource<SolveResult> = withRetry {
+        crashlytics.log("Image solve started — has_context=${additionalContext != null}")
+        crashlytics.setKey("current_operation", "image_solve")
+
         val prompt = imagePromptBuilder.build(additionalContext)
         val base64Image = bitmap.toBase64()
 
@@ -70,6 +75,9 @@ class GeminiDataSource @Inject constructor(
         query: String,
         language: AppLanguage
     ): Resource<SolveResult> = withRetry {
+        crashlytics.log("Text solve started — query_length=${query.length}")
+        crashlytics.setKey("current_operation", "text_solve")
+
         val prompt = textPromptBuilder.build(query, language)
 
         val request = GeminiRequest(
@@ -95,6 +103,11 @@ class GeminiDataSource @Inject constructor(
     ): Resource<SolveResult> {
         // HTTP-level error
         if (!response.isSuccessful) {
+            crashlytics.recordApiError(
+                endpoint = if (imageUri != null) "generateContent/image" else "generateContent/text",
+                httpCode = response.code(),
+                body = response.errorBody()?.string()?.take(200)
+            )
             return Resource.Error(
                 when (response.code()) {
                     429 -> PuriError.ApiError(429)
@@ -105,12 +118,22 @@ class GeminiDataSource @Inject constructor(
             )
         }
 
-        val body = response.body()
-            ?: return Resource.Error(PuriError.Unknown())
+        val body = response.body() ?: run {
+            crashlytics.recordException(
+                Exception("Null response body despite HTTP 200"),
+                "gemini_parse"
+            )
+            return Resource.Error(PuriError.Unknown())
+        }
 
         // API-level error in response body
         body.error?.let { apiError ->
             if (apiError.code != 0) {
+                crashlytics.recordApiError(
+                    endpoint = "generateContent/body_error",
+                    httpCode = apiError.code,
+                    body = apiError.message
+                )
                 return Resource.Error(PuriError.ApiError(apiError.code))
             }
         }
@@ -122,9 +145,24 @@ class GeminiDataSource @Inject constructor(
             ?.parts
             ?.firstOrNull()
             ?.text
-            ?: return Resource.Error(PuriError.Unknown())
+            ?: run {
+                crashlytics.recordException(
+                    Exception("No text content in Gemini response candidates"),
+                    "gemini_parse_no_text"
+                )
+                return Resource.Error(PuriError.Unknown())
+            }
 
-        return Resource.Success(parser.parse(rawText, imageUri, inputQuery))
+        return try {
+            val result = parser.parse(rawText, imageUri, inputQuery)
+            crashlytics.log("Parse successful — category=${result.category}")
+            Resource.Success(result)
+        } catch (e: Exception) {
+            // Parser threw — log raw text prefix for debugging
+            crashlytics.setKey("failed_raw_response", rawText.take(200))
+            crashlytics.recordException(e, "gemini_response_parse")
+            Resource.Error(PuriError.Unknown(e))
+        }
     }
 
     private suspend fun <T> withRetry(
@@ -148,6 +186,7 @@ class GeminiDataSource @Inject constructor(
                     ) {
                         // Retryable — wait with exponential backoff
                         val delayMs = BASE_DELAY_MS * 2.0.pow(attempt).toLong()
+                        crashlytics.log("Retrying after ${error.code} — attempt=${attempt + 1}, delay=${delayMs}ms")
                         delay(delayMs)
                         return@repeat // try again
                     } else {
@@ -157,6 +196,7 @@ class GeminiDataSource @Inject constructor(
             }
         }
 
+        crashlytics.log("All $MAX_RETRIES retries exhausted")
         return lastResult
     }
 

@@ -8,7 +8,6 @@ import com.puri.app.core.analytics.PuriEvent
 import com.puri.app.core.common.PuriError
 import com.puri.app.core.common.Resource
 import com.puri.app.core.common.compressForGemini
-import com.puri.app.core.ui.mapper.toMessageRes
 import com.puri.app.domain.model.ConfidenceLevel
 import com.puri.app.domain.model.SavedGuide
 import com.puri.app.domain.model.SolveResult
@@ -246,8 +245,7 @@ class SolveViewModel @Inject constructor(
                 _activeState.value = SolveUiState.DailyLimitReached
 
             else -> {
-                sendEffect(SolveUiEffect.ShowSnackbar(error.toMessageRes()))
-                returnToIdle()
+                _activeState.value = SolveUiState.Error(error)
             }
         }
     }

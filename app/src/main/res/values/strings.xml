@@ -63,6 +63,11 @@
     <string name="error_timeout_body">The image may be too large or your connection
     is slow. Move closer to WiFi and try again.</string>
 
+    <!-- Blur image -->
+    <string name="error_blurry_title">Image too blurry</string>
+    <string name="error_blurry_body">Puri couldn\'t read the image clearly.
+    Try moving closer, ensuring good lighting, and holding the camera steady.</string>
+
     <!-- Rate limit -->
     <string name="error_rate_limit_title">Too many requests</string>
     <string name="error_rate_limit_body">Puri is getting a lot of requests right now.
@@ -285,6 +290,7 @@
     <string name="address_original_label">Your input</string>
     <string name="address_copy_button">Copy address</string>
     <string name="address_open_naver">Open in Naver Map</string>
+    <string name="address_open_kakao_map">Open in Kakao Map</string>
     <string name="address_open_browser">Search in browser</string>
     <string name="address_copied">Address copied to clipboard</string>
     <string name="address_disclaimer">AI-generated result — always verify important addresses before visiting</string>
