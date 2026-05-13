@@ -10,6 +10,7 @@ sealed class PuriError {
 
     // Network errors
     data object NoInternet : PuriError()
+    object Timeout : PuriError()
     data class ApiError(
         val code: Int,
         val isRetryable: Boolean = code == 429 || code == 503

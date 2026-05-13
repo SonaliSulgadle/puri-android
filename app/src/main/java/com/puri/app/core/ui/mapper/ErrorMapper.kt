@@ -12,6 +12,7 @@ fun PuriError.toMessageRes(): Int = when (this) {
     PuriError.ImageTooBlurry -> R.string.error_image_too_blurry
     PuriError.UnsafeContent -> R.string.error_unsafe_content
     PuriError.NoInternet -> R.string.error_no_internet
+    PuriError.Timeout -> R.string.error_timeout
     is PuriError.ApiError -> when (this.code) {
         429 -> R.string.error_api_quota
         503 -> R.string.error_api_overloaded

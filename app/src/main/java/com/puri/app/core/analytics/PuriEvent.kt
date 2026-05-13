@@ -41,6 +41,7 @@ sealed class PuriEvent(val name: String) {
 
     data object AddressCopied : PuriEvent("address_copied")
     data object AddressOpenedNaver : PuriEvent("address_opened_naver")
+    data object AddressOpenedKakao : PuriEvent("address_opened_kakao")
     data object AddressOpenedBrowser : PuriEvent("address_opened_browser")
 
     // ── Guides ────────────────────────────────────────────────────────────
