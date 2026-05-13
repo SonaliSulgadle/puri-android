@@ -4,6 +4,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -17,7 +19,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -95,6 +96,8 @@ fun AddressResultScreen(
     }
     val result = uiState.result ?: return
 
+    val kakaoMapUrl = "kakaomap://search?q=${Uri.encode(result.shortForm)}"
+    val kakaoWebUrl = "https://map.kakao.com/?q=${Uri.encode(result.shortForm)}"
 
     val isDark = isSystemInDarkTheme()
     StatusBarIconColor(darkIcons = !isDark)
@@ -315,12 +318,38 @@ fun AddressResultScreen(
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = stringResource(R.string.address_open_naver),
-                    color = IndigoPrimary
-                )
+                Text(text = stringResource(R.string.address_open_naver))
             }
 
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_sm)))
+            OutlinedButton(
+                onClick = {
+                    analytics.log(PuriEvent.AddressOpenedKakao)
+                    val kakaoIntent = Intent(Intent.ACTION_VIEW, kakaoMapUrl.toUri()).apply {
+                        setPackage("net.daum.android.map")
+                    }
+                    val canOpenApp = context.packageManager
+                        .resolveActivity(kakaoIntent, PackageManager.MATCH_DEFAULT_ONLY) != null
+                    if (canOpenApp) {
+                        context.startActivity(kakaoIntent)
+                    } else {
+                        context.startActivity(
+                            Intent(Intent.ACTION_VIEW, kakaoWebUrl.toUri())
+                        )
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(100.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Map,
+                    contentDescription = null,
+                    tint = IndigoPrimary,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(stringResource(R.string.address_open_kakao_map))
+            }
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_sm)))
 
             // Open in browser — tertiary
