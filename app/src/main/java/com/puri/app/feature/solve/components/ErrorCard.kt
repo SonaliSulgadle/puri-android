@@ -134,6 +134,13 @@ private fun errorContent(error: PuriError): ErrorContent = when (error) {
         body = stringResource(R.string.error_timeout_body)
     )
 
+    PuriError.ImageTooBlurry -> ErrorContent(
+        emoji = "📷",
+        title = stringResource(R.string.error_blurry_title),
+        body = stringResource(R.string.error_blurry_body),
+        showRetry = true
+    )
+
     is PuriError.ApiError -> when (error.code) {
         429 -> ErrorContent(
             emoji = "⏱️",

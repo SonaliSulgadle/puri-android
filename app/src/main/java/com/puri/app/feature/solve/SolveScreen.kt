@@ -15,7 +15,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -37,6 +36,7 @@ import com.puri.app.feature.solve.SolveIntent.ImageCaptured
 import com.puri.app.feature.solve.SolveIntent.TextQueryChanged
 import com.puri.app.feature.solve.components.CameraScreen
 import com.puri.app.feature.solve.components.DailyLimitCard
+import com.puri.app.feature.solve.components.ErrorCard
 import com.puri.app.feature.solve.components.HomeContent
 import com.puri.app.feature.solve.components.LoadingContent
 import com.puri.app.feature.solve.components.ResponseCard
@@ -246,11 +246,11 @@ fun SolveScreen(
                 )
 
             is SolveUiState.Error -> {
-                LaunchedEffect(state) {
-                    snackbarHost.showSnackbar(context.getString(R.string.error_unknown))
-                    viewModel.onIntent(SolveIntent.ClearResult)
-                }
-                Box(modifier = Modifier.fillMaxSize())
+                ErrorCard(
+                    error = state.error,
+                    onRetry = { viewModel.onIntent(SolveIntent.ClearResult) },
+                    onDismiss = { viewModel.onIntent(SolveIntent.ClearResult) }
+                )
             }
 
             is SolveUiState.AddressResult -> onOpenAddressConverter()
