@@ -1,7 +1,7 @@
 package com.puri.app.data.guides
 
 import android.content.Context
-import android.util.Log
+import com.puri.app.core.analytics.Crashlytics
 import com.puri.app.core.ui.mapper.rawContentRes
 import com.puri.app.domain.model.GuideContent
 import com.puri.app.domain.model.PreBundledGuideKey
@@ -12,7 +12,8 @@ import javax.inject.Singleton
 
 @Singleton
 class GuideContentLoader @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val crashlytics: Crashlytics
 ) {
     private val json = Json {
         ignoreUnknownKeys = true
@@ -33,7 +34,7 @@ class GuideContentLoader @Inject constructor(
                     .use { it.readText() }
                 json.decodeFromString<GuideContentDto>(jsonString).toDomain()
             } catch (e: Exception) {
-                Log.e("GuideContentLoader", "Failed to load guide for key=$key", e)
+                crashlytics.recordException(e, "guide_load_${key.name}")
                 null
             }
         }
