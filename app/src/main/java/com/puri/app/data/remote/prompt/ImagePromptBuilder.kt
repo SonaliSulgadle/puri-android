@@ -16,46 +16,25 @@ class ImagePromptBuilder @Inject constructor() {
             """
 USER'S SPECIFIC QUESTION: "$additionalContext"
 
-CRITICAL: Answer this question as your PRIMARY task.
+OVERRIDE — MANDATORY FORMAT RULES WHEN QUESTION IS PROVIDED:
+1. Answer the user's question as your ONLY primary task
+2. ALWAYS use SIMPLE format: WHAT + ANSWER + TIP + CONFIDENCE + CATEGORY
+3. NEVER include STEPS, DESCRIPTION, VISIBLE TEXT, or RECOMMENDED ACTION
+4. Even if the photo shows an appliance with buttons — if the user asked 
+   a direct question, answer only that question in SIMPLE format
 
-FOOD/INGREDIENT QUESTIONS ("does this contain meat/dairy/gluten/X?",
-"is this vegetarian/vegan/halal?", "can I eat this?"):
+YES/NO QUESTIONS ("does this contain X?", "is this expired?", "is this vegan?"):
+→ Start ANSWER with YES or NO
+→ Explain why in 1-2 sentences based on what you can see
 
-Case 1 — Ingredients list IS visible in the photo:
-→ Read every ingredient carefully
-→ Answer YES/NO based on what you can actually read
-→ Quote the specific ingredient that confirms your answer if relevant
-
-Case 2 — Ingredients list is NOT visible but packaging/name is clear:
-→ Be honest: "I can't see the ingredients list in this photo"
-→ Give your best assessment based on the product name/type if recognizable
-→ ALWAYS recommend flipping to the ingredients list to confirm
-→ Use CONFIDENCE: LOW
-
-Case 3 — Unpackaged food (cake, restaurant dish, street food):
-→ Give assessment based on appearance and dish type
-→ Be clear it's based on appearance only
-→ Recommend asking staff: 이거 고기 들어가요? (Does this contain meat?)
-  or 채식주의자예요 (I'm vegetarian) for dietary needs
-→ Use CONFIDENCE: LOW for meat/allergen questions
+FOOD/INGREDIENT QUESTIONS — three cases:
+Case 1 — Ingredients list IS visible: read it, answer YES/NO with evidence
+Case 2 — Ingredients NOT visible: say so honestly, give best guess with LOW confidence
+  → Add to TIP: "Flip to back, look for 원재료. Meat: 돼지고기/쇠고기/닭고기/멸치"
+Case 3 — Unpackaged food (cake, dish): assess by appearance, LOW confidence
+  → Add to TIP: "Ask staff: 이거 고기 들어가요? (Does this contain meat?)"
 
 NEVER guess confidently about ingredients you cannot see.
-For allergen and dietary questions, uncertainty must be stated clearly.
-CRITICAL: The user has asked a SPECIFIC QUESTION about this image.
-Your PRIMARY job is to answer that question directly and clearly.
-The standard analysis (what it is, steps, etc.) is SECONDARY.
-
-If the question is yes/no (e.g. "does this contain meat?", "is this expired?", 
-"is this vegetarian?", "can I eat this?"):
-→ Answer YES or NO first, immediately, in the ANSWER field
-→ Then explain why based on what you can see
-→ Use SIMPLE format (WHAT + ANSWER + TIP)
-
-If the question needs explanation:
-→ Answer it directly in DESCRIPTION field first
-→ Then provide supporting analysis
-
-NEVER ignore the user's question. ALWAYS answer it as the first priority.
 """.trimIndent()
         } else ""
 
@@ -200,7 +179,7 @@ CONFIDENCE: HIGH
 CATEGORY: APPLIANCE
 ---
 
-$RESPONSE_FORMAT
+${if (additionalContext.isNullOrBlank()) RESPONSE_FORMAT else ""}
 """.trimIndent()
     }
 }

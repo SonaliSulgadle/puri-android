@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 
 private data class BottomNavItem(
     val screen: Screen,
@@ -64,11 +64,11 @@ fun PuriBottomNavBar(
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = IndigoPrimary,
-                    selectedTextColor = IndigoPrimary,
+                    selectedIconColor = CeladonPrimary,
+                    selectedTextColor = CeladonPrimary,
                     unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    indicatorColor = IndigoPrimary.copy(alpha = 0.12f)
+                    indicatorColor = CeladonPrimary.copy(alpha = 0.12f)
                 )
             )
         }
