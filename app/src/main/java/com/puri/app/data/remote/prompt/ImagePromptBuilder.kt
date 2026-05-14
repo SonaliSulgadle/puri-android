@@ -4,6 +4,7 @@ import com.puri.app.data.remote.prompt.PromptConstants.FOOD_WASTE_RULES
 import com.puri.app.data.remote.prompt.PromptConstants.RECYCLING_RULES
 import com.puri.app.data.remote.prompt.PromptConstants.RESPONSE_FORMAT
 import com.puri.app.data.remote.prompt.PromptConstants.SAFETY_OVERRIDES
+import com.puri.app.data.remote.prompt.PromptConstants.TRANSPORT_RULES
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,7 +13,50 @@ class ImagePromptBuilder @Inject constructor() {
 
     fun build(additionalContext: String? = null): String {
         val contextSection = if (!additionalContext.isNullOrBlank()) {
-            "\nUSER ADDED CONTEXT: \"$additionalContext\"\nUse this to make your answer more specific.\n"
+            """
+USER'S SPECIFIC QUESTION: "$additionalContext"
+
+CRITICAL: Answer this question as your PRIMARY task.
+
+FOOD/INGREDIENT QUESTIONS ("does this contain meat/dairy/gluten/X?",
+"is this vegetarian/vegan/halal?", "can I eat this?"):
+
+Case 1 — Ingredients list IS visible in the photo:
+→ Read every ingredient carefully
+→ Answer YES/NO based on what you can actually read
+→ Quote the specific ingredient that confirms your answer if relevant
+
+Case 2 — Ingredients list is NOT visible but packaging/name is clear:
+→ Be honest: "I can't see the ingredients list in this photo"
+→ Give your best assessment based on the product name/type if recognizable
+→ ALWAYS recommend flipping to the ingredients list to confirm
+→ Use CONFIDENCE: LOW
+
+Case 3 — Unpackaged food (cake, restaurant dish, street food):
+→ Give assessment based on appearance and dish type
+→ Be clear it's based on appearance only
+→ Recommend asking staff: 이거 고기 들어가요? (Does this contain meat?)
+  or 채식주의자예요 (I'm vegetarian) for dietary needs
+→ Use CONFIDENCE: LOW for meat/allergen questions
+
+NEVER guess confidently about ingredients you cannot see.
+For allergen and dietary questions, uncertainty must be stated clearly.
+CRITICAL: The user has asked a SPECIFIC QUESTION about this image.
+Your PRIMARY job is to answer that question directly and clearly.
+The standard analysis (what it is, steps, etc.) is SECONDARY.
+
+If the question is yes/no (e.g. "does this contain meat?", "is this expired?", 
+"is this vegetarian?", "can I eat this?"):
+→ Answer YES or NO first, immediately, in the ANSWER field
+→ Then explain why based on what you can see
+→ Use SIMPLE format (WHAT + ANSWER + TIP)
+
+If the question needs explanation:
+→ Answer it directly in DESCRIPTION field first
+→ Then provide supporting analysis
+
+NEVER ignore the user's question. ALWAYS answer it as the first priority.
+""".trimIndent()
         } else ""
 
         return """
@@ -45,6 +89,8 @@ STEP COUNT:
 
 $FOOD_WASTE_RULES
 
+$TRANSPORT_RULES
+
 $RECYCLING_RULES
 
 SPECIAL QUESTION TYPES:
@@ -71,6 +117,47 @@ WHAT NOT TO DO:
 - Do NOT add steps that require no user action
 
 EXAMPLES:
+
+---
+User photo: chips packet
+User context: "does this contain meat?"
+
+WHAT: Potato chips snack
+ANSWER: No — this does not contain meat. The ingredients show potato, 
+vegetable oil, and seasoning. Safe for vegetarians.
+TIP: Look for 채식 (chaeshik) label on Korean snacks — means vegetarian-friendly.
+CONFIDENCE: HIGH
+CATEGORY: FOOD
+---
+
+---
+Photo: front of chips bag, no ingredients visible
+Question: "does this contain meat?"
+
+WHAT: Korean snack — front of packaging only
+ANSWER: I can't confirm from this photo — the ingredients list isn't visible. 
+Based on the name and appearance this looks like a vegetable/cheese flavored 
+snack, but I can't verify without seeing the back of the packet.
+TIP: Flip to the back and look for 원재료 (ingredients). 
+     Meat ingredients to watch for: 돼지고기 (pork), 쇠고기 (beef), 
+     닭고기 (chicken), 멸치 (anchovy).
+CONFIDENCE: LOW
+CATEGORY: FOOD
+---
+
+---
+Photo: slice of cake at a bakery
+Question: "is this vegetarian?"
+
+WHAT: Bakery cake slice
+ANSWER: Likely yes for meat — Korean cakes typically use cream, eggs, and flour 
+with no meat. However I cannot confirm eggs/dairy from appearance alone. 
+Most Korean bakery items contain eggs and dairy.
+TIP: Ask the staff: 달걀 들어가요? (Does it contain eggs?) or 
+     유제품 들어가요? (Does it contain dairy?)
+CONFIDENCE: LOW
+CATEGORY: FOOD
+---
 
 ---
 Photo: onion skins
