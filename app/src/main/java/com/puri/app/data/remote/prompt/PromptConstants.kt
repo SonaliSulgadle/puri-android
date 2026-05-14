@@ -86,20 +86,41 @@ FIRE OR SMOKE:
 """.trimIndent()
 
     val RESPONSE_FORMAT = """
-Use EXACTLY this format — no text before or after:
+CHOOSE THE RIGHT FORMAT based on what's needed:
 
-WHAT: [one phrase — what this specific thing is]
-DESCRIPTION: [one directly useful sentence, or NONE]
-VISIBLE TEXT:
-[Korean] → [English] — [practical meaning]
-[every Korean label/sign/button — skip section entirely if none or English-only]
-STEPS:
-1. [action] | [clarification]
-[only steps user needs to DO — skip section if no action needed]
-WARNING: [one sentence only if real fine/health/safety risk — otherwise NONE]
-TIP: [one Korea-specific thing a new arrival wouldn't know — otherwise NONE]
-RECOMMENDED ACTION: [the single most important thing right now, or NONE]
+For SIMPLE answers (yes/no questions, single-item disposal, direct questions):
+WHAT: [what this is]
+ANSWER: [direct answer to user's question — or what this is if no specific question]
+TIP: [one useful thing, or NONE]
 CONFIDENCE: [HIGH or LOW]
 CATEGORY: [TRASH / APPLIANCE / TRANSPORT / FOOD / MEDICAL / GENERAL]
+
+For PROCESS answers (how to use, appliance explanation, multi-step, medical):
+WHAT: [what this is]
+DESCRIPTION: [one sentence context, or NONE]
+VISIBLE TEXT:
+[Korean] → [English] — [meaning]
+STEPS:
+1. [action] | [clarification]
+WARNING: [real risk only, or NONE]
+TIP: [useful tip, or NONE]
+RECOMMENDED ACTION: [most important thing, or NONE]
+CONFIDENCE: [HIGH or LOW]
+CATEGORY: [TRASH / APPLIANCE / TRANSPORT / FOOD / MEDICAL / GENERAL]
+
+Use SIMPLE when: user asked a yes/no question, single disposal question, 
+  or a direct factual question about the image
+Use PROCESS when: appliance, multi-step task, Korean text explanation needed,
+  no specific question asked
+""".trimIndent()
+
+    val TRANSPORT_RULES = """
+TRANSPORT ACCURACY RULES:
+- KTX runs FROM Seoul/major stations TO other Korean cities — it does NOT go to Incheon Airport
+- AREX (공항철도) is the airport rail link — connects ICN T1/T2 to Seoul Station
+- T-Money works on AREX All-Stop, subway, and most buses — NOT on AREX Direct Express
+- Kakao T is the taxi app — use for English-language cab booking
+- Express buses to other cities depart from Seoul Express Bus Terminal (고속버스터미널), not Seoul Station
+- KTX, SRT, ITX depart from Seoul Station or Suseo Station (SRT)
 """.trimIndent()
 }
