@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Feedback
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.PrivacyTip
@@ -44,6 +45,8 @@ import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
+import com.puri.app.core.analytics.LocalAnalytics
+import com.puri.app.core.analytics.PuriEvent
 import com.puri.app.core.analytics.ScreenNames
 import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
@@ -58,12 +61,15 @@ import com.puri.app.feature.profile.components.ProfileStatsRow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+private const val FEEDBACK_FORM = "https://tally.so/r/VLvRxN"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     onNavigateToPrivacyPolicy: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val analytics = LocalAnalytics.current
     TrackScreen(ScreenNames.PROFILE)
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -223,7 +229,23 @@ fun ProfileScreen(
                     ProfileMenuItem(
                         icon = Icons.Outlined.PrivacyTip,
                         label = stringResource(R.string.profile_privacy_policy),
-                        onClick = onNavigateToPrivacyPolicy
+                        onClick = {
+                            onNavigateToPrivacyPolicy()
+                            analytics.log(PuriEvent.ProfilePrivacyTapped)
+                        }
+                    )
+                    ProfileMenuDivider()
+                    ProfileMenuItem(
+                        icon = Icons.Outlined.Feedback,
+                        label = stringResource(R.string.profile_feedback),
+                        onClick = {
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                FEEDBACK_FORM.toUri()
+                            )
+                            context.startActivity(intent)
+                            analytics.log(PuriEvent.FeedbackOpened)
+                        }
                     )
                     ProfileMenuDivider()
                     ProfileMenuItem(

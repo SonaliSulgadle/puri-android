@@ -70,6 +70,7 @@ sealed class PuriEvent(val name: String) {
     // ── Profile ───────────────────────────────────────────────────────────
     data object ProfileRateAppTapped : PuriEvent("profile_rate_app_tapped")
     data object ProfilePrivacyTapped : PuriEvent("profile_privacy_tapped")
+    data object FeedbackOpened : PuriEvent("feedback_opened")
 
     // ── Save ──────────────────────────────────────────────────────────────
     data class ResultSaved(val category: String) : PuriEvent("result_saved")
