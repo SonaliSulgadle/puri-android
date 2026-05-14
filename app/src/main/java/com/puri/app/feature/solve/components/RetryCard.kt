@@ -26,14 +26,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
+import com.puri.app.core.ui.theme.InkBlack
 
 @Composable
 fun RetryCard(
@@ -61,7 +61,7 @@ fun RetryCard(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.5f))
+                    .background(InkBlack.copy(alpha = 0.5f))
             )
         }
 
@@ -85,13 +85,13 @@ fun RetryCard(
                 Box(
                     modifier = Modifier
                         .size(64.dp)
-                        .background(IndigoPrimary.copy(alpha = 0.12f), CircleShape),
+                        .background(CeladonPrimary.copy(alpha = 0.12f), CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.HelpOutline,
                         contentDescription = null,
-                        tint = IndigoPrimary,
+                        tint = CeladonPrimary,
                         modifier = Modifier.size(32.dp)
                     )
                 }
@@ -115,7 +115,7 @@ fun RetryCard(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(50.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = IndigoPrimary
+                        containerColor = CeladonPrimary
                     )
                 ) {
                     Text(stringResource(R.string.retry_try_again))

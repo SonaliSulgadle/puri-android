@@ -62,7 +62,8 @@ import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.GradientSnapEnd
 import com.puri.app.core.ui.theme.GradientSnapStart
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
+import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.util.StatusBarIconColor
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -109,7 +110,7 @@ fun AddressConverterScreen(
                         Icon(
                             imageVector = Icons.Outlined.ArrowBackIosNew,
                             contentDescription = stringResource(R.string.cd_back),
-                            tint = IndigoPrimary
+                            tint = CeladonPrimary
                         )
                     }
                 }
@@ -174,7 +175,7 @@ fun AddressConverterScreen(
                         maxLines = 6,
                         enabled = !uiState.isLoading,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = IndigoPrimary,
+                            focusedBorderColor = CeladonPrimary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.outline
                         )
                     )
@@ -264,21 +265,21 @@ fun AddressConverterScreen(
                     ) {
                         if (uiState.isLoading) {
                             CircularProgressIndicator(
-                                color = Color.White,
+                                color = CeramicWhite,
                                 modifier = Modifier.size(20.dp),
                                 strokeWidth = 2.dp
                             )
                             Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_sm)))
                             Text(
                                 text = stringResource(R.string.address_converting),
-                                color = Color.White,
+                                color = CeramicWhite,
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.SemiBold
                             )
                         } else {
                             Text(
                                 text = stringResource(R.string.address_convert_button),
-                                color = if (uiState.input.isNotBlank()) Color.White
+                                color = if (uiState.input.isNotBlank()) CeramicWhite
                                 else MaterialTheme.colorScheme.onSurfaceVariant,
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.SemiBold,
@@ -302,8 +303,8 @@ private fun AddressHeroHeader() {
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        Color(0xFF0D1117),
-                        Color(0xFF161B2E),
+                        Color(0xFF0C0D0C),
+                        Color(0xFF1A1C1A),
                         MaterialTheme.colorScheme.background
                     )
                 )
@@ -318,7 +319,7 @@ private fun AddressHeroHeader() {
             text = stringResource(R.string.address_pin_emoji),
             fontSize = 100.sp,
             modifier = Modifier.align(Alignment.TopEnd),
-            color = Color.White.copy(alpha = 0.06f)
+            color = CeramicWhite.copy(alpha = 0.06f)
         )
 
         Column {
@@ -326,13 +327,13 @@ private fun AddressHeroHeader() {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(100.dp))
-                    .background(IndigoPrimary.copy(alpha = 0.2f))
+                    .background(CeladonPrimary.copy(alpha = 0.2f))
                     .padding(horizontal = 12.dp, vertical = 4.dp)
             ) {
                 Text(
                     text = stringResource(R.string.address_badge),
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color(0xFF9EA3FF),
+                    color = Color(0xFFDCE6DE),
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -342,7 +343,7 @@ private fun AddressHeroHeader() {
             Text(
                 text = stringResource(R.string.address_headline),
                 style = MaterialTheme.typography.headlineMedium,
-                color = Color.White,
+                color = CeramicWhite,
                 fontWeight = FontWeight.ExtraBold
             )
 
@@ -351,7 +352,7 @@ private fun AddressHeroHeader() {
             Text(
                 text = stringResource(R.string.address_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.White.copy(alpha = 0.6f)
+                color = CeramicWhite.copy(alpha = 0.6f)
             )
         }
     }

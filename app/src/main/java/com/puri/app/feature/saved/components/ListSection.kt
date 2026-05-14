@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.domain.model.GuideSection
 import com.puri.app.feature.saved.detail.SectionTitle
 
@@ -33,7 +33,7 @@ fun ListSection(section: GuideSection) {
                 Text(
                     text = "•",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = IndigoPrimary,
+                    color = CeladonPrimary,
                     modifier = Modifier.padding(top = 2.dp)
                 )
                 Text(

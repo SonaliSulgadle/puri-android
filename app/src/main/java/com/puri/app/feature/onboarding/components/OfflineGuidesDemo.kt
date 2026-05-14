@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
+import com.puri.app.core.ui.theme.CeramicWhite
 
 @Composable
 fun OfflineGuidesDemo(
@@ -86,14 +87,14 @@ fun OfflineGuidesDemo(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_lg)))
-                .background(Color.White.copy(alpha = 0.06f))
+                .background(CeramicWhite.copy(alpha = 0.06f))
                 .padding(vertical = dimensionResource(R.dimen.spacing_md)),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = stringResource(R.string.onboarding_guide_more),
                 style = MaterialTheme.typography.labelMedium,
-                color = Color.White.copy(alpha = 0.55f),
+                color = CeramicWhite.copy(alpha = 0.55f),
                 fontWeight = FontWeight.SemiBold
             )
         }

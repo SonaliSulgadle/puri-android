@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
 import com.puri.app.core.common.PuriError
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 
 @Composable
 fun ErrorCard(
@@ -86,7 +86,7 @@ fun ErrorCard(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(100.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = IndigoPrimary
+                        containerColor = CeladonPrimary
                     )
                 ) {
                     Text(

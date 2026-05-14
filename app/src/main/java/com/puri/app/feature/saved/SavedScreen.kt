@@ -39,7 +39,7 @@ import com.puri.app.R
 import com.puri.app.core.analytics.ScreenNames
 import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.domain.model.SavedGuide
 import com.puri.app.feature.saved.components.GuideCollectionBanner
 import com.puri.app.feature.saved.components.GuideListItem
@@ -121,11 +121,11 @@ private fun SavedContent(
             TabRow(
                 selectedTabIndex = selectedTab,
                 containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = IndigoPrimary,
+                contentColor = CeladonPrimary,
                 indicator = { tabPositions ->
                     SecondaryIndicator(
                         modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
-                        color = IndigoPrimary
+                        color = CeladonPrimary
                     )
                 }
             ) {
@@ -282,6 +282,6 @@ private fun MySavesTab(
 @Composable
 private fun SavedLoadingState(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(color = IndigoPrimary)
+        CircularProgressIndicator(color = CeladonPrimary)
     }
 }

@@ -68,7 +68,7 @@ import com.puri.app.core.analytics.PuriEvent
 import com.puri.app.core.analytics.ScreenNames
 import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.domain.model.AddressConfidence
 import com.puri.app.domain.model.AddressType
@@ -112,7 +112,7 @@ fun AddressResultScreen(
                         Icon(
                             imageVector = Icons.Outlined.ArrowBackIosNew,
                             contentDescription = stringResource(R.string.cd_back),
-                            tint = IndigoPrimary
+                            tint = CeladonPrimary
                         )
                     }
                 }
@@ -152,7 +152,7 @@ fun AddressResultScreen(
             Text(
                 text = stringResource(R.string.address_converted_label).uppercase(),
                 style = MaterialTheme.typography.labelSmall,
-                color = IndigoPrimary,
+                color = CeladonPrimary,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(6.dp))
@@ -209,7 +209,7 @@ fun AddressResultScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_lg)))
-                        .background(IndigoPrimary.copy(alpha = 0.08f))
+                        .background(CeladonPrimary.copy(alpha = 0.08f))
                         .padding(dimensionResource(R.dimen.spacing_md)),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_sm))
@@ -222,7 +222,7 @@ fun AddressResultScreen(
                         Text(
                             text = stringResource(R.string.address_detail_label),
                             style = MaterialTheme.typography.labelSmall,
-                            color = IndigoPrimary,
+                            color = CeladonPrimary,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
@@ -273,7 +273,7 @@ fun AddressResultScreen(
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(100.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = IndigoPrimary)
+                colors = ButtonDefaults.buttonColors(containerColor = CeladonPrimary)
             ) {
                 Icon(
                     imageVector = Icons.Outlined.ContentCopy,
@@ -314,7 +314,7 @@ fun AddressResultScreen(
                 Icon(
                     imageVector = Icons.Outlined.Map,
                     contentDescription = null,
-                    tint = IndigoPrimary,
+                    tint = CeladonPrimary,
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -344,7 +344,7 @@ fun AddressResultScreen(
                 Icon(
                     imageVector = Icons.Outlined.Map,
                     contentDescription = null,
-                    tint = IndigoPrimary,
+                    tint = CeladonPrimary,
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -428,13 +428,13 @@ private fun AddressTypePill(type: AddressType) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(100.dp))
-            .background(IndigoPrimary.copy(alpha = 0.08f))
+            .background(CeladonPrimary.copy(alpha = 0.08f))
             .padding(horizontal = 10.dp, vertical = 4.dp)
     ) {
         Text(
             text = type.label,
             style = MaterialTheme.typography.labelSmall,
-            color = IndigoPrimary
+            color = CeladonPrimary
         )
     }
 }

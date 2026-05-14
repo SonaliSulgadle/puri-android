@@ -201,12 +201,19 @@ fun SolveScreen(
 
             SolveUiState.CameraOpen ->
                 CameraScreen(
-                    onPhotoCaptured = { bitmap, _ ->
+                    onPhotoCaptured = { bitmap, additionalContext ->
                         scope.launch {
                             val safe = withContext(Dispatchers.Default) {
                                 bitmap.scaleToSafe()
                             }
                             val uri = safe.saveToTempFile(context)?.toString()
+                            if (!additionalContext.isNullOrBlank()) {
+                                viewModel.onIntent(
+                                    SolveIntent.AdditionalContextChanged(
+                                        additionalContext
+                                    )
+                                )
+                            }
                             viewModel.onIntent(ImageCaptured(safe, uri))
                         }
                     },

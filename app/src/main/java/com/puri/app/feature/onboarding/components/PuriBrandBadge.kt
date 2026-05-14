@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
+import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.theme.GradientSnapEnd
 import com.puri.app.core.ui.theme.GradientSnapStart
 
@@ -47,7 +48,7 @@ fun PuriBrandBadge(
         ) {
             Text(
                 text = stringResource(R.string.puri_brand_badge_label),
-                color = Color.White,
+                color = CeramicWhite,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -58,7 +59,7 @@ fun PuriBrandBadge(
         Text(
             text = stringResource(R.string.puri_label),
             style = MaterialTheme.typography.labelLarge,
-            color = Color.White.copy(alpha = 0.85f),
+            color = CeramicWhite.copy(alpha = 0.85f),
             fontWeight = FontWeight.ExtraBold,
             letterSpacing = 3.sp
         )

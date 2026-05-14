@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.PuriTheme
 
 @Composable
@@ -37,7 +37,7 @@ fun RecommendedActionCard(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(dimensionResource(R.dimen.radius_lg)),
         colors = CardDefaults.cardColors(
-            containerColor = IndigoPrimary.copy(alpha = 0.08f)
+            containerColor = CeladonPrimary.copy(alpha = 0.09f)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -48,7 +48,7 @@ fun RecommendedActionCard(
             Icon(
                 imageVector = Icons.Outlined.TouchApp,
                 contentDescription = null,
-                tint = IndigoPrimary,
+                tint = CeladonPrimary,
                 modifier = Modifier.size(dimensionResource(R.dimen.icon_md))
             )
             Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_sm)))
@@ -56,14 +56,14 @@ fun RecommendedActionCard(
                 Text(
                     text = stringResource(R.string.response_recommended_action),
                     style = MaterialTheme.typography.labelMedium,
-                    color = IndigoPrimary,
+                    color = CeladonPrimary,
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xs)))
                 Text(
                     text = action,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = IndigoPrimary,
+                    color = CeladonPrimary,
                 )
             }
         }

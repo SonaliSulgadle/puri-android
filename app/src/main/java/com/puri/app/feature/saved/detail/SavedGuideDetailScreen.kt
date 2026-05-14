@@ -56,7 +56,7 @@ import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.mapper.displayDescription
 import com.puri.app.core.ui.mapper.displayTitle
 import com.puri.app.core.ui.mapper.toChipColor
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.domain.model.GuideContent
@@ -103,7 +103,7 @@ fun SavedGuideDetailScreen(
                         Icon(
                             imageVector = Icons.Outlined.ArrowBackIosNew,
                             contentDescription = stringResource(R.string.cd_back),
-                            tint = IndigoPrimary
+                            tint = CeladonPrimary
                         )
                     }
                 }
@@ -121,7 +121,7 @@ fun SavedGuideDetailScreen(
                         .padding(padding),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(color = IndigoPrimary)
+                    CircularProgressIndicator(color = CeladonPrimary)
                 }
 
             SavedGuideDetailUiState.Error ->
@@ -312,13 +312,13 @@ private fun GuideHeroSection(
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(100.dp))
-                        .background(IndigoPrimary.copy(alpha = 0.1f))
+                        .background(CeladonPrimary.copy(alpha = 0.1f))
                         .padding(horizontal = 10.dp, vertical = 3.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.available_offline_label),
                         style = MaterialTheme.typography.labelSmall,
-                        color = IndigoPrimary,
+                        color = CeladonPrimary,
                         fontWeight = FontWeight.SemiBold
                     )
                 }

@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
+import com.puri.app.core.ui.theme.CeramicWhite
 
 @Composable
 fun ProfileHeroCard(
@@ -37,9 +38,9 @@ fun ProfileHeroCard(
             .background(
                 Brush.linearGradient(
                     listOf(
-                        Color(0xFF1A1040),
-                        Color(0xFF2D1B69),
-                        Color(0xFF4D51B1)
+                        Color(0xFF192B20),
+                        Color(0xFF3E5C49),
+                        Color(0xFF5C8A6E)
                     )
                 )
             )
@@ -48,7 +49,7 @@ fun ProfileHeroCard(
         Text(
             text = stringResource(R.string.puri_brand_badge_label),
             fontSize = 100.sp,
-            color = Color.White.copy(alpha = 0.05f),
+            color = CeramicWhite.copy(alpha = 0.05f),
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(
@@ -68,13 +69,13 @@ fun ProfileHeroCard(
                 modifier = Modifier
                     .size(72.dp)
                     .clip(RoundedCornerShape(20.dp))
-                    .background(Color.White.copy(alpha = 0.15f)),
+                    .background(CeramicWhite.copy(alpha = 0.15f)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = stringResource(R.string.puri_brand_badge_label),
                     fontSize = 32.sp,
-                    color = Color.White,
+                    color = CeramicWhite,
                     fontWeight = FontWeight.ExtraBold
                 )
             }
@@ -84,14 +85,14 @@ fun ProfileHeroCard(
             Text(
                 text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.headlineMedium,
-                color = Color.White,
+                color = CeramicWhite,
                 fontWeight = FontWeight.ExtraBold
             )
 
             Text(
                 text = stringResource(R.string.profile_app_tagline),
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.White.copy(alpha = 0.65f),
+                color = CeramicWhite.copy(alpha = 0.65f),
                 textAlign = TextAlign.Center
             )
 
@@ -101,13 +102,13 @@ fun ProfileHeroCard(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(100.dp))
-                    .background(Color.White.copy(alpha = 0.12f))
+                    .background(CeramicWhite.copy(alpha = 0.12f))
                     .padding(horizontal = 14.dp, vertical = 5.dp)
             ) {
                 Text(
                     text = "v$appVersion",
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.White.copy(alpha = 0.7f)
+                    color = CeramicWhite.copy(alpha = 0.7f)
                 )
             }
         }

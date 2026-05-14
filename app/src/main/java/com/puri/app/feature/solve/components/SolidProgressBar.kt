@@ -6,13 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 
 @Composable
 fun SolidProgressBar(
     progress: Float,
     modifier: Modifier = Modifier,
-    progressColor: Color = IndigoPrimary,
+    progressColor: Color = CeladonPrimary,
     trackColor: Color = MaterialTheme.colorScheme.surfaceContainerHighest
 ) {
     Canvas(modifier = modifier) {

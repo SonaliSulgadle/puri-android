@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.puri.app.R
 import com.puri.app.core.ui.mapper.toChipColor
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.core.util.DateTimeUtils
 import com.puri.app.domain.model.HistoryItem
@@ -63,7 +63,7 @@ fun RecentSolvesSection(
             Text(
                 text = stringResource(R.string.home_view_all),
                 style = MaterialTheme.typography.labelMedium,
-                color = IndigoPrimary,
+                color = CeladonPrimary,
                 modifier = Modifier.clickable { onViewAll() }
             )
         }

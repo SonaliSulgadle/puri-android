@@ -21,7 +21,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.domain.model.GuideSection
 import com.puri.app.feature.saved.detail.SectionTitle
 
@@ -42,13 +42,13 @@ fun StepsSection(section: GuideSection) {
                     modifier = Modifier
                         .size(28.dp)
                         .clip(RoundedCornerShape(50))
-                        .background(IndigoPrimary.copy(alpha = 0.12f)),
+                        .background(CeladonPrimary.copy(alpha = 0.12f)),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "${index + 1}",
                         style = MaterialTheme.typography.labelMedium,
-                        color = IndigoPrimary,
+                        color = CeladonPrimary,
                         fontWeight = FontWeight.Bold
                     )
                 }

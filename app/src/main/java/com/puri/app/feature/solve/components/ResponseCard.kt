@@ -63,7 +63,8 @@ import com.puri.app.R
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.GradientSnapEnd
 import com.puri.app.core.ui.theme.GradientSnapStart
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
+import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.domain.model.SolveResult
@@ -99,7 +100,7 @@ fun ResponseCard(
                         Icon(
                             imageVector = Icons.Outlined.ArrowBackIosNew,
                             contentDescription = stringResource(R.string.cd_back),
-                            tint = IndigoPrimary
+                            tint = CeladonPrimary
                         )
                     }
                 }
@@ -171,7 +172,7 @@ fun ResponseCard(
                     Text(
                         text = stringResource(R.string.response_analysis_complete).uppercase(),
                         style = MaterialTheme.typography.labelMedium,
-                        color = IndigoPrimary
+                        color = CeladonPrimary
                     )
                 }
 
@@ -302,7 +303,7 @@ fun ResponseCard(
                     ) {
                         Text(
                             text = stringResource(R.string.response_solve_again),
-                            color = Color.White,
+                            color = CeramicWhite,
                             fontWeight = FontWeight.SemiBold
                         )
                     }
@@ -322,7 +323,7 @@ fun ResponseCard(
                             imageVector = if (isSaved) Icons.Filled.Bookmark
                             else Icons.Outlined.BookmarkBorder,
                             contentDescription = stringResource(R.string.cd_save_guide),
-                            tint = IndigoPrimary
+                            tint = CeladonPrimary
                         )
                         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_sm)))
                         Text(

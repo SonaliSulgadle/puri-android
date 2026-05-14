@@ -27,13 +27,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
+import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.theme.PuriTheme
 import kotlinx.coroutines.delay
 
@@ -90,7 +90,7 @@ private fun LoadingPill(loadingMessages: List<Int>) {
 
     Surface(
         shape = RoundedCornerShape(dimensionResource(R.dimen.radius_pill)),
-        color = IndigoPrimary,
+        color = CeladonPrimary,
         shadowElevation = 8.dp
     ) {
         Row(
@@ -101,7 +101,7 @@ private fun LoadingPill(loadingMessages: List<Int>) {
             )
         ) {
             CircularProgressIndicator(
-                color = Color.White,
+                color = CeramicWhite,
                 modifier = Modifier.size(16.dp),
                 strokeWidth = 2.dp
             )
@@ -116,7 +116,7 @@ private fun LoadingPill(loadingMessages: List<Int>) {
             ) { index ->
                 Text(
                     text = stringResource(loadingMessages[index]),
-                    color = Color.White,
+                    color = CeramicWhite,
                     style = MaterialTheme.typography.labelMedium
                 )
             }
