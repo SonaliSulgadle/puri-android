@@ -48,7 +48,7 @@ class SolveTextUseCaseTest {
         @Test
         @DisplayName("returns DailyLimitReached error when no solves remaining")
         fun dailyLimitReturnsError() = runTest {
-            fakePrefsRepo.dailySolvesRemainingValue = 0
+            fakePrefsRepo.setDailySolvesRemaining(0)
             val result = useCase("How do I sort trash?")
             assertThat(result).isInstanceOf(Resource.Error::class.java)
             assertThat((result as Resource.Error).error)
@@ -77,7 +77,7 @@ class SolveTextUseCaseTest {
         @Test
         @DisplayName("decrements daily solve counter")
         fun decrementsCounter() = runTest {
-            fakePrefsRepo.dailySolvesRemainingValue = 5
+            fakePrefsRepo.setDailySolvesRemaining(5)
             useCase("How do I sort trash?")
             // Indirectly verified — if history was saved, decrement was called
             // Direct counter verification happens in PreferencesRepository tests

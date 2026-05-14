@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -109,7 +110,11 @@ fun CameraScreen(
             onClick = onDismiss,
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(dimensionResource(R.dimen.spacing_lg))
+                .statusBarsPadding()
+                .padding(
+                    start = dimensionResource(R.dimen.spacing_sm),
+                    top = dimensionResource(R.dimen.spacing_sm)
+                )
         ) {
             Icon(
                 imageVector = Icons.Outlined.Close,
@@ -124,7 +129,8 @@ fun CameraScreen(
             color = CeramicWhite.copy(alpha = 0.8f),
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(top = dimensionResource(R.dimen.spacing_xl) * 2)
+                .statusBarsPadding()
+                .padding(top = dimensionResource(R.dimen.spacing_xl))
         )
 
         // Show capture error as overlay if something went wrong
