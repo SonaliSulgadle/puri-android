@@ -18,8 +18,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.puri.app.core.ui.theme.CeramicWhite
 
 @Composable
 fun OnboardingDots(
@@ -42,7 +42,7 @@ fun OnboardingDots(
             )
 
             val dotColor by animateColorAsState(
-                targetValue = if (isSelected) Color.White else Color.White.copy(alpha = 0.3f),
+                targetValue = if (isSelected) CeramicWhite else CeramicWhite.copy(alpha = 0.3f),
                 animationSpec = tween(250, easing = FastOutSlowInEasing),
                 label = "dot_color_$index"
             )

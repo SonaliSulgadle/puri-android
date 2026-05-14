@@ -1,6 +1,5 @@
 package com.puri.app.core.ui.components
 
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -11,8 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.PuriTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,7 +28,7 @@ fun PuriTopBar(
                 text = title,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.ExtraBold,
-                color = IndigoPrimary
+                color = CeladonPrimary
             )
         },
         navigationIcon = navigationIcon,
@@ -39,7 +37,7 @@ fun PuriTopBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.surface,
             scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-            titleContentColor = IndigoPrimary
+            titleContentColor = CeladonPrimary
         ),
         modifier = modifier
     )

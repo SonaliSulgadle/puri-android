@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.PuriTheme
 
 @Composable
@@ -42,14 +42,14 @@ fun DailySolvesCounter(
             modifier = Modifier
                 .width(80.dp)
                 .height(dimensionResource(R.dimen.progress_bar_height)),
-            progressColor = IndigoPrimary,
+            progressColor = CeladonPrimary,
             trackColor = MaterialTheme.colorScheme.surfaceContainerHigh
         )
 
         Text(
             text = "$remaining/$total",
             style = MaterialTheme.typography.labelMedium,
-            color = IndigoPrimary,
+            color = CeladonPrimary,
             fontWeight = FontWeight.Bold
         )
     }

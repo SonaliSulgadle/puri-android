@@ -23,13 +23,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.puri.app.R
-import com.puri.app.core.ui.theme.MagentaTertiary
+import com.puri.app.core.ui.theme.CeramicWhite
+import com.puri.app.core.ui.theme.MossTertiary
 import com.puri.app.core.ui.theme.PuriTheme
 
 @Composable
@@ -48,13 +48,13 @@ fun UnsafeContentCard(
         Box(
             modifier = Modifier
                 .size(dimensionResource(R.dimen.daily_limit_icon_container))
-                .background(MagentaTertiary.copy(alpha = 0.12f), CircleShape),
+                .background(MossTertiary.copy(alpha = 0.12f), CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Outlined.HealthAndSafety,
                 contentDescription = null,
-                tint = MagentaTertiary,
+                tint = MossTertiary,
                 modifier = Modifier.size(dimensionResource(R.dimen.icon_xl))
             )
         }
@@ -82,11 +82,11 @@ fun UnsafeContentCard(
             onClick = onCallEmergency,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(dimensionResource(R.dimen.radius_pill)),
-            colors = ButtonDefaults.buttonColors(containerColor = MagentaTertiary)
+            colors = ButtonDefaults.buttonColors(containerColor = MossTertiary)
         ) {
             Text(
                 text = stringResource(R.string.unsafe_emergency_call),
-                color = Color.White
+                color = CeramicWhite
             )
         }
 

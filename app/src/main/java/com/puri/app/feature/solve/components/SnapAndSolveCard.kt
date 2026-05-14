@@ -41,6 +41,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
+import com.puri.app.core.ui.theme.CeladonPrimary
+import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.theme.PuriTheme
 
 @Composable
@@ -63,9 +65,9 @@ fun SnapAndSolveCard(
 
     val cardGradient = Brush.linearGradient(
         colors = listOf(
-            Color(0xFF2D1B69),
-            Color(0xFF4D51B1),
-            Color(0xFF6A37D4)
+            Color(0xFF192B20),
+            Color(0xFF3E5C49),
+            Color(0xFF5C8A6E)
         )
     )
 
@@ -80,7 +82,7 @@ fun SnapAndSolveCard(
         Text(
             text = stringResource(R.string.background_puri_label),
             fontSize = 140.sp,
-            color = Color.White.copy(alpha = 0.04f),
+            color = CeramicWhite.copy(alpha = 0.04f),
             modifier = Modifier
                 .align(Alignment.Center)
                 .padding(end = 8.dp, bottom = 0.dp)
@@ -97,13 +99,13 @@ fun SnapAndSolveCard(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(100.dp))
-                    .background(Color.White.copy(alpha = 0.15f))
+                    .background(CeramicWhite.copy(alpha = 0.15f))
                     .padding(horizontal = 12.dp, vertical = 4.dp)
             ) {
                 Text(
                     text = stringResource(R.string.puri_ai_label),
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.White.copy(alpha = 0.9f),
+                    color = CeramicWhite.copy(alpha = 0.9f),
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -116,10 +118,10 @@ fun SnapAndSolveCard(
                     .size(72.dp)
                     .scale(pulseScale)
                     .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.2f))
+                    .background(CeramicWhite.copy(alpha = 0.2f))
                     .border(
                         width = 1.5.dp,
-                        color = Color.White.copy(alpha = 0.4f),
+                        color = CeramicWhite.copy(alpha = 0.4f),
                         shape = CircleShape
                     ),
                 contentAlignment = Alignment.Center
@@ -127,7 +129,7 @@ fun SnapAndSolveCard(
                 Icon(
                     imageVector = Icons.Outlined.CameraAlt,
                     contentDescription = null,
-                    tint = Color.White,
+                    tint = CeramicWhite,
                     modifier = Modifier.size(34.dp)
                 )
             }
@@ -137,7 +139,7 @@ fun SnapAndSolveCard(
             Text(
                 text = stringResource(R.string.home_snap_solve_title),
                 style = MaterialTheme.typography.headlineLarge,
-                color = Color.White,
+                color = CeramicWhite,
                 fontWeight = FontWeight.ExtraBold
             )
 
@@ -146,7 +148,7 @@ fun SnapAndSolveCard(
             Text(
                 text = stringResource(R.string.home_snap_solve_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.White.copy(alpha = 0.75f),
+                color = CeramicWhite.copy(alpha = 0.75f),
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
 
@@ -157,7 +159,7 @@ fun SnapAndSolveCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(100.dp))
-                    .background(Color.White)
+                    .background(CeramicWhite)
                     .clickable { onCameraClick() }
                     .padding(vertical = 14.dp),
                 contentAlignment = Alignment.Center
@@ -169,12 +171,12 @@ fun SnapAndSolveCard(
                     Icon(
                         imageVector = Icons.Outlined.CameraAlt,
                         contentDescription = null,
-                        tint = Color(0xFF4D51B1),
+                        tint = Color(0xFF3E5C49),
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
                         text = stringResource(R.string.home_open_camera),
-                        color = Color(0xFF2D1B69),
+                        color = CeladonPrimary,
                         fontWeight = FontWeight.ExtraBold,
                         style = MaterialTheme.typography.titleMedium
                     )
@@ -190,10 +192,10 @@ fun SnapAndSolveCard(
                     .clip(RoundedCornerShape(100.dp))
                     .border(
                         width = 1.dp,
-                        color = Color.White.copy(alpha = 0.4f),
+                        color = CeramicWhite.copy(alpha = 0.4f),
                         shape = RoundedCornerShape(100.dp)
                     )
-                    .background(Color.White.copy(alpha = 0.08f))
+                    .background(CeramicWhite.copy(alpha = 0.08f))
                     .clickable { onGalleryClick() }
                     .padding(vertical = 13.dp),
                 contentAlignment = Alignment.Center
@@ -205,12 +207,12 @@ fun SnapAndSolveCard(
                     Icon(
                         imageVector = Icons.Outlined.PhotoLibrary,
                         contentDescription = null,
-                        tint = Color.White,
+                        tint = CeramicWhite,
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
                         text = stringResource(R.string.home_choose_gallery),
-                        color = Color.White,
+                        color = CeramicWhite,
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.SemiBold
                     )

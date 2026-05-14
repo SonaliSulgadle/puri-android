@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
+import com.puri.app.core.ui.theme.CeramicWhite
 
 @Composable
 fun OfflineGuideChip(
@@ -29,7 +30,7 @@ fun OfflineGuideChip(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_lg)))
-            .background(Color.White.copy(alpha = 0.08f))
+            .background(CeramicWhite.copy(alpha = 0.08f))
             .padding(horizontal = dimensionResource(R.dimen.spacing_md), vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -38,7 +39,7 @@ fun OfflineGuideChip(
         Text(
             text = stringResource(labelRes),
             style = MaterialTheme.typography.bodySmall,
-            color = Color.White.copy(alpha = 0.85f),
+            color = CeramicWhite.copy(alpha = 0.85f),
             fontWeight = FontWeight.Medium
         )
     }

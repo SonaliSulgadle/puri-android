@@ -26,8 +26,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
+import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.theme.GradientSnapEnd
 import com.puri.app.core.ui.theme.GradientSnapStart
+import com.puri.app.core.ui.theme.InkBlack
 
 @Composable
 fun ImageToTextDemo(
@@ -54,12 +56,12 @@ fun ImageToTextDemo(
                         modifier = Modifier
                             .size(6.dp)
                             .clip(CircleShape)
-                            .background(Color.White.copy(alpha = 0.5f))
+                            .background(CeramicWhite.copy(alpha = 0.5f))
                     )
                     Text(
                         text = stringResource(R.string.onboarding_you_label),
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color.White.copy(alpha = 0.5f)
+                        color = CeramicWhite.copy(alpha = 0.5f)
                     )
                 }
 
@@ -75,7 +77,7 @@ fun ImageToTextDemo(
                                 bottomEnd = 20.dp
                             )
                         )
-                        .background(Color.White.copy(alpha = 0.1f)),
+                        .background(CeramicWhite.copy(alpha = 0.1f)),
                     contentAlignment = Alignment.Center
                 ) {
                     // Simulated washing machine photo
@@ -87,7 +89,7 @@ fun ImageToTextDemo(
                         Text(
                             text = stringResource(R.string.onboarding_photo_sent_label),
                             style = MaterialTheme.typography.labelSmall,
-                            color = Color.White.copy(alpha = 0.5f)
+                            color = CeramicWhite.copy(alpha = 0.5f)
                         )
                     }
 
@@ -98,7 +100,7 @@ fun ImageToTextDemo(
                             .padding(dimensionResource(R.dimen.spacing_sm))
                             .size(24.dp)
                             .clip(CircleShape)
-                            .background(Color.Black.copy(alpha = 0.4f)),
+                            .background(InkBlack.copy(alpha = 0.4f)),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(text = stringResource(R.string.emoji_camera), fontSize = 12.sp)
@@ -138,7 +140,7 @@ fun PuriAnswerBubble(
         ) {
             Text(
                 text = stringResource(R.string.puri_brand_badge_label),
-                color = Color.White,
+                color = CeramicWhite,
                 fontSize = 9.sp,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -194,7 +196,7 @@ fun PuriAnswerBubble(
                 Text(
                     text = answer,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White,
+                    color = CeramicWhite,
                     lineHeight = 22.sp
                 )
             }

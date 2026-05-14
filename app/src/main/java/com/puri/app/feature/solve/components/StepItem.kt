@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.domain.model.SolveStep
 
@@ -48,13 +48,13 @@ fun StepItem(
             Box(
                 modifier = Modifier
                     .size(dimensionResource(R.dimen.step_circle_size))
-                    .background(IndigoPrimary.copy(alpha = 0.12f), CircleShape),
+                    .background(CeladonPrimary.copy(alpha = 0.12f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = step.order.toString(),
                     style = MaterialTheme.typography.labelMedium,
-                    color = IndigoPrimary,
+                    color = CeladonPrimary,
                     fontWeight = FontWeight.Bold
                 )
             }

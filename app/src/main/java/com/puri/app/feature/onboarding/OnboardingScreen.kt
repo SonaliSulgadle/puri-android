@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -44,6 +43,7 @@ import com.puri.app.core.analytics.LocalAnalytics
 import com.puri.app.core.analytics.PuriEvent
 import com.puri.app.core.analytics.ScreenNames
 import com.puri.app.core.analytics.TrackScreen
+import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.theme.GradientSnapEnd
 import com.puri.app.core.ui.theme.GradientSnapStart
 import com.puri.app.core.ui.theme.PuriTheme
@@ -172,7 +172,7 @@ fun OnboardingScreen(
                             stringResource(R.string.onboarding_next),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.ExtraBold,
-                        color = Color.White,
+                        color = CeramicWhite,
                         modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_xs))
                     )
                 }
@@ -185,7 +185,7 @@ fun OnboardingScreen(
                 ) {
                     Text(
                         text = stringResource(R.string.onboarding_skip),
-                        color = Color.White.copy(alpha = 0.45f),
+                        color = CeramicWhite.copy(alpha = 0.45f),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -208,7 +208,7 @@ private fun OnboardingPageContent(
         Text(
             text = pageRes.bigEmoji,
             fontSize = 240.sp,
-            color = Color.White.copy(alpha = 0.035f),
+            color = CeramicWhite.copy(alpha = 0.035f),
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(top = 32.dp)
@@ -230,7 +230,7 @@ private fun OnboardingPageContent(
                 text = stringResource(pageRes.headlineRes),
                 style = MaterialTheme.typography.displaySmall,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color.White,
+                color = CeramicWhite,
                 lineHeight = 42.sp
             )
 
@@ -239,7 +239,7 @@ private fun OnboardingPageContent(
             Text(
                 text = stringResource(pageRes.subtitleRes),
                 style = MaterialTheme.typography.bodyLarge,
-                color = Color.White.copy(alpha = 0.6f)
+                color = CeramicWhite.copy(alpha = 0.6f)
             )
 
             Spacer(modifier = Modifier.height(32.dp))

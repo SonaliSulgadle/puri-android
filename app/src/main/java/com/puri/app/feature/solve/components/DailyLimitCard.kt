@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.PuriTheme
 
 @Composable
@@ -45,13 +45,13 @@ fun DailyLimitCard(
         Box(
             modifier = Modifier
                 .size(dimensionResource(R.dimen.daily_limit_icon_container))
-                .background(IndigoPrimary.copy(alpha = 0.1f), CircleShape),
+                .background(CeladonPrimary.copy(alpha = 0.1f), CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Outlined.AccessTime,
                 contentDescription = null,
-                tint = IndigoPrimary,
+                tint = CeladonPrimary,
                 modifier = Modifier.size(dimensionResource(R.dimen.icon_xl))
             )
         }
@@ -78,7 +78,7 @@ fun DailyLimitCard(
         Text(
             text = stringResource(R.string.daily_limit_resets_label),
             style = MaterialTheme.typography.labelMedium,
-            color = IndigoPrimary
+            color = CeladonPrimary
         )
 
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_3xl)))

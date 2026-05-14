@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +25,7 @@ import com.puri.app.R
 import com.puri.app.core.ui.mapper.displayDescription
 import com.puri.app.core.ui.mapper.displayTitle
 import com.puri.app.core.ui.mapper.toLabelRes
+import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.theme.GradientHeroEnd
 import com.puri.app.core.ui.theme.GradientHeroStart
 import com.puri.app.domain.model.SavedGuide
@@ -50,20 +50,20 @@ fun FeaturedGuideCard(
                 text = guide.category.emoji + "  " +
                         stringResource(guide.category.toLabelRes()).uppercase(),
                 style = MaterialTheme.typography.labelMedium,
-                color = Color.White.copy(alpha = 0.8f)
+                color = CeramicWhite.copy(alpha = 0.8f)
             )
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xs)))
             Text(
                 text = guide.displayTitle(),
                 style = MaterialTheme.typography.titleLarge,
-                color = Color.White,
+                color = CeramicWhite,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xs)))
             Text(
                 text = guide.displayDescription(),
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.White.copy(alpha = 0.8f),
+                color = CeramicWhite.copy(alpha = 0.8f),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )

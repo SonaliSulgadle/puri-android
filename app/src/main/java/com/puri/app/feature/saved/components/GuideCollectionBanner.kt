@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
+import com.puri.app.core.ui.theme.CeramicWhite
 
 @Composable
 fun GuideCollectionBanner(modifier: Modifier = Modifier) {
@@ -31,7 +32,11 @@ fun GuideCollectionBanner(modifier: Modifier = Modifier) {
             .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_xl)))
             .background(
                 Brush.linearGradient(
-                    listOf(Color(0xFF1A1040), Color(0xFF2D1B69), Color(0xFF4D51B1))
+                    listOf(
+                        Color(0xFF192B20),
+                        Color(0xFF3E5C49),
+                        Color(0xFF5C8A6E)
+                    )
                 )
             )
             .padding(dimensionResource(R.dimen.spacing_xl))
@@ -40,7 +45,7 @@ fun GuideCollectionBanner(modifier: Modifier = Modifier) {
         Text(
             text = stringResource(R.string.korea_flag_emoji),
             fontSize = 80.sp,
-            color = Color.White.copy(alpha = 0.08f),
+            color = CeramicWhite.copy(alpha = 0.08f),
             modifier = Modifier.align(Alignment.CenterEnd)
         )
 
@@ -49,13 +54,13 @@ fun GuideCollectionBanner(modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(100.dp))
-                    .background(Color.White.copy(alpha = 0.15f))
+                    .background(CeramicWhite.copy(alpha = 0.15f))
                     .padding(horizontal = 10.dp, vertical = dimensionResource(R.dimen.spacing_xs))
             ) {
                 Text(
                     text = stringResource(R.string.guide_offline_ready_label),
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.White,
+                    color = CeramicWhite,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -65,7 +70,7 @@ fun GuideCollectionBanner(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.seoul_life_guides_label),
                 style = MaterialTheme.typography.headlineSmall,
-                color = Color.White,
+                color = CeramicWhite,
                 fontWeight = FontWeight.ExtraBold
             )
 
@@ -74,7 +79,7 @@ fun GuideCollectionBanner(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.essential_guides_info),
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.White.copy(alpha = 0.7f)
+                color = CeramicWhite.copy(alpha = 0.7f)
             )
         }
     }

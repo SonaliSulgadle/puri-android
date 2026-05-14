@@ -62,7 +62,8 @@ import com.puri.app.core.analytics.ScreenNames
 import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.mapper.toChipColor
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
+import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.util.DateTimeUtils
 import com.puri.app.domain.model.HistoryItem
 import com.puri.app.domain.model.SolveResult
@@ -101,7 +102,7 @@ fun HistoryDetailScreen(
                         Icon(
                             imageVector = Icons.Outlined.ArrowBackIosNew,
                             contentDescription = stringResource(R.string.cd_back),
-                            tint = IndigoPrimary
+                            tint = CeladonPrimary
                         )
                     }
                 }
@@ -119,7 +120,7 @@ fun HistoryDetailScreen(
                         .padding(padding),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(color = IndigoPrimary)
+                    CircularProgressIndicator(color = CeladonPrimary)
                 }
 
             HistoryDetailUiState.Error ->
@@ -259,14 +260,14 @@ private fun HistoryDetailContent(
                     imageVector = if (isSaved) Icons.Filled.Bookmark
                     else Icons.Outlined.BookmarkBorder,
                     contentDescription = null,
-                    tint = IndigoPrimary,
+                    tint = CeladonPrimary,
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = if (isSaved) stringResource(R.string.response_saved)
                     else stringResource(R.string.response_save),
-                    color = IndigoPrimary
+                    color = CeladonPrimary
                 )
             }
 
@@ -331,7 +332,7 @@ private fun HeroSection(
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(100.dp))
-                            .background(Color.White.copy(alpha = 0.1f))
+                            .background(CeramicWhite.copy(alpha = 0.1f))
                             .padding(horizontal = 16.dp, vertical = 6.dp)
                     ) {
                         Text(

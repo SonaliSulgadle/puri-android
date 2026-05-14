@@ -21,7 +21,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.domain.model.GuideSection
 import com.puri.app.feature.saved.detail.SectionTitle
 
@@ -53,7 +53,7 @@ fun TableSection(section: GuideSection) {
                             Text(
                                 text = item.korean,
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = IndigoPrimary,
+                                color = CeladonPrimary,
                                 fontWeight = FontWeight.Bold
                             )
                             if (item.translation.isNotBlank()) {

@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.domain.model.VisibleTextItem
 
@@ -67,7 +67,7 @@ private fun VisibleTextRow(
             Text(
                 text = item.original,
                 style = MaterialTheme.typography.bodyMedium,
-                color = IndigoPrimary,
+                color = CeladonPrimary,
                 fontWeight = FontWeight.Bold
             )
             // Arrow + translation on next line if original is long

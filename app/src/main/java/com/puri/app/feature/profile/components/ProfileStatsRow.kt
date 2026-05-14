@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 
 @Composable
 fun ProfileStatsRow(
@@ -79,7 +79,7 @@ fun StatBlock(
             text = value,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.ExtraBold,
-            color = IndigoPrimary
+            color = CeladonPrimary
         )
 
         Text(

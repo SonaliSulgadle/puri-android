@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 
 @Composable
 fun SectionHeader(
@@ -28,14 +28,14 @@ fun SectionHeader(
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = IndigoPrimary,
+            tint = CeladonPrimary,
             modifier = Modifier.size(dimensionResource(R.dimen.icon_md))
         )
         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_sm)))
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,
-            color = IndigoPrimary
+            color = CeladonPrimary
         )
     }
 }

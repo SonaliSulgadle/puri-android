@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.puri.app.R
 import com.puri.app.core.ui.mapper.displayDescription
 import com.puri.app.core.ui.mapper.displayTitle
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.domain.model.SavedGuide
 
 @Composable
@@ -76,7 +76,7 @@ fun GuideListItem(
                     Text(
                         text = stringResource(R.string.saved_local_copy),
                         style = MaterialTheme.typography.labelSmall,
-                        color = IndigoPrimary
+                        color = CeladonPrimary
                     )
                 }
             }

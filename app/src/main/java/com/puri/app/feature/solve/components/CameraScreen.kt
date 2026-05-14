@@ -51,6 +51,8 @@ import com.puri.app.R
 import com.puri.app.core.camera.CameraManager
 import com.puri.app.core.common.fixRotationFromDisplay
 import com.puri.app.core.common.scaleToSafe
+import com.puri.app.core.ui.theme.CeramicWhite
+import com.puri.app.core.ui.theme.InkBlack
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -98,7 +100,7 @@ fun CameraScreen(
                 .height(dimensionResource(R.dimen.spacing_bottom_nav))
                 .background(
                     Brush.verticalGradient(
-                        listOf(Color.Black.copy(alpha = 0.5f), Color.Transparent)
+                        listOf(InkBlack.copy(alpha = 0.5f), Color.Transparent)
                     )
                 )
         )
@@ -112,14 +114,14 @@ fun CameraScreen(
             Icon(
                 imageVector = Icons.Outlined.Close,
                 contentDescription = stringResource(R.string.camera_close),
-                tint = Color.White
+                tint = CeramicWhite
             )
         }
 
         Text(
             text = stringResource(R.string.camera_hint),
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.White.copy(alpha = 0.8f),
+            color = CeramicWhite.copy(alpha = 0.8f),
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = dimensionResource(R.dimen.spacing_xl) * 2)
@@ -132,12 +134,12 @@ fun CameraScreen(
                     .align(Alignment.Center)
                     .padding(dimensionResource(R.dimen.spacing_xl))
                     .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_xl)))
-                    .background(Color.Black.copy(alpha = 0.7f))
+                    .background(InkBlack.copy(alpha = 0.7f))
                     .padding(dimensionResource(R.dimen.spacing_lg))
             ) {
                 Text(
                     text = error,
-                    color = Color.White,
+                    color = CeramicWhite,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -147,7 +149,7 @@ fun CameraScreen(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .background(Color.Black.copy(alpha = 0.4f))
+                .background(InkBlack.copy(alpha = 0.4f))
                 .padding(dimensionResource(R.dimen.spacing_xl)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -157,15 +159,15 @@ fun CameraScreen(
                 placeholder = {
                     Text(
                         text = stringResource(R.string.camera_additional_context_hint),
-                        color = Color.White.copy(alpha = 0.6f)
+                        color = CeramicWhite.copy(alpha = 0.6f)
                     )
                 },
                 shape = RoundedCornerShape(dimensionResource(R.dimen.radius_pill)),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    focusedBorderColor = Color.White.copy(alpha = 0.5f),
-                    unfocusedBorderColor = Color.White.copy(alpha = 0.3f)
+                    focusedTextColor = CeramicWhite,
+                    unfocusedTextColor = CeramicWhite,
+                    focusedBorderColor = CeramicWhite.copy(alpha = 0.5f),
+                    unfocusedBorderColor = CeramicWhite.copy(alpha = 0.3f)
                 ),
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -250,8 +252,8 @@ private fun ShutterButton(
             .graphicsLayer { scaleX = scale; scaleY = scale }
             .clip(CircleShape)
             .background(
-                if (isCapturing) Color.White.copy(alpha = 0.5f)
-                else Color.White.copy(alpha = 0.3f)
+                if (isCapturing) CeramicWhite.copy(alpha = 0.5f)
+                else CeramicWhite.copy(alpha = 0.3f)
             )
             .clickable(
                 enabled = !isCapturing,
@@ -265,7 +267,7 @@ private fun ShutterButton(
                 .size(dimensionResource(R.dimen.confidence_icon_container))
                 .clip(CircleShape)
                 .background(
-                    if (isCapturing) Color.White.copy(alpha = 0.7f) else Color.White
+                    if (isCapturing) CeramicWhite.copy(alpha = 0.7f) else CeramicWhite
                 )
         )
     }

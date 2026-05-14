@@ -16,7 +16,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 
 @Composable
 fun PuriResponseTopBar(
@@ -36,13 +36,13 @@ fun PuriResponseTopBar(
             Icon(
                 imageVector = Icons.Outlined.ArrowBackIosNew,
                 contentDescription = stringResource(R.string.cd_back),
-                tint = IndigoPrimary
+                tint = CeladonPrimary
             )
         }
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,
-            color = IndigoPrimary,
+            color = CeladonPrimary,
             fontWeight = FontWeight.ExtraBold
         )
     }

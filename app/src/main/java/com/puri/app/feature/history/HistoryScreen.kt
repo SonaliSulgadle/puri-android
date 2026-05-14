@@ -60,7 +60,7 @@ import com.puri.app.R
 import com.puri.app.core.analytics.ScreenNames
 import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.PuriTheme
 import com.puri.app.core.util.DateTimeUtils
 import com.puri.app.domain.model.HistoryItem
@@ -320,7 +320,7 @@ private fun HistoryItemCard(
             Text(
                 text = stringResource(R.string.history_view_solve),
                 style = MaterialTheme.typography.labelMedium,
-                color = IndigoPrimary,
+                color = CeladonPrimary,
                 fontWeight = FontWeight.SemiBold
             )
         }
@@ -363,7 +363,7 @@ private fun HistoryLoadingState(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(color = IndigoPrimary)
+        CircularProgressIndicator(color = CeladonPrimary)
     }
 }
 

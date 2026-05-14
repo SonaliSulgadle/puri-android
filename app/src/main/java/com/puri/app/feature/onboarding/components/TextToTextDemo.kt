@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.puri.app.R
+import com.puri.app.core.ui.theme.CeramicWhite
 
 @Composable
 fun TextToTextDemo(
@@ -50,7 +51,7 @@ fun TextToTextDemo(
                             bottomEnd = 20.dp
                         )
                     )
-                    .background(Color.White.copy(alpha = 0.12f))
+                    .background(CeramicWhite.copy(alpha = 0.12f))
                     .padding(horizontal = 16.dp, vertical = 14.dp)
             ) {
                 Column {
@@ -62,19 +63,19 @@ fun TextToTextDemo(
                             modifier = Modifier
                                 .size(6.dp)
                                 .clip(CircleShape)
-                                .background(Color.White.copy(alpha = 0.5f))
+                                .background(CeramicWhite.copy(alpha = 0.5f))
                         )
                         Text(
                             text = stringResource(R.string.onboarding_you_label),
                             style = MaterialTheme.typography.labelSmall,
-                            color = Color.White.copy(alpha = 0.5f)
+                            color = CeramicWhite.copy(alpha = 0.5f)
                         )
                     }
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xs)))
                     Text(
                         text = stringResource(R.string.onboarding_text_demo_label),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color.White,
+                        color = CeramicWhite,
                         fontWeight = FontWeight.Medium
                     )
                 }

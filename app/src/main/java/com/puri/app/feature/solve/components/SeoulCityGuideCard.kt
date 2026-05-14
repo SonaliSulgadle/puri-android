@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
+import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.theme.PuriTheme
 
 @Composable
@@ -43,7 +44,7 @@ fun SeoulCityGuideCard(
             .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_xl)))
             .background(
                 Brush.linearGradient(
-                    colors = listOf(Color(0xFF0D1117), Color(0xFF161B22))
+                    colors = listOf(Color(0xFF1A1C1A), Color(0xFF232623))
                 )
             )
             .clickable { onClick() }
@@ -55,7 +56,7 @@ fun SeoulCityGuideCard(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .padding(end = 16.dp),
-            color = Color.White.copy(alpha = 0.15f)
+            color = CeramicWhite.copy(alpha = 0.15f)
         )
 
         Row(
@@ -70,13 +71,13 @@ fun SeoulCityGuideCard(
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(100.dp))
-                        .background(Color(0xFF4D51B1).copy(alpha = 0.3f))
+                        .background(Color(0xFF3E5C49).copy(alpha = 0.3f))
                         .padding(horizontal = 10.dp, vertical = 3.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.guides_offline_label),
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color(0xFF9EA3FF),
+                        color = Color(0xFFDCE6DE),
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -86,7 +87,7 @@ fun SeoulCityGuideCard(
                 Text(
                     text = stringResource(R.string.home_guides_title),
                     style = MaterialTheme.typography.titleLarge,
-                    color = Color.White,
+                    color = CeramicWhite,
                     fontWeight = FontWeight.Bold
                 )
 
@@ -95,14 +96,14 @@ fun SeoulCityGuideCard(
                 Text(
                     text = stringResource(R.string.home_guides_subtitle),
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.55f)
+                    color = CeramicWhite.copy(alpha = 0.55f)
                 )
             }
 
             Icon(
                 imageVector = Icons.Outlined.ChevronRight,
                 contentDescription = null,
-                tint = Color.White.copy(alpha = 0.4f),
+                tint = CeramicWhite.copy(alpha = 0.4f),
                 modifier = Modifier.size(24.dp)
             )
         }

@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
+import com.puri.app.core.ui.theme.CeramicWhite
 
 @Composable
 fun LocalDataCard(modifier: Modifier = Modifier) {
@@ -36,8 +37,8 @@ fun LocalDataCard(modifier: Modifier = Modifier) {
             .background(
                 Brush.linearGradient(
                     listOf(
-                        Color(0xFF0D1117),
-                        Color(0xFF161B22)
+                        Color(0xFF1A1C1A),
+                        Color(0xFF232623)
                     )
                 )
             )
@@ -52,7 +53,7 @@ fun LocalDataCard(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFF4D51B1).copy(alpha = 0.3f)),
+                    .background(Color(0xFF3E5C49).copy(alpha = 0.3f)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(text = "🔒", fontSize = 18.sp)
@@ -62,14 +63,14 @@ fun LocalDataCard(modifier: Modifier = Modifier) {
                 Text(
                     text = stringResource(R.string.profile_local_data_title),
                     style = MaterialTheme.typography.titleSmall,
-                    color = Color.White,
+                    color = CeramicWhite,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = stringResource(R.string.profile_local_data_body),
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.55f)
+                    color = CeramicWhite.copy(alpha = 0.55f)
                 )
             }
         }

@@ -30,7 +30,7 @@ import com.puri.app.R
 import com.puri.app.core.analytics.ScreenNames
 import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
 
 private const val PRIVACY_POLICY_URL = "https://sonalisulgadle.github.io/puri-privacy/"
 
@@ -58,7 +58,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBackIosNew,
                             contentDescription = stringResource(R.string.cd_back),
-                            tint = IndigoPrimary
+                            tint = CeladonPrimary
                         )
                     }
                 }
@@ -102,7 +102,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
 
             if (isLoading) {
                 CircularProgressIndicator(
-                    color = IndigoPrimary,
+                    color = CeladonPrimary,
                     modifier = Modifier.align(Alignment.Center)
                 )
             }

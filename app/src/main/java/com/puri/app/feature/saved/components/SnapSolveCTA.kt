@@ -12,12 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
+import com.puri.app.core.ui.theme.CeramicWhite
 
 @Composable
 fun SnapSolveCta(
@@ -28,7 +28,7 @@ fun SnapSolveCta(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_pill)))
-            .background(IndigoPrimary)
+            .background(CeladonPrimary)
             .clickable { onClick() }
             .padding(dimensionResource(R.dimen.spacing_lg)),
         contentAlignment = Alignment.Center
@@ -36,7 +36,7 @@ fun SnapSolveCta(
         Text(
             text = stringResource(R.string.saved_snap_solve_cta),
             style = MaterialTheme.typography.titleMedium,
-            color = Color.White,
+            color = CeramicWhite,
             fontWeight = FontWeight.SemiBold
         )
     }

@@ -39,7 +39,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puri.app.R
-import com.puri.app.core.ui.theme.IndigoPrimary
+import com.puri.app.core.ui.theme.CeladonPrimary
+import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.theme.PuriTheme
 
 @Composable
@@ -66,9 +67,9 @@ fun AddressConverterCard(
             .background(
                 Brush.linearGradient(
                     colors = listOf(
-                        Color(0xFF0D1117),
-                        Color(0xFF161B2E),
-                        Color(0xFF1A1040)
+                        Color(0xFF0C0D0C),
+                        Color(0xFF121412),
+                        Color(0xFF1A2B20)
                     )
                 )
             )
@@ -81,9 +82,9 @@ fun AddressConverterCard(
                 .background(
                     Brush.linearGradient(
                         colors = listOf(
-                            Color.White.copy(alpha = 0f),
-                            Color.White.copy(alpha = 0.04f),
-                            Color.White.copy(alpha = 0f)
+                            CeramicWhite.copy(alpha = 0f),
+                            CeramicWhite.copy(alpha = 0.04f),
+                            CeramicWhite.copy(alpha = 0f)
                         ),
                         start = Offset(shimmerX - 200f, 0f),
                         end = Offset(shimmerX + 200f, 200f)
@@ -95,7 +96,7 @@ fun AddressConverterCard(
         Text(
             text = stringResource(R.string.address_pin_emoji),
             fontSize = 72.sp,
-            color = Color.White.copy(alpha = 0.07f),
+            color = CeramicWhite.copy(alpha = 0.07f),
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .padding(end = 16.dp)
@@ -113,7 +114,7 @@ fun AddressConverterCard(
                 modifier = Modifier
                     .size(44.dp)
                     .clip(CircleShape)
-                    .background(IndigoPrimary.copy(alpha = 0.3f)),
+                    .background(CeladonPrimary.copy(alpha = 0.3f)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(text = stringResource(R.string.address_pin_emoji), fontSize = 20.sp)
@@ -125,13 +126,13 @@ fun AddressConverterCard(
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(100.dp))
-                        .background(Color.White.copy(alpha = 0.1f))
+                        .background(CeramicWhite.copy(alpha = 0.1f))
                         .padding(horizontal = 8.dp, vertical = 2.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.address_badge),
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color(0xFF9EA3FF),
+                        color = Color(0xFFDCE6DE),
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -141,21 +142,21 @@ fun AddressConverterCard(
                 Text(
                     text = stringResource(R.string.address_card_title),
                     style = MaterialTheme.typography.titleSmall,
-                    color = Color.White,
+                    color = CeramicWhite,
                     fontWeight = FontWeight.Bold
                 )
 
                 Text(
                     text = stringResource(R.string.address_card_subtitle),
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.55f)
+                    color = CeramicWhite.copy(alpha = 0.55f)
                 )
             }
 
             Icon(
                 imageVector = Icons.Outlined.ChevronRight,
                 contentDescription = null,
-                tint = Color.White.copy(alpha = 0.4f),
+                tint = CeramicWhite.copy(alpha = 0.4f),
                 modifier = Modifier.size(18.dp)
             )
         }
