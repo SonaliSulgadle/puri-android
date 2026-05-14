@@ -260,6 +260,7 @@
     <string name="profile_rate_app">Rate Puri on Play Store</string>
     <string name="profile_privacy_policy">Privacy policy</string>
     <string name="profile_version">Version</string>
+    <string name="profile_feedback">Share feedback</string>
     <string name="profile_clear_history_title">Clear history?</string>
     <string name="profile_clear_history_body">All your solve history will be permanently deleted. Pre-bundled guides are not affected.</string>
     <string name="profile_clear_saved_title">Clear saved solves?</string>
