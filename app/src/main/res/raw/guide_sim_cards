@@ -6,7 +6,7 @@
       "items": [
         {"korean": "Tourist SIM", "translation": "Short stay under 90 days", "detail": "Buy at Incheon airport or convenience stores. Passport only required. Data-focused, limited or no Korean calls."},
         {"korean": "Prepaid SIM", "translation": "Flexible, medium-term", "detail": "Available at carrier stores. More data, better rates than tourist SIM."},
-        {"korean": "Postpaid monthly plan", "translation": "Long-term with ARC", "detail": "Cheapest per GB. Requires ARC card + Korean bank account for direct debit."},
+        {"korean": "Postpaid monthly plan", "translation": "Long-term with ARC", "detail": "Cheapest per GB. Requires ARC card (외국인등록증 — Oegungin Deungnokjeung) + Korean bank account for direct debit."},
         {"korean": "eSIM", "translation": "No physical SIM", "detail": "Airalo, Roaming Man — activate before arrival. Good for keeping your home number active."}
       ]
     },
@@ -44,17 +44,17 @@
       ]
     },
     {
-      "title": "고속버스 (Express bus app)",
+      "title": "Recommended apps once connected",
       "sectionType": "TIP",
       "items": [
-        {"detail": "Once you have a SIM and data, download these apps: Kobus or Bustago for intercity express bus booking, Korail Talk for KTX, Naver Map for all transit, Kakao T for taxis."}
+        {"detail": "Once you have a SIM and data, download these: Kobus or Bustago for intercity express bus booking, Korail Talk (코레일톡) for KTX, Naver Map (네이버 지도) for all transit, Kakao T (카카오 T) for taxis, KakaoMap (카카오맵) for local navigation."}
       ]
     },
     {
       "title": "Warning",
       "sectionType": "WARNING",
       "items": [
-        {"detail": "Tourist SIMs cannot be converted to monthly plans. If you plan to stay more than 2–3 months, get a proper plan after receiving your ARC card — it will be significantly cheaper in the long run."}
+        {"detail": "Tourist SIMs cannot be converted to monthly plans. If you plan to stay more than 2–3 months, get a proper plan after receiving your ARC card (외국인등록증 — Oegungin Deungnokjeung) — it will be significantly cheaper in the long run."}
       ]
     }
   ]

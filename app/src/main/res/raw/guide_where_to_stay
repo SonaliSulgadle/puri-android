@@ -4,7 +4,7 @@
       "title": "Short-term accommodation",
       "sectionType": "TABLE",
       "items": [
-        {"korean": "게스트하우스 (Guesthouse)", "translation": "₩20,000–50,000 per night", "detail": "Dormitory or private rooms — great for meeting other travelers. Common in Hongdae, Itaewon, Insadong."},
+        {"korean": "게스트하우스 (Geseuteu-hauseu — Guesthouse)", "translation": "₩20,000–50,000 per night", "detail": "Dormitory or private rooms — great for meeting other travelers. Common in Hongdae, Itaewon, Insadong."},
         {"korean": "모텔 (Motel)", "translation": "₩40,000–80,000 per night", "detail": "Not just for couples — clean, affordable, private. Found everywhere in Korea, often near bus terminals and train stations."},
         {"korean": "에어비앤비 (Airbnb)", "translation": "Varies widely", "detail": "Available in all cities — flexible terms, good for finding furnished apartments for a few weeks."}
       ]
@@ -13,8 +13,8 @@
       "title": "Medium-term (1–6 months)",
       "sectionType": "TABLE",
       "items": [
-        {"korean": "고시원 / 고시텔", "translation": "₩300,000–550,000 per month", "detail": "Very small private rooms (5–8 sqm) with shared bathroom and kitchen. Often includes utilities and WiFi. Cheapest monthly option — common near universities and subway stations."},
-        {"korean": "원룸 (One-room)", "translation": "₩400,000–800,000 per month + deposit", "detail": "Studio apartment with private bathroom. Most common choice for foreigners. Requires a security deposit (보증금) of approximately ₩1,000,000–10,000,000."},
+        {"korean": "고시원 / 고시텔 (Gosiwon / Gositel)", "translation": "₩300,000–550,000 per month", "detail": "Very small private rooms (5–8 sqm) with shared bathroom and kitchen. Often includes utilities and WiFi. Cheapest monthly option — common near universities and subway stations."},
+        {"korean": "원룸 (Wonrum — One-room)", "translation": "₩400,000–800,000 per month + deposit", "detail": "Studio apartment with private bathroom. Most common choice for foreigners. Requires a security deposit (보증금 — Bo-jeung-geum) of approximately ₩1,000,000–10,000,000."},
         {"korean": "쉐어하우스 (Share house)", "translation": "₩500,000–900,000 per month", "detail": "Western-style room in a shared house with other people. Smaller deposit required. Common in Itaewon, Mapo, Yongsan areas."}
       ]
     },
@@ -22,9 +22,9 @@
       "title": "Long-term rental types",
       "sectionType": "TABLE",
       "items": [
-        {"korean": "월세 (Wolse)", "translation": "Monthly rent with deposit", "detail": "Standard rental. Pay a security deposit (보증금) plus monthly rent. Most accessible for foreigners. Contract usually 1 year minimum."},
+        {"korean": "월세 (Wolse)", "translation": "Monthly rent with deposit", "detail": "Standard rental. Pay a security deposit (보증금 — Bo-jeung-geum) plus monthly rent. Most accessible for foreigners. Contract usually 1 year minimum."},
         {"korean": "전세 (Jeonse)", "translation": "Lump-sum deposit, zero monthly rent", "detail": "Pay a large deposit (40–80% of property value) upfront. No monthly rent — deposit returned in full at the end. Requires significant capital — not practical for most first-time renters."},
-        {"korean": "보증금 (Boja-jeunggeun)", "translation": "Security deposit", "detail": "Required for all rentals. Returned when you leave if no damages. Always confirm with a written contract."}
+        {"korean": "보증금 (Bo-jeung-geum)", "translation": "Security deposit", "detail": "Required for all rentals. Returned when you leave if no damages. Always confirm with a written contract."}
       ]
     },
     {
@@ -33,7 +33,7 @@
       "items": [
         {"detail": "이태원 / 한남 (Itaewon/Hannam) — most international community, English-friendly restaurants and shops, foreigner-focused services"},
         {"detail": "홍대 (Hongdae) — young and artistic neighborhood, affordable, great transport on Metro Lines 2 and 6, active nightlife and café culture"},
-        {"detail": "강남 / 서초 (Gangnam) — expensive, corporate, extremely convenient with many international businesses"},
+        {"detail": "강남 / 서초 (Gangnam/Seocho) — expensive, corporate, extremely convenient with many international businesses"},
         {"detail": "마포 / 합정 (Mapo/Hapjeong) — local and trendy vibe, good metro access, many coffee shops and small restaurants"},
         {"detail": "잠실 (Jamsil) — quieter, family-friendly, near Han River and Lotte World, good for longer stays"}
       ]
@@ -44,7 +44,7 @@
       "items": [
         {"detail": "직방 (Zigbang) app — has English mode. Best for searching one-rooms and studios with photos and prices."},
         {"detail": "다방 (Dabang) app — similar to Zigbang, good for short-term leases"},
-        {"detail": "부동산 (Budongsan) — local real estate agent office. Look for 부동산 signs in any neighborhood. Agents often find better unlisted deals but usually only speak Korean. Bring a Korean-speaking friend or use Papago translator. A small agent fee is typical."},
+        {"detail": "부동산 (Budongsan) — local real estate agent office. Look for 부동산 signs in any neighborhood. Agents often find better unlisted deals but usually only speak Korean. Bring a Korean-speaking friend or use Papago translator. A small agent fee (복비 — Bokbi) is typical."},
         {"detail": "Facebook groups: 'Seoul Apartments and Rooms', 'Expats in Seoul', or groups specific to your nationality"},
         {"detail": "Mapliving, Co-living Korea — English-friendly shared house companies with easy application processes"}
       ]
@@ -53,7 +53,7 @@
       "title": "Warning",
       "sectionType": "WARNING",
       "items": [
-        {"detail": "Always get your rental contract in writing — never pay a deposit based on a verbal agreement. For deposits over ₩3,000,000, verify at your local government office (구청/동사무소) that the landlord actually owns the property (등기부등본 check). This protects you from rental fraud (전세 사기)."}
+        {"detail": "Always get your rental contract in writing — never pay a deposit based on a verbal agreement. For deposits over ₩3,000,000, verify at your local district office (구청 — Gucheong) or community center (동사무소 — Dong Samuso) that the landlord actually owns the property (등기부등본 — Deunggibu Deungbon check). This protects you from rental fraud (전세 사기 — Jeonse Sagi)."}
       ]
     }
   ]
