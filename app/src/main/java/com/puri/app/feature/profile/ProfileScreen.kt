@@ -78,6 +78,9 @@ fun ProfileScreen(
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
+    val historyCount by viewModel.historyCount.collectAsStateWithLifecycle()
+    val savedCount by viewModel.savedCount.collectAsStateWithLifecycle()
+
     LaunchedEffect(Unit) {
         viewModel.effects.collectLatest { effect ->
             when (effect) {
@@ -185,14 +188,36 @@ fun ProfileScreen(
                         icon = Icons.Outlined.History,
                         label = stringResource(R.string.profile_clear_history),
                         tint = MaterialTheme.colorScheme.error,
-                        onClick = { viewModel.onIntent(ProfileIntent.ClearHistory) }
+                        onClick = {
+                            if (historyCount > 0) {
+                                viewModel.onIntent(ProfileIntent.ClearHistory)
+                            } else {
+                                scope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        context.getString(R.string.profile_nothing_to_clear)
+                                    )
+                                }
+                            }
+
+                        }
                     )
                     ProfileMenuDivider()
                     ProfileMenuItem(
                         icon = Icons.Outlined.Storage,
                         label = stringResource(R.string.profile_clear_saved_solves),
                         tint = MaterialTheme.colorScheme.error,
-                        onClick = { viewModel.onIntent(ProfileIntent.ClearSavedSolves) }
+                        onClick = {
+                            if (savedCount > 0) {
+                                viewModel.onIntent(ProfileIntent.ClearSavedSolves)
+                            } else {
+                                scope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        context.getString(R.string.profile_nothing_to_clear)
+                                    )
+                                }
+                            }
+
+                        }
                     )
                 }
             }

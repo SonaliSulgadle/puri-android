@@ -11,11 +11,14 @@ import com.puri.app.domain.usecase.GetSavedGuidesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,6 +40,14 @@ class ProfileViewModel @Inject constructor(
 
     private val _effects = Channel<ProfileUiEffect>(Channel.BUFFERED)
     val effects = _effects.receiveAsFlow()
+
+    val historyCount: StateFlow<Int> = getHistoryUseCase()
+        .map { it.size }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, 0)
+
+    val savedCount: StateFlow<Int> = getSavedGuidesUseCase()
+        .map { guides -> guides.count { !it.isPreBundled } }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, 0)
 
     init {
         viewModelScope.launch {

@@ -1,7 +1,9 @@
 package com.puri.app.feature.onboarding
 
+import android.app.Activity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,15 +32,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.puri.app.R
 import com.puri.app.core.analytics.LocalAnalytics
 import com.puri.app.core.analytics.PuriEvent
@@ -94,17 +97,17 @@ fun OnboardingScreen(
         }
     }
 
-    val systemUiController = rememberSystemUiController()
+    val isDark = isSystemInDarkTheme()
+    val view = LocalView.current
+
     DisposableEffect(Unit) {
-        systemUiController.setStatusBarColor(
-            color = Color.Transparent,
-            darkIcons = false  // white icons on dark background
-        )
+        val window = (view.context as Activity).window
+        val controller = WindowInsetsControllerCompat(window, view)
+
+        controller.isAppearanceLightStatusBars = false
+
         onDispose {
-            systemUiController.setStatusBarColor(
-                color = Color.Transparent,
-                darkIcons = true  // dark icons for main app (light theme)
-            )
+            controller.isAppearanceLightStatusBars = !isDark
         }
     }
     Box(modifier = Modifier.fillMaxSize()) {
