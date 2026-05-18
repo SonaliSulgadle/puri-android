@@ -2,7 +2,7 @@ package com.puri.app.core.ui.util
 
 import android.app.Activity
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowInsetsControllerCompat
 
@@ -18,11 +18,15 @@ fun StatusBarIconColor(darkIcons: Boolean) {
     val view = LocalView.current
     if (view.isInEditMode) return
 
-    // Used SideEffect and not DisposableEffect — runs on every recomposition
-    // ensuring correct state even after back navigation
-    SideEffect {
+    DisposableEffect(darkIcons) {
         val window = (view.context as Activity).window
         val controller = WindowInsetsControllerCompat(window, view)
+        val previous = controller.isAppearanceLightStatusBars
+
         controller.isAppearanceLightStatusBars = darkIcons
+
+        onDispose {
+            controller.isAppearanceLightStatusBars = previous
+        }
     }
 }
