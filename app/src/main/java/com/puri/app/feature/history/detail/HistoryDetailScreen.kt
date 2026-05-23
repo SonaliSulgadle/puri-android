@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -64,6 +64,7 @@ import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.mapper.toChipColor
 import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.CeramicWhite
+import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.core.util.DateTimeUtils
 import com.puri.app.domain.model.HistoryItem
 import com.puri.app.domain.model.SolveResult
@@ -86,6 +87,9 @@ fun HistoryDetailScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     BackHandler { onBack() }
+
+    val isDark = isSystemInDarkTheme()
+    StatusBarIconColor(darkIcons = !isDark)
 
     Scaffold(
         topBar = {

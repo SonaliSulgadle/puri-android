@@ -1,9 +1,7 @@
 package com.puri.app.feature.onboarding
 
-import android.app.Activity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -32,14 +29,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
@@ -51,6 +46,7 @@ import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.theme.GradientSnapEnd
 import com.puri.app.core.ui.theme.GradientSnapStart
 import com.puri.app.core.ui.theme.PuriTheme
+import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.feature.onboarding.components.ImageToTextDemo
 import com.puri.app.feature.onboarding.components.OfflineGuidesDemo
 import com.puri.app.feature.onboarding.components.OnboardingDots
@@ -97,19 +93,8 @@ fun OnboardingScreen(
         }
     }
 
-    val isDark = isSystemInDarkTheme()
-    val view = LocalView.current
+    StatusBarIconColor(darkIcons = false)
 
-    DisposableEffect(Unit) {
-        val window = (view.context as Activity).window
-        val controller = WindowInsetsControllerCompat(window, view)
-
-        controller.isAppearanceLightStatusBars = false
-
-        onDispose {
-            controller.isAppearanceLightStatusBars = !isDark
-        }
-    }
     Box(modifier = Modifier.fillMaxSize()) {
 
         HorizontalPager(
