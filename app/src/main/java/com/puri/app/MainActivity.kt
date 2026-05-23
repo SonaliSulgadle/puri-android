@@ -48,10 +48,7 @@ class MainActivity : ComponentActivity() {
             statusBarStyle = if (isDarkTheme) {
                 SystemBarStyle.dark(Color.TRANSPARENT)
             } else {
-                SystemBarStyle.light(
-                    Color.TRANSPARENT,
-                    Color.TRANSPARENT
-                )
+                SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
             }
         )
 
