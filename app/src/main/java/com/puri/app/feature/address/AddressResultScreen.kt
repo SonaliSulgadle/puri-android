@@ -1,13 +1,13 @@
 package com.puri.app.feature.address
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,9 +25,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
+import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material.icons.outlined.ContentCopy
-import androidx.compose.material.icons.outlined.Map
-import androidx.compose.material.icons.outlined.OpenInBrowser
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -46,23 +46,28 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puri.app.R
+import com.puri.app.core.analytics.Analytics
 import com.puri.app.core.analytics.LocalAnalytics
 import com.puri.app.core.analytics.PuriEvent
 import com.puri.app.core.analytics.ScreenNames
@@ -71,8 +76,11 @@ import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.domain.model.AddressConfidence
+import com.puri.app.domain.model.AddressResult
 import com.puri.app.domain.model.AddressType
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+
+private const val WEB_APP_ADDRESS = "https://puri-address.vercel.app"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,7 +93,6 @@ fun AddressResultScreen(
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHost = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -95,9 +102,6 @@ fun AddressResultScreen(
         if (uiState.result == null) onBack()
     }
     val result = uiState.result ?: return
-
-    val kakaoMapUrl = "kakaomap://search?q=${Uri.encode(result.shortForm)}"
-    val kakaoWebUrl = "https://map.kakao.com/?q=${Uri.encode(result.shortForm)}"
 
     val isDark = isSystemInDarkTheme()
     StatusBarIconColor(darkIcons = !isDark)
@@ -255,129 +259,10 @@ fun AddressResultScreen(
 
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
 
-            // Copy button — primary action
-            Button(
-                onClick = {
-                    val clipboard = context.getSystemService(
-                        Context.CLIPBOARD_SERVICE
-                    ) as ClipboardManager
-                    clipboard.setPrimaryClip(
-                        ClipData.newPlainText("Korean address", result.normalized)
-                    )
-                    scope.launch {
-                        snackbarHost.showSnackbar(
-                            context.getString(R.string.address_copied)
-                        )
-                    }
-                    analytics.log(PuriEvent.AddressCopied)
-                },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(100.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = CeladonPrimary)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.ContentCopy,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = stringResource(R.string.address_copy_button),
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(vertical = 4.dp)
-                )
-            }
+            AddressResultActions(result, context, analytics)
 
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
 
-            // Open in Naver Map (app) — secondary
-            OutlinedButton(
-                onClick = {
-                    analytics.log(PuriEvent.AddressOpenedNaver)
-                    val naverIntent = Intent(Intent.ACTION_VIEW).apply {
-                        data = result.naverMapAppUrl.toUri()
-                        setPackage("com.nhn.android.nmap")
-                    }
-                    if (naverIntent.resolveActivity(context.packageManager) != null) {
-                        context.startActivity(naverIntent)
-                    } else {
-                        // Naver Map not installed — open web
-                        context.startActivity(
-                            Intent(Intent.ACTION_VIEW, result.naverMapWebUrl.toUri())
-                        )
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(100.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Map,
-                    contentDescription = null,
-                    tint = CeladonPrimary,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = stringResource(R.string.address_open_naver))
-            }
-
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_sm)))
-            OutlinedButton(
-                onClick = {
-                    analytics.log(PuriEvent.AddressOpenedKakao)
-                    val kakaoIntent = Intent(Intent.ACTION_VIEW, kakaoMapUrl.toUri()).apply {
-                        setPackage("net.daum.android.map")
-                    }
-                    val canOpenApp = context.packageManager
-                        .resolveActivity(kakaoIntent, PackageManager.MATCH_DEFAULT_ONLY) != null
-                    if (canOpenApp) {
-                        context.startActivity(kakaoIntent)
-                    } else {
-                        context.startActivity(
-                            Intent(Intent.ACTION_VIEW, kakaoWebUrl.toUri())
-                        )
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(100.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Map,
-                    contentDescription = null,
-                    tint = CeladonPrimary,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(stringResource(R.string.address_open_kakao_map))
-            }
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_sm)))
-
-            // Open in browser — tertiary
-            OutlinedButton(
-                onClick = {
-                    context.startActivity(
-                        Intent(Intent.ACTION_VIEW, result.naverMapWebUrl.toUri())
-                    )
-                },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(100.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.OpenInBrowser,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = stringResource(R.string.address_open_browser),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
-
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xl)))
-
-            // Disclaimer
             Text(
                 text = stringResource(R.string.address_disclaimer),
                 style = MaterialTheme.typography.labelSmall,
@@ -389,6 +274,181 @@ fun AddressResultScreen(
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_bottom_nav)))
         }
     }
+}
+
+@Composable
+private fun AddressResultActions(
+    result: AddressResult,
+    context: Context,
+    analytics: Analytics
+) {
+    val spacing = dimensionResource(R.dimen.spacing_md)
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(spacing)
+    ) {
+        var copied by remember { mutableStateOf(false) }
+        val clipboardManager = LocalClipboardManager.current
+
+        Button(
+            onClick = {
+                clipboardManager.setText(AnnotatedString(result.normalized))
+                copied = true
+                analytics.log(PuriEvent.AddressCopied)
+            },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(100.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = CeladonPrimary
+            )
+        ) {
+            Icon(
+                imageVector = if (copied) Icons.Outlined.Check
+                else Icons.Outlined.ContentCopy,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp)
+            )
+            Spacer(Modifier.width(8.dp))
+            Text(
+                text = if (copied) stringResource(R.string.address_copied)
+                else stringResource(R.string.address_copy_button),
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
+        }
+
+        LaunchedEffect(copied) {
+            if (copied) {
+                delay(2000)
+                copied = false
+            }
+        }
+
+        // ── Map buttons — side by side ───────────────────────────────
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(spacing)
+        ) {
+            // Naver Map
+            OutlinedButton(
+                onClick = {
+                    analytics.log(PuriEvent.AddressOpenedNaver)
+                    openNaverMap(context, result.shortForm)
+                },
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(100.dp),
+                border = BorderStroke(1.dp, CeladonPrimary)
+            ) {
+                Text(
+                    text = stringResource(R.string.address_open_naver_map),
+                    color = CeladonPrimary,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+
+            // Kakao Map
+            OutlinedButton(
+                onClick = {
+                    analytics.log(PuriEvent.AddressOpenedKakao)
+                    openKakaoMap(context, result.shortForm)
+                },
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(100.dp),
+                border = BorderStroke(1.dp, CeladonPrimary)
+            ) {
+                Text(
+                    text = stringResource(R.string.address_open_kakao_map),
+                    color = CeladonPrimary,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
+
+        // ── Web tool link — always shown ─────────────────────────────
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_lg)))
+                .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                .clickable {
+                    analytics.log(PuriEvent.WebToolOpened)
+                    context.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            WEB_APP_ADDRESS.toUri()
+                        )
+                    )
+                }
+                .padding(dimensionResource(R.dimen.spacing_md)),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(
+                dimensionResource(R.dimen.spacing_sm)
+            )
+        ) {
+            Text(text = "🌐", fontSize = 16.sp)
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.address_web_tool_title),
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = stringResource(R.string.address_web_tool_subtitle),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Icon(
+                imageVector = Icons.Outlined.ChevronRight,
+                contentDescription = null,
+                tint = CeladonPrimary,
+                modifier = Modifier.size(16.dp)
+            )
+        }
+    }
+}
+
+// Map open helpers — app first, browser fallback automatic
+private fun openNaverMap(context: Context, shortForm: String) {
+    val encoded = Uri.encode(shortForm)
+    val appIntent = Intent(
+        Intent.ACTION_VIEW,
+        "nmap://search?query=$encoded&appname=com.puri.app".toUri()
+    )
+    val webIntent = Intent(
+        Intent.ACTION_VIEW,
+        "https://map.naver.com/p/search/$encoded".toUri()
+    )
+
+    // Try app, fall back to browser — both handled by ACTION_VIEW automatically
+    // Android will show browser if Naver Map is not installed
+    try {
+        context.startActivity(appIntent)
+    } catch (e: Exception) {
+        context.startActivity(webIntent)
+    }
+}
+
+private fun openKakaoMap(context: Context, shortForm: String) {
+    val encoded = Uri.encode(shortForm)
+    val appIntent = Intent(
+        Intent.ACTION_VIEW,
+        "kakaomap://search?q=$encoded".toUri()
+    ).apply {
+        setPackage("net.daum.android.map")
+    }
+    val webIntent = Intent(
+        Intent.ACTION_VIEW,
+        "https://map.kakao.com/?q=$encoded".toUri()
+    )
+
+    val canOpenApp = context.packageManager
+        .resolveActivity(appIntent, PackageManager.MATCH_DEFAULT_ONLY) != null
+
+    context.startActivity(if (canOpenApp) appIntent else webIntent)
 }
 
 @Composable
