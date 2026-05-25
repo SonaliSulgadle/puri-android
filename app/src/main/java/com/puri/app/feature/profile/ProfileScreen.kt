@@ -72,6 +72,8 @@ fun ProfileScreen(
     val analytics = LocalAnalytics.current
     TrackScreen(ScreenNames.PROFILE)
 
+    val isPublished = false
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -229,27 +231,30 @@ fun ProfileScreen(
 
             item(key = "app_card") {
                 ProfileMenuCard {
-                    ProfileMenuItem(
-                        icon = Icons.Outlined.Star,
-                        label = stringResource(R.string.profile_rate_app),
-                        onClick = {
-                            try {
-                                context.startActivity(
-                                    Intent(Intent.ACTION_VIEW).apply {
-                                        data = "market://details?id=${context.packageName}".toUri()
-                                        setPackage("com.android.vending")
-                                    }
-                                )
-                            } catch (e: Exception) {
-                                context.startActivity(
-                                    Intent(
-                                        Intent.ACTION_VIEW,
-                                        "https://play.google.com/store/apps/details?id=${context.packageName}".toUri()
+                    if (isPublished) {
+                        ProfileMenuItem(
+                            icon = Icons.Outlined.Star,
+                            label = stringResource(R.string.profile_rate_app),
+                            onClick = {
+                                try {
+                                    context.startActivity(
+                                        Intent(Intent.ACTION_VIEW).apply {
+                                            data =
+                                                "market://details?id=${context.packageName}".toUri()
+                                            setPackage("com.android.vending")
+                                        }
                                     )
-                                )
+                                } catch (e: Exception) {
+                                    context.startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            "https://play.google.com/store/apps/details?id=${context.packageName}".toUri()
+                                        )
+                                    )
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                     ProfileMenuDivider()
                     ProfileMenuItem(
                         icon = Icons.Outlined.PrivacyTip,
