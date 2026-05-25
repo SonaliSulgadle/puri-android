@@ -29,6 +29,10 @@
 -keepclasseswithmembers class ** {
     @kotlinx.serialization.Serializable <methods>;
 }
+-keepclassmembers class ** implements kotlinx.serialization.KSerializer {
+    public static final ** INSTANCE;
+}
+
 # Keep the generated serializer infrastructure for every @Serializable class
 -keep @kotlinx.serialization.Serializable class * {
     *** Companion;
