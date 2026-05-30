@@ -58,6 +58,15 @@ SPECIAL ITEMS:
 - Electronics: separate collection — check local program
 - Clothing: donation bins only — never general waste
 - Cooking oil: solidify or collection service — never down drain
+
+TAKEAWAY COFFEE CUPS:
+- Paper cup body: most Korean takeaway cups have a plastic/wax inner coating
+  → General waste (cannot be recycled due to coating)
+- Exception: if cup has a recycling symbol and is clean → paper recycling
+- Plastic lid: separate and recycle as plastic (rinse first)
+- Cardboard sleeve: paper recycling (remove from cup first)
+- Combined (cup + lid together, dirty): general waste
+- Key action: ALWAYS separate lid from cup before disposal
 """.trimIndent()
 
     val SAFETY_OVERRIDES = """
