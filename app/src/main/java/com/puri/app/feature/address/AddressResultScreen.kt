@@ -8,7 +8,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -74,7 +73,6 @@ import com.puri.app.core.analytics.ScreenNames
 import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.CeladonPrimary
-import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.domain.model.AddressConfidence
 import com.puri.app.domain.model.AddressResult
 import com.puri.app.domain.model.AddressType
@@ -102,9 +100,6 @@ fun AddressResultScreen(
         if (uiState.result == null) onBack()
     }
     val result = uiState.result ?: return
-
-    val isDark = isSystemInDarkTheme()
-    StatusBarIconColor(darkIcons = !isDark)
 
     Scaffold(
         topBar = {
@@ -366,6 +361,8 @@ private fun AddressResultActions(
             }
         }
 
+        val webUrl = "https://puri-address.vercel.app?q=${Uri.encode(result.normalized)}"
+
         // ── Web tool link — always shown ─────────────────────────────
         Row(
             modifier = Modifier
@@ -377,7 +374,7 @@ private fun AddressResultActions(
                     context.startActivity(
                         Intent(
                             Intent.ACTION_VIEW,
-                            WEB_APP_ADDRESS.toUri()
+                            webUrl.toUri()
                         )
                     )
                 }
