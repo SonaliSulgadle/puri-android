@@ -54,4 +54,8 @@ class HistoryRepositoryImpl @Inject constructor(
         }
 
     override suspend fun clearAll() = historyDao.deleteAll()
+
+    override suspend fun markAsSaved(historyItemId: Long) {
+        historyDao.updateIsSaved(historyItemId)
+    }
 }

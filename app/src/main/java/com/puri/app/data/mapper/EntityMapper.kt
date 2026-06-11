@@ -8,6 +8,8 @@ import com.puri.app.domain.model.HistoryItem
 import com.puri.app.domain.model.PreBundledGuideKey
 import com.puri.app.domain.model.SavedGuide
 import com.puri.app.domain.model.SolveResult
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 fun HistoryEntity.toDomain(): HistoryItem = HistoryItem(
     id = id,
@@ -59,7 +61,7 @@ fun SavedGuideEntity.toDomain(): SavedGuide = SavedGuide(
         }
     },
     category = category,
-    solveResult = null,
+    solveResult = solveResult,
     isPreBundled = isPreBundled,
     isFeatured = isFeatured,
     imageUri = imageUri,
@@ -82,22 +84,25 @@ fun SavedGuide.toEntity(): SavedGuideEntity = SavedGuideEntity(
     imageUri = imageUri,
     isPreBundled = isPreBundled,
     isFeatured = isFeatured,
-    savedAt = savedAt
+    savedAt = savedAt,
+    solveResult = solveResult
 )
 
-fun HistoryEntity.toSavedGuideEntity(): SavedGuideEntity = SavedGuideEntity(
-    title = whatThisIs,
-    description = description,
+fun HistoryItem.toSavedGuideEntity(): SavedGuideEntity = SavedGuideEntity(
+    id = 0,
+    title = solveResult.whatThisIs,
+    description = solveResult.description,
     guideKey = null,
-    category = category,
-    stepsJson = stepsJson,
-    visibleTextsJson = visibleTextsJson,
-    recommendedAction = recommendedAction,
-    warning = warning,
-    koreaTip = koreaTip,
-    imageUri = imageUri,
+    category = solveResult.category,
+    stepsJson = Json.encodeToString(solveResult.steps),
+    visibleTextsJson = Json.encodeToString(solveResult.visibleTexts),
+    recommendedAction = solveResult.recommendedAction,
+    warning = solveResult.warning,
+    koreaTip = solveResult.koreaTip,
+    imageUri = solveResult.imageUri,
     isPreBundled = false,
     isFeatured = false,
     savedAt = System.currentTimeMillis(),
-    historyItemId = id
+    historyItemId = id,
+    solveResult = solveResult
 )
