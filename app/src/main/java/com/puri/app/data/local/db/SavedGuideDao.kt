@@ -23,4 +23,7 @@ interface SavedGuideDao {
 
     @Query("DELETE FROM saved_guides WHERE historyItemId = :historyItemId")
     suspend fun deleteGuideByHistoryId(historyItemId: Long)
+
+    @Query("SELECT COUNT(*) FROM saved_guides WHERE title = :title AND category = :category AND isPreBundled = 0")
+    suspend fun countByTitleAndCategory(title: String, category: String): Int
 }
