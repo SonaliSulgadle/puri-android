@@ -1,7 +1,10 @@
 package com.puri.app.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class VisibleTextItem(
-    val original: String,      // "표준 세탁"
-    val translation: String,   // "Standard Wash"
-    val explanation: String    // "everyday clothes, 40°C, 60 min"
+    val original: String,
+    val translation: String,
+    val explanation: String
 )
