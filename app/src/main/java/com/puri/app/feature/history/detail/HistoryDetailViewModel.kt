@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.puri.app.core.common.Resource
 import com.puri.app.domain.model.SavedGuide
 import com.puri.app.domain.usecase.GetHistoryUseCase
+import com.puri.app.domain.usecase.GetSavedGuidesUseCase
 import com.puri.app.domain.usecase.SaveGuideUseCase
 import com.puri.app.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,8 @@ import javax.inject.Inject
 class HistoryDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     getHistoryUseCase: GetHistoryUseCase,
-    private val saveGuideUseCase: SaveGuideUseCase
+    private val saveGuideUseCase: SaveGuideUseCase,
+    getSavedGuideUseCase: GetSavedGuidesUseCase
 ) : ViewModel() {
 
     private val historyItemId: Long =
@@ -32,14 +34,23 @@ class HistoryDetailViewModel @Inject constructor(
 
     val uiState: StateFlow<HistoryDetailUiState> = combine(
         getHistoryUseCase(),
-        _savedOverride
-    ) { items, savedOverride ->
+        _savedOverride,
+        getSavedGuideUseCase()
+    ) { items, savedOverride, savedGuides ->
         val item = items.find { it.id == historyItemId }
             ?: return@combine HistoryDetailUiState.Error
 
+        val isSaved = savedOverride ?: (
+                item.isSaved || savedGuides.any { saved ->
+                    !saved.isPreBundled &&
+                            saved.title == item.solveResult.whatThisIs &&
+                            saved.category == item.solveResult.category
+                }
+                )
+
         HistoryDetailUiState.Content(
             historyItem = item,
-            isSaved = savedOverride ?: item.isSaved
+            isSaved = isSaved
         )
     }
         .catch { emit(HistoryDetailUiState.Error) }
@@ -51,7 +62,6 @@ class HistoryDetailViewModel @Inject constructor(
 
     fun saveResult() {
         val state = uiState.value as? HistoryDetailUiState.Content ?: return
-        if (state.isSaved) return
 
         viewModelScope.launch {
             val guide = SavedGuide(
@@ -64,8 +74,17 @@ class HistoryDetailViewModel @Inject constructor(
                 isFeatured = false,
                 imageUri = state.historyItem.solveResult.imageUri
             )
-            if (saveGuideUseCase(guide) is Resource.Success) {
-                _savedOverride.value = true
+            when (saveGuideUseCase(guide, historyItemId)) {
+                is Resource.Success -> {
+                    saveGuideUseCase(guide)
+                    _savedOverride.value = true
+                }
+
+                is Resource.Error -> {
+                    /* TODO - handle error */
+                }
+
+                Resource.Loading -> Unit
             }
         }
     }

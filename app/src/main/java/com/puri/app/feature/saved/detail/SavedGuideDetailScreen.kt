@@ -5,7 +5,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -58,11 +57,11 @@ import com.puri.app.core.ui.mapper.displayTitle
 import com.puri.app.core.ui.mapper.toChipColor
 import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.PuriTheme
-import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.domain.model.GuideContent
 import com.puri.app.domain.model.GuideSection
 import com.puri.app.domain.model.GuideSectionType
 import com.puri.app.domain.model.SavedGuide
+import com.puri.app.domain.model.SolveResult
 import com.puri.app.feature.saved.components.ListSection
 import com.puri.app.feature.saved.components.StepsSection
 import com.puri.app.feature.saved.components.TableSection
@@ -73,6 +72,7 @@ import com.puri.app.feature.solve.components.StepItem
 import com.puri.app.feature.solve.components.TipCard
 import com.puri.app.feature.solve.components.VisibleTextSection
 import com.puri.app.feature.solve.components.WarningBlock
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -86,8 +86,7 @@ fun SavedGuideDetailScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     BackHandler { onBack() }
-    val isDark = isSystemInDarkTheme()
-    StatusBarIconColor(darkIcons = !isDark)
+
     Scaffold(
         topBar = {
             PuriTopBar(
@@ -179,7 +178,7 @@ private fun SavedGuideDetailContent(
                     content.sections.forEachIndexed { index, section ->
                         var sectionVisible by remember { mutableStateOf(false) }
                         LaunchedEffect(Unit) {
-                            kotlinx.coroutines.delay(100L + index * 60L)
+                            delay(100L + index * 60L)
                             sectionVisible = true
                         }
                         AnimatedVisibility(
@@ -206,6 +205,14 @@ private fun SavedGuideDetailContent(
                     )
                 }
 
+                !guide.description.isNullOrBlank() -> {
+                    UserBasicContent(
+                        description = guide.description,
+                        isVisible = isVisible
+                    )
+                }
+
+
                 else -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -222,6 +229,25 @@ private fun SavedGuideDetailContent(
 
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_bottom_nav)))
         }
+    }
+}
+
+@Composable
+private fun UserBasicContent(
+    description: String,
+    isVisible: Boolean,
+    modifier: Modifier = Modifier
+) {
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = fadeIn(),
+        modifier = modifier
+    ) {
+        Text(
+            text = description,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
@@ -329,7 +355,7 @@ private fun GuideHeroSection(
 
 @Composable
 private fun UserSolveResultContent(
-    solveResult: com.puri.app.domain.model.SolveResult,
+    solveResult: SolveResult,
     isVisible: Boolean
 ) {
     Column {
@@ -373,17 +399,18 @@ private fun UserSolveResultContent(
                     Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_sm)))
                 }
             }
-
-            solveResult.koreaTip?.let { tip ->
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
-                TipCard(tip = tip)
-            }
-
-            solveResult.recommendedAction?.let { action ->
-                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
-                RecommendedActionCard(action = action)
-            }
         }
+
+        solveResult.koreaTip?.let { tip ->
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
+            TipCard(tip = tip)
+        }
+
+        solveResult.recommendedAction?.let { action ->
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_md)))
+            RecommendedActionCard(action = action)
+        }
+
     }
 }
 

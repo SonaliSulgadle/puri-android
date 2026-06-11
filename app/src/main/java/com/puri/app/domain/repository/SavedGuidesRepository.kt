@@ -9,5 +9,8 @@ interface SavedGuidesRepository {
     fun getFeaturedGuide(): Flow<SavedGuide?>
     suspend fun saveGuide(guide: SavedGuide): Resource<Unit>
     suspend fun deleteGuide(id: Long): Resource<Unit>
-    suspend fun toggleSaved(historyItemId: Long): Resource<Unit>
+    suspend fun existsByTitleAndCategory(
+        title: String,
+        category: String
+    ): Boolean
 }

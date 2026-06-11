@@ -25,6 +25,7 @@ object DatabaseModule {
             "puri_database"
         )
             .addMigrations(PuriDatabase.MIGRATION_1_2)
+            .addMigrations(PuriDatabase.MIGRATION_2_3)
             .build()
 
     @Provides

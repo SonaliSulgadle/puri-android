@@ -1,5 +1,8 @@
 package com.puri.app.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class SolveResult(
     val id: Long = 0L,
     val whatThisIs: String,
@@ -16,6 +19,7 @@ data class SolveResult(
     val timestamp: Long = System.currentTimeMillis()
 )
 
+@Serializable
 data class SolveStep(
     val order: Int,
     val title: String,
@@ -23,7 +27,7 @@ data class SolveStep(
 )
 
 enum class ConfidenceLevel {
-    HIGH,      // structured response returned — show ResponseCard
-    LOW,       // AI expressed uncertainty — show RetryCard
-    UNSAFE     // medication/chemicals detected — show safety message
+    HIGH,
+    LOW,
+    UNSAFE
 }

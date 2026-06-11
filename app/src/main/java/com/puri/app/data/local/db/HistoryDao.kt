@@ -32,4 +32,7 @@ interface HistoryDao {
 
     @Query("DELETE FROM history")
     suspend fun deleteAll()
+
+    @Query("UPDATE history SET isSaved = 1 WHERE id = :id")
+    suspend fun updateIsSaved(id: Long)
 }

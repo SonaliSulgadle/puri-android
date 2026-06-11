@@ -1,0 +1,206 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "f72cb3b0a1dfb146ec9e53b68ab969de",
+    "entities": [
+      {
+        "tableName": "history",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `whatThisIs` TEXT NOT NULL, `description` TEXT NOT NULL, `stepsJson` TEXT NOT NULL, `visibleTextsJson` TEXT NOT NULL, `recommendedAction` TEXT, `warning` TEXT, `koreaTip` TEXT, `category` TEXT NOT NULL, `confidenceLevel` TEXT NOT NULL, `imageUri` TEXT, `inputQuery` TEXT, `timestamp` INTEGER NOT NULL, `isSaved` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "whatThisIs",
+            "columnName": "whatThisIs",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stepsJson",
+            "columnName": "stepsJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "visibleTextsJson",
+            "columnName": "visibleTextsJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recommendedAction",
+            "columnName": "recommendedAction",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "warning",
+            "columnName": "warning",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "koreaTip",
+            "columnName": "koreaTip",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "confidenceLevel",
+            "columnName": "confidenceLevel",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageUri",
+            "columnName": "imageUri",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "inputQuery",
+            "columnName": "inputQuery",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSaved",
+            "columnName": "isSaved",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "saved_guides",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `guideKey` TEXT, `category` TEXT NOT NULL, `stepsJson` TEXT NOT NULL, `visibleTextsJson` TEXT NOT NULL, `recommendedAction` TEXT, `warning` TEXT, `koreaTip` TEXT, `imageUri` TEXT, `isPreBundled` INTEGER NOT NULL, `isFeatured` INTEGER NOT NULL, `savedAt` INTEGER NOT NULL, `historyItemId` INTEGER NOT NULL, `solveResult` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "guideKey",
+            "columnName": "guideKey",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stepsJson",
+            "columnName": "stepsJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "visibleTextsJson",
+            "columnName": "visibleTextsJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recommendedAction",
+            "columnName": "recommendedAction",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "warning",
+            "columnName": "warning",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "koreaTip",
+            "columnName": "koreaTip",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "imageUri",
+            "columnName": "imageUri",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isPreBundled",
+            "columnName": "isPreBundled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isFeatured",
+            "columnName": "isFeatured",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "savedAt",
+            "columnName": "savedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "historyItemId",
+            "columnName": "historyItemId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "solveResult",
+            "columnName": "solveResult",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f72cb3b0a1dfb146ec9e53b68ab969de')"
+    ]
+  }
+}

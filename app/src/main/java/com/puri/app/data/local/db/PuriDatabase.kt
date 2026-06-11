@@ -8,7 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
     entities = [HistoryEntity::class, SavedGuideEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 @TypeConverters(RoomConverters::class)
@@ -19,14 +19,12 @@ abstract class PuriDatabase : RoomDatabase() {
     companion object {
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                // Add new columns to history
                 db.execSQL(
                     "ALTER TABLE history ADD COLUMN visibleTextsJson TEXT NOT NULL DEFAULT '[]'"
                 )
                 db.execSQL(
                     "ALTER TABLE history ADD COLUMN recommendedAction TEXT"
                 )
-                // Add new columns to saved_guides
                 db.execSQL(
                     "ALTER TABLE saved_guides ADD COLUMN guideKey TEXT"
                 )
@@ -35,6 +33,14 @@ abstract class PuriDatabase : RoomDatabase() {
                 )
                 db.execSQL(
                     "ALTER TABLE saved_guides ADD COLUMN recommendedAction TEXT"
+                )
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE saved_guides ADD COLUMN solveResult TEXT"
                 )
             }
         }
