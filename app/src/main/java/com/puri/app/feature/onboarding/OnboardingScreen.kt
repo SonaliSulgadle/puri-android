@@ -46,7 +46,6 @@ import com.puri.app.core.ui.theme.CeramicWhite
 import com.puri.app.core.ui.theme.GradientSnapEnd
 import com.puri.app.core.ui.theme.GradientSnapStart
 import com.puri.app.core.ui.theme.PuriTheme
-import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.feature.onboarding.components.ImageToTextDemo
 import com.puri.app.feature.onboarding.components.OfflineGuidesDemo
 import com.puri.app.feature.onboarding.components.OnboardingDots
@@ -93,93 +92,96 @@ fun OnboardingScreen(
         }
     }
 
-    StatusBarIconColor(darkIcons = false)
+    PuriTheme(
+        darkTheme = true,
+        forceLightStatusBarIcons = true
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
 
-    Box(modifier = Modifier.fillMaxSize()) {
-
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxSize()
-        ) { pageIndex ->
-            OnboardingPageContent(
-                pageRes = pageResources[pageIndex],
+            HorizontalPager(
+                state = pagerState,
                 modifier = Modifier.fillMaxSize()
-            )
-        }
-
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .navigationBarsPadding()
-                .padding(
-                    horizontal = dimensionResource(R.dimen.screen_horizontal_padding),
-                    vertical = 28.dp
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // Page dots
-            OnboardingDots(
-                currentPage = pagerState.currentPage,
-                totalPages = uiState.totalPages
-            )
-
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
-
-            val isLastPage = pagerState.currentPage == uiState.totalPages - 1
-
-            // Primary CTA button
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(100.dp))
-                    .background(
-                        Brush.linearGradient(listOf(GradientSnapStart, GradientSnapEnd))
-                    )
-            ) {
-                Button(
-                    onClick = {
-                        if (isLastPage) {
-                            viewModel.onIntent(OnboardingIntent.Finish)
-                        } else {
-                            scope.launch {
-                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                            }
-                        }
-                    },
-                    enabled = !uiState.isFinishing,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent
-                    ),
-                    shape = RoundedCornerShape(100.dp)
-                ) {
-                    Text(
-                        text = if (isLastPage)
-                            stringResource(R.string.onboarding_get_started)
-                        else
-                            stringResource(R.string.onboarding_next),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = CeramicWhite,
-                        modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_xs))
-                    )
-                }
+            ) { pageIndex ->
+                OnboardingPageContent(
+                    pageRes = pageResources[pageIndex],
+                    modifier = Modifier.fillMaxSize()
+                )
             }
 
-            // Skip — only on non-last pages
-            if (!isLastPage) {
-                TextButton(
-                    onClick = { viewModel.onIntent(OnboardingIntent.Skip) }
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .navigationBarsPadding()
+                    .padding(
+                        horizontal = dimensionResource(R.dimen.screen_horizontal_padding),
+                        vertical = 28.dp
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Page dots
+                OnboardingDots(
+                    currentPage = pagerState.currentPage,
+                    totalPages = uiState.totalPages
+                )
+
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2xl)))
+
+                val isLastPage = pagerState.currentPage == uiState.totalPages - 1
+
+                // Primary CTA button
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(100.dp))
+                        .background(
+                            Brush.linearGradient(listOf(GradientSnapStart, GradientSnapEnd))
+                        )
                 ) {
-                    Text(
-                        text = stringResource(R.string.onboarding_skip),
-                        color = CeramicWhite.copy(alpha = 0.45f),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                    Button(
+                        onClick = {
+                            if (isLastPage) {
+                                viewModel.onIntent(OnboardingIntent.Finish)
+                            } else {
+                                scope.launch {
+                                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                                }
+                            }
+                        },
+                        enabled = !uiState.isFinishing,
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent
+                        ),
+                        shape = RoundedCornerShape(100.dp)
+                    ) {
+                        Text(
+                            text = if (isLastPage)
+                                stringResource(R.string.onboarding_get_started)
+                            else
+                                stringResource(R.string.onboarding_next),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = CeramicWhite,
+                            modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_xs))
+                        )
+                    }
                 }
-            } else {
-                Spacer(modifier = Modifier.height(36.dp))
+
+                // Skip — only on non-last pages
+                if (!isLastPage) {
+                    TextButton(
+                        onClick = { viewModel.onIntent(OnboardingIntent.Skip) }
+                    ) {
+                        Text(
+                            text = stringResource(R.string.onboarding_skip),
+                            color = CeramicWhite.copy(alpha = 0.45f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                } else {
+                    Spacer(modifier = Modifier.height(36.dp))
+                }
             }
         }
     }
