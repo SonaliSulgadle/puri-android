@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -61,12 +60,11 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.puri.app.R
 import com.puri.app.core.ui.components.PuriTopBar
-import com.puri.app.core.ui.theme.GradientSnapEnd
-import com.puri.app.core.ui.theme.GradientSnapStart
 import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.CeramicWhite
+import com.puri.app.core.ui.theme.GradientSnapEnd
+import com.puri.app.core.ui.theme.GradientSnapStart
 import com.puri.app.core.ui.theme.PuriTheme
-import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.domain.model.SolveResult
 import com.puri.app.util.TestFixtures
 import kotlinx.coroutines.delay
@@ -87,8 +85,6 @@ fun ResponseCard(
         delay(50)
         isVisible = true
     }
-    val isDark = isSystemInDarkTheme()
-    StatusBarIconColor(darkIcons = !isDark)
 
     Scaffold(
         topBar = {

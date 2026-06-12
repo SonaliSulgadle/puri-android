@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -31,7 +30,6 @@ import com.puri.app.core.analytics.ScreenNames
 import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
 import com.puri.app.core.ui.theme.CeladonPrimary
-import com.puri.app.core.ui.util.StatusBarIconColor
 
 private const val PRIVACY_POLICY_URL = "https://sonalisulgadle.github.io/puri-privacy/"
 
@@ -48,9 +46,6 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
         if (webView?.canGoBack() == true) webView?.goBack()
         else onBack()
     }
-
-    val isDark = isSystemInDarkTheme()
-    StatusBarIconColor(darkIcons = !isDark)
 
     Scaffold(
         topBar = {

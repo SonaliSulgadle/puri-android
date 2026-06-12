@@ -1,7 +1,6 @@
 package com.puri.app.feature.address
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -60,11 +59,10 @@ import com.puri.app.R
 import com.puri.app.core.analytics.ScreenNames
 import com.puri.app.core.analytics.TrackScreen
 import com.puri.app.core.ui.components.PuriTopBar
-import com.puri.app.core.ui.theme.GradientSnapEnd
-import com.puri.app.core.ui.theme.GradientSnapStart
 import com.puri.app.core.ui.theme.CeladonPrimary
 import com.puri.app.core.ui.theme.CeramicWhite
-import com.puri.app.core.ui.util.StatusBarIconColor
+import com.puri.app.core.ui.theme.GradientSnapEnd
+import com.puri.app.core.ui.theme.GradientSnapStart
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -98,8 +96,6 @@ fun AddressConverterScreen(
         }
     }
 
-    val isDark = isSystemInDarkTheme()
-    StatusBarIconColor(darkIcons = !isDark)
     Scaffold(
         topBar = {
             PuriTopBar(

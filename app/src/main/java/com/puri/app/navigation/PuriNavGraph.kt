@@ -1,6 +1,5 @@
 package com.puri.app.navigation
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -17,7 +16,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.puri.app.core.ui.util.StatusBarIconColor
 import com.puri.app.feature.address.AddressConverterScreen
 import com.puri.app.feature.address.AddressResultScreen
 import com.puri.app.feature.address.AddressViewModel
@@ -119,9 +117,6 @@ fun MainScaffold(navController: NavHostController) {
     val bottomNavController = rememberNavController()
     val currentDestination by bottomNavController.currentBackStackEntryAsState()
     val currentRoute = currentDestination?.destination?.route
-
-    val isDark = isSystemInDarkTheme()
-    StatusBarIconColor(darkIcons = !isDark)
 
     Scaffold(
         bottomBar = {
