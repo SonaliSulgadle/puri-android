@@ -19,6 +19,19 @@ Built for foreigners living in Korea.
 
 ---
 
+## Screenshots
+
+<p float="left">
+  <img src="assets/onboarding.png" width="200" />
+  <img src="assets/home.png" width="200" />
+  <img src="assets/response.png" width="200" />
+  <img src="assets/saved_guides.png" width="200" />
+  <img src="assets/guide_detail.png" width="200" />
+  <img src="assets/address_converter.png" width="200" />
+</p>
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
