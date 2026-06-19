@@ -233,7 +233,7 @@ class SolveViewModel @Inject constructor(
 
     private fun handleSolveSuccess(result: SolveResult) {
         _activeState.value = when (result.confidenceLevel) {
-            ConfidenceLevel.HIGH -> SolveUiState.Success(result)
+            ConfidenceLevel.HIGH, ConfidenceLevel.MEDIUM -> SolveUiState.Success(result)
             ConfidenceLevel.LOW -> SolveUiState.Uncertain(null)
             ConfidenceLevel.UNSAFE -> SolveUiState.UnsafeContent
         }

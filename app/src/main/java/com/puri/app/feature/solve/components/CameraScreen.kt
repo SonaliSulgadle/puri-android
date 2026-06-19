@@ -15,11 +15,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Icon
@@ -43,10 +48,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.viewinterop.AndroidView
 import com.puri.app.R
 import com.puri.app.core.camera.CameraManager
@@ -69,6 +77,7 @@ fun CameraScreen(
     var additionalContext by remember { mutableStateOf("") }
     var isCapturing by remember { mutableStateOf(false) }
     var captureError by remember { mutableStateOf<String?>(null) }
+    val focusManager = LocalFocusManager.current
 
     val cameraManager = remember { CameraManager(context) }
     val previewView = remember { PreviewView(context) }
@@ -156,28 +165,42 @@ fun CameraScreen(
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .background(InkBlack.copy(alpha = 0.4f))
-                .padding(dimensionResource(R.dimen.spacing_xl)),
+                .padding(dimensionResource(R.dimen.spacing_xl))
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            OutlinedTextField(
-                value = additionalContext,
-                onValueChange = { additionalContext = it },
-                placeholder = {
-                    Text(
-                        text = stringResource(R.string.camera_additional_context_hint),
-                        color = CeramicWhite.copy(alpha = 0.6f)
-                    )
-                },
-                shape = RoundedCornerShape(dimensionResource(R.dimen.radius_pill)),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = CeramicWhite,
-                    unfocusedTextColor = CeramicWhite,
-                    focusedBorderColor = CeramicWhite.copy(alpha = 0.5f),
-                    unfocusedBorderColor = CeramicWhite.copy(alpha = 0.3f)
-                ),
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
+            Box(
+                modifier = Modifier.imePadding()
+            ) {
+                OutlinedTextField(
+                    value = additionalContext,
+                    onValueChange = { additionalContext = it },
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.camera_additional_context_hint),
+                            color = CeramicWhite.copy(alpha = 0.6f)
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.None,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            focusManager.clearFocus()
+                        }
+                    ),
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.radius_pill)),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = CeramicWhite,
+                        unfocusedTextColor = CeramicWhite,
+                        focusedBorderColor = CeramicWhite.copy(alpha = 0.5f),
+                        unfocusedBorderColor = CeramicWhite.copy(alpha = 0.3f)
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
+                )
+            }
 
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xl)))
 
