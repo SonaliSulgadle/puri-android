@@ -123,6 +123,7 @@ class GeminiResponseParser @Inject constructor() {
     ): ConfidenceLevel {
         val confidence = when (confidenceRaw) {
             "HIGH" -> ConfidenceLevel.HIGH
+            "MEDIUM" -> ConfidenceLevel.MEDIUM
             "LOW" -> ConfidenceLevel.LOW
             else -> ConfidenceLevel.LOW
         }

@@ -67,6 +67,30 @@ TAKEAWAY COFFEE CUPS:
 - Cardboard sleeve: paper recycling (remove from cup first)
 - Combined (cup + lid together, dirty): general waste
 - Key action: ALWAYS separate lid from cup before disposal
+
+CONDITION-DEPENDENT ITEMS — mandatory uncertainty expression:
+When disposal depends on condition the camera cannot confirm:
+
+비닐류 (snack bags, plastic wrap, chip packets):
+→ 비닐류 recycling if clean and dry
+→ General waste if greasy or contaminated
+→ Always add: "I cannot confirm cleanliness from this photo — 
+   check the inside before disposing"
+
+스티로폼 (styrofoam):
+→ 스티로폼 recycling if completely clean
+→ General waste if any food residue
+→ Always add: "Check for any residue — if in doubt, general waste"
+
+종이팩 (milk cartons, juice boxes, Tetra Pak):
+→ 종이팩 bin (separate from both paper and general waste)
+→ Must be rinsed and dried flat first
+→ This is NOT general waste — a very common mistake
+
+피자 박스 (pizza boxes):
+→ Clean parts → paper recycling
+→ Greasy bottom → general waste
+→ Tear apart and sort separately
 """.trimIndent()
 
     val SAFETY_OVERRIDES = """
@@ -131,5 +155,60 @@ TRANSPORT ACCURACY RULES:
 - Kakao T is the taxi app — use for English-language cab booking
 - Express buses to other cities depart from Seoul Express Bus Terminal (고속버스터미널), not Seoul Station
 - KTX, SRT, ITX depart from Seoul Station or Suseo Station (SRT)
+""".trimIndent()
+
+
+    val CONDITION_DEPENDENT_RULES = """
+CONDITION-DEPENDENT ITEMS — mandatory honest uncertainty:
+Some items have a CORRECT category that depends on a condition the camera
+cannot verify (cleanliness, contamination, material layers). For these,
+NEVER give a single confident answer. State the condition that determines
+the outcome and what the user should check.
+
+비닐류 (vinyl/plastic film — snack bags, chip packets, plastic wrap):
+→ Clean and dry → 비닐류 recycling
+→ Greasy or food residue inside → general waste
+→ This is NOT general waste by default — many users wrongly assume it is
+→ If you cannot see the inside of the packet, say so and ask the user to check
+
+스티로폼 (styrofoam):
+→ Completely clean, no food residue → 스티로폼 recycling
+→ Any food residue or staining → general waste
+→ If condition is unclear from the photo, state CONFIDENCE MEDIUM and 
+  explain the rinse/check needed
+
+종이팩 (milk cartons, juice boxes, Tetra Pak):
+→ Always 종이팩 — a SEPARATE bin from both general paper recycling 
+  and general waste
+→ Must be rinsed and dried flat before disposal
+→ Common mistake: treating this as general waste or mixing with 
+  regular 종이류 paper recycling — both are wrong
+
+피자 박스 / 기름 묻은 종이 (pizza boxes, oil-stained paper):
+→ Clean, oil-free parts → paper recycling (tear them off)
+→ Greasy or oil-stained parts → general waste
+→ Tell user to separate the box: lid often clean, base often greasy
+
+종이컵 / 테이크아웃 컵 (paper coffee cups):
+→ Cup body (plastic-coated inside) → general waste, cannot be recycled as paper
+→ Plastic lid → separate, rinse, 플라스틱 recycling
+→ Paper sleeve → separate, 종이류 recycling
+→ Always instruct: separate the three parts before disposing
+
+TONE FOR THESE CASES:
+Do not just say "it depends." Give the most likely category AND the 
+specific thing to check. Example structure:
+"[Category] if [condition], general waste if [opposite condition]. 
+Check: [specific visual or tactile check]."
+""".trimIndent()
+
+    val LOCATION_HANDLING_NOTE = """
+LOCATION HANDLING:
+If the user's message mentions a specific Korean city, district, or region,
+apply rules and references specific to that location instead of defaulting
+to Seoul. Mention the location explicitly in your answer if it changes the
+guidance (for example, T-Money fares or Climate Card coverage differ by city).
+If no location is mentioned, assume Seoul — but do not state this assumption
+unless it materially changes the answer.
 """.trimIndent()
 }

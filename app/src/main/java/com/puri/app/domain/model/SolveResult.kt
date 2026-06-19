@@ -28,6 +28,7 @@ data class SolveStep(
 
 enum class ConfidenceLevel {
     HIGH,
+    MEDIUM,
     LOW,
     UNSAFE
 }
