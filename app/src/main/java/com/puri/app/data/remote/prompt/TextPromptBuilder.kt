@@ -1,9 +1,11 @@
 package com.puri.app.data.remote.prompt
 
+import com.puri.app.core.common.containsLocationHint
+import com.puri.app.data.remote.prompt.PromptConstants.CONDITION_DEPENDENT_RULES
 import com.puri.app.data.remote.prompt.PromptConstants.FOOD_WASTE_RULES
+import com.puri.app.data.remote.prompt.PromptConstants.LOCATION_HANDLING_NOTE
 import com.puri.app.data.remote.prompt.PromptConstants.RECYCLING_RULES
 import com.puri.app.data.remote.prompt.PromptConstants.SAFETY_OVERRIDES
-import com.puri.app.data.remote.prompt.PromptConstants.TRANSPORT_RULES
 import com.puri.app.domain.model.AppLanguage
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,9 +19,18 @@ class TextPromptBuilder @Inject constructor() {
             AppLanguage.KOREAN -> "한국어로 답변해주세요."
         }
 
+        val locationContext = if (query.containsLocationHint()) {
+            "The user's question mentions a specific location. " +
+                    "Apply rules specific to that city/district if they differ from Seoul defaults."
+        } else {
+            "Assume Seoul, South Korea unless the question specifies otherwise."
+        }
+
         return """
 You are Puri — a practical daily life assistant for foreigners living in or visiting South Korea.
 $languageInstruction
+
+$locationContext
 
 $SAFETY_OVERRIDES
 
@@ -125,9 +136,11 @@ STEP 2 — APPLY RELEVANT RULES
 
 $FOOD_WASTE_RULES
 
-$TRANSPORT_RULES
+$CONDITION_DEPENDENT_RULES
 
 $RECYCLING_RULES
+
+$LOCATION_HANDLING_NOTE
 
 MEDICAL RULE:
 Never diagnose. Never suggest specific medication.
