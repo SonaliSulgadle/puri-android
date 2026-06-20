@@ -323,4 +323,9 @@
     <string name="camera_error_generic">Something went wrong. Please try again.</string>
     <string name="camera_error_start_failed">Camera failed to start. Please try again.</string>
     <string name="camera_retry">Tap to retry</string>
+
+    <string name="gallery_context_title">Add context (optional)</string>
+    <string name="gallery_context_subtitle">Ask a specific question about this image</string>
+    <string name="gallery_context_skip">Skip</string>
+    <string name="gallery_context_solve">Solve</string>
 </resources>
