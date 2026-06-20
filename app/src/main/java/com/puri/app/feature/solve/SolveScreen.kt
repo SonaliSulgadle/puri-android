@@ -2,6 +2,7 @@ package com.puri.app.feature.solve
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.provider.MediaStore
@@ -20,8 +21,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
@@ -37,6 +40,7 @@ import com.puri.app.feature.solve.SolveIntent.TextQueryChanged
 import com.puri.app.feature.solve.components.CameraScreen
 import com.puri.app.feature.solve.components.DailyLimitCard
 import com.puri.app.feature.solve.components.ErrorCard
+import com.puri.app.feature.solve.components.GalleryContextSheet
 import com.puri.app.feature.solve.components.HomeContent
 import com.puri.app.feature.solve.components.LoadingContent
 import com.puri.app.feature.solve.components.ResponseCard
@@ -55,12 +59,14 @@ fun SolveScreen(
     onOpenAddressConverter: () -> Unit,
     viewModel: SolveViewModel = hiltViewModel()
 ) {
-    // Single source of truth — no isLoading
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val snackbarHost = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val loadingType by viewModel.loadingType.collectAsStateWithLifecycle()
+
+    var pendingGalleryBitmap by remember { mutableStateOf<Bitmap?>(null) }
+    var showContextSheet by remember { mutableStateOf(false) }
 
     val cameraPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -85,10 +91,10 @@ fun SolveScreen(
                     @Suppress("DEPRECATION")
                     MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
                 }
-                // Scale immediately on IO thread — prevents OOM
                 raw.scaleToSafe()
             }
-            viewModel.onIntent(SolveIntent.GalleryImageSelected(bitmap, uri.toString()))
+            pendingGalleryBitmap = bitmap
+            showContextSheet = true
         }
     }
 
@@ -130,11 +136,40 @@ fun SolveScreen(
         enabled = uiState !is SolveUiState.Idle
     ) {
         when (uiState) {
-            SolveUiState.Loading -> { /* block back during loading */
-            }
+            SolveUiState.Loading -> {}
 
             else -> viewModel.onIntent(SolveIntent.ClearResult)
         }
+    }
+
+    if (showContextSheet) {
+        GalleryContextSheet(
+            onConfirm = { contextText ->
+                showContextSheet = false
+                val bitmap = pendingGalleryBitmap ?: return@GalleryContextSheet
+                pendingGalleryBitmap = null
+                scope.launch {
+                    val uri = withContext(Dispatchers.IO) {
+                        bitmap.saveToTempFile(context)?.toString()
+                    }
+                    if (!contextText.isNullOrBlank()) {
+                        viewModel.onIntent(SolveIntent.AdditionalContextChanged(contextText))
+                    }
+                    viewModel.onIntent(ImageCaptured(bitmap, uri))
+                }
+            },
+            onSkip = {
+                showContextSheet = false
+                val bitmap = pendingGalleryBitmap ?: return@GalleryContextSheet
+                pendingGalleryBitmap = null
+                scope.launch {
+                    val uri = withContext(Dispatchers.IO) {
+                        bitmap.saveToTempFile(context)?.toString()
+                    }
+                    viewModel.onIntent(ImageCaptured(bitmap, uri))
+                }
+            }
+        )
     }
 
     AnimatedContent(
