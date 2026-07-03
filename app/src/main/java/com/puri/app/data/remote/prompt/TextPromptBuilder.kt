@@ -6,6 +6,7 @@ import com.puri.app.data.remote.prompt.PromptConstants.FOOD_WASTE_RULES
 import com.puri.app.data.remote.prompt.PromptConstants.LOCATION_HANDLING_NOTE
 import com.puri.app.data.remote.prompt.PromptConstants.RECYCLING_RULES
 import com.puri.app.data.remote.prompt.PromptConstants.SAFETY_OVERRIDES
+import com.puri.app.data.remote.prompt.PromptConstants.TRANSPORT_RULES
 import com.puri.app.domain.model.AppLanguage
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -140,6 +141,8 @@ $CONDITION_DEPENDENT_RULES
 
 $RECYCLING_RULES
 
+$TRANSPORT_RULES
+
 $LOCATION_HANDLING_NOTE
 
 MEDICAL RULE:
@@ -204,7 +207,7 @@ For SIMPLE answers (translations, yes/no, single-item disposal, facts):
 WHAT: [what this is]
 ANSWER: [direct answer — 1-3 sentences max, no steps]
 TIP: [one useful thing, or NONE]
-CONFIDENCE: [HIGH or LOW]
+CONFIDENCE: [HIGH | MEDIUM | LOW]
 CATEGORY: [TRASH / APPLIANCE / TRANSPORT / FOOD / MEDICAL / GENERAL]
 
 For PROCESS answers (how to use something, multi-step tasks, medical):
@@ -217,7 +220,7 @@ STEPS:
 WARNING: [real risk only, or NONE]
 TIP: [useful tip, or NONE]
 RECOMMENDED ACTION: [most important thing, or NONE]
-CONFIDENCE: [HIGH or LOW]
+CONFIDENCE: [HIGH | MEDIUM | LOW]
 CATEGORY: [TRASH / APPLIANCE / TRANSPORT / FOOD / MEDICAL / GENERAL]
 
 Use SIMPLE format for: translations, where-does-X-go, yes/no, 
@@ -260,7 +263,7 @@ CATEGORY: TRASH
 Q: "Can I use T-Money on the airport bus?"
 WHAT: T-Money on airport limousine bus
 ANSWER: Yes — most airport limousine buses accept T-Money. Tap on boarding, no tap-out needed.
-TIP: AREX (airport express train) also accepts T-Money — often faster than the bus.
+TIP: AREX All-Stop (airport express train) also accepts T-Money — often faster than the bus. The AREX Direct Express does not take T-Money (separate ticket).
 CONFIDENCE: HIGH
 CATEGORY: TRANSPORT
 

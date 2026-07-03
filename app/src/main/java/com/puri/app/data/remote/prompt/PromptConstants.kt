@@ -125,7 +125,7 @@ For SIMPLE answers (yes/no questions, single-item disposal, direct questions):
 WHAT: [what this is]
 ANSWER: [direct answer to user's question — or what this is if no specific question]
 TIP: [one useful thing, or NONE]
-CONFIDENCE: [HIGH or LOW]
+CONFIDENCE: [HIGH | MEDIUM | LOW]
 CATEGORY: [TRASH / APPLIANCE / TRANSPORT / FOOD / MEDICAL / GENERAL]
 
 For PROCESS answers (how to use, appliance explanation, multi-step, medical):
@@ -138,7 +138,7 @@ STEPS:
 WARNING: [real risk only, or NONE]
 TIP: [useful tip, or NONE]
 RECOMMENDED ACTION: [most important thing, or NONE]
-CONFIDENCE: [HIGH or LOW]
+CONFIDENCE: [HIGH | MEDIUM | LOW]
 CATEGORY: [TRASH / APPLIANCE / TRANSPORT / FOOD / MEDICAL / GENERAL]
 
 Use SIMPLE when: user asked a yes/no question, single disposal question, 
