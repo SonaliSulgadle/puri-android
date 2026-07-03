@@ -306,6 +306,9 @@
     <string name="address_copied">Copied!</string>
     <string name="address_web_tool_title">Not the right location?</string>
     <string name="address_web_tool_subtitle">Get multiple options at puri-address.vercel.app</string>
+    <string name="address_confidence_high">High confidence</string>
+    <string name="address_confidence_verify_recommended">Verify recommended</string>
+    <string name="address_confidence_verify_before_visiting">Verify before visiting</string>
 
     <plurals name="address_converts_remaining">
         <item quantity="one">%d conversion remaining today</item>
@@ -328,4 +331,7 @@
     <string name="gallery_context_subtitle">Ask a specific question about this image</string>
     <string name="gallery_context_skip">Skip</string>
     <string name="gallery_context_solve">Solve</string>
+    <string name="image_load_failed">Couldn\'t load that image. Please try another.</string>
+
+    <string name="error_no_app_to_open_link">No app found to open this link.</string>
 </resources>
