@@ -2,6 +2,7 @@ package com.puri.app.feature.address
 
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.activity.compose.BackHandler
@@ -371,12 +372,20 @@ private fun AddressResultActions(
                 .background(MaterialTheme.colorScheme.surfaceContainerLow)
                 .clickable {
                     analytics.log(PuriEvent.WebToolOpened)
-                    context.startActivity(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            webUrl.toUri()
+                    try {
+                        context.startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                webUrl.toUri()
+                            )
                         )
-                    )
+                    } catch (e: Exception) {
+                        Toast.makeText(
+                            context,
+                            R.string.error_no_app_to_open_link,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
                 .padding(dimensionResource(R.dimen.spacing_md)),
             verticalAlignment = Alignment.CenterVertically,
@@ -452,16 +461,24 @@ private fun openKakaoMap(context: Context, shortForm: String) {
 private fun ConfidencePill(confidence: AddressConfidence) {
     val (bgColor, textColor, label) = when (confidence) {
         AddressConfidence.HIGH ->
-            Triple(Color(0xFF2E7D32).copy(alpha = 0.12f), Color(0xFF2E7D32), "High confidence")
+            Triple(
+                Color(0xFF2E7D32).copy(alpha = 0.12f),
+                Color(0xFF2E7D32),
+                stringResource(R.string.address_confidence_high)
+            )
 
         AddressConfidence.MEDIUM ->
-            Triple(Color(0xFFE65100).copy(alpha = 0.12f), Color(0xFFE65100), "Verify recommended")
+            Triple(
+                Color(0xFFE65100).copy(alpha = 0.12f),
+                Color(0xFFE65100),
+                stringResource(R.string.address_confidence_verify_recommended)
+            )
 
         AddressConfidence.LOW ->
             Triple(
                 MaterialTheme.colorScheme.error.copy(alpha = 0.12f),
                 MaterialTheme.colorScheme.error,
-                "Verify before visiting"
+                stringResource(R.string.address_confidence_verify_before_visiting)
             )
     }
 

@@ -10,11 +10,14 @@ class SaveGuideUseCase @Inject constructor(
     private val savedGuidesRepository: SavedGuidesRepository,
     private val historyRepository: HistoryRepository
 ) {
+    suspend fun isAlreadySaved(title: String, category: String): Boolean =
+        savedGuidesRepository.existsByTitleAndCategory(title, category)
+
     suspend operator fun invoke(
         guide: SavedGuide,
         historyItemId: Long? = null
     ): Resource<Unit> {
-        val alreadySaved = savedGuidesRepository.existsByTitleAndCategory(
+        val alreadySaved = isAlreadySaved(
             title = guide.title,
             category = guide.category.name
         )
