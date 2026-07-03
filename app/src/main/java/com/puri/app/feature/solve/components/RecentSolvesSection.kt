@@ -16,6 +16,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -181,8 +182,11 @@ private fun RecentSolveCard(
 
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xs)))
 
+                val relativeTime = remember(item.timestamp) {
+                    DateTimeUtils.formatRelativeTimestamp(item.timestamp)
+                }
                 Text(
-                    text = DateTimeUtils.formatRelativeTimestamp(item.timestamp),
+                    text = relativeTime,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

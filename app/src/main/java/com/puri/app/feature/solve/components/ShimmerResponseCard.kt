@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -39,12 +40,17 @@ fun ShimmerResponseCard() {
         label = "shimmer_x"
     )
 
+    val baseColor = MaterialTheme.colorScheme.surfaceContainerHigh
+    val highlightColor = MaterialTheme.colorScheme.surfaceContainerHighest
+    val shimmerColors = remember(baseColor, highlightColor) {
+        listOf(
+            baseColor.copy(alpha = 0.6f),
+            highlightColor.copy(alpha = 0.9f),
+            baseColor.copy(alpha = 0.6f),
+        )
+    }
     val shimmerBrush = Brush.linearGradient(
-        colors = listOf(
-            MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.6f),
-            MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.9f),
-            MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.6f),
-        ),
+        colors = shimmerColors,
         start = Offset(shimmerX - 200f, 0f),
         end = Offset(shimmerX + 200f, 0f)
     )

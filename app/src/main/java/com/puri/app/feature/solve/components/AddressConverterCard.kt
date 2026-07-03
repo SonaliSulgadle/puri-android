@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,19 +61,21 @@ fun AddressConverterCard(
         label = "shimmer_x"
     )
 
+    val baseGradient = remember {
+        Brush.linearGradient(
+            colors = listOf(
+                Color(0xFF0C0D0C),
+                Color(0xFF121412),
+                Color(0xFF1A2B20)
+            )
+        )
+    }
+
     Box(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(dimensionResource(R.dimen.radius_xl)))
-            .background(
-                Brush.linearGradient(
-                    colors = listOf(
-                        Color(0xFF0C0D0C),
-                        Color(0xFF121412),
-                        Color(0xFF1A2B20)
-                    )
-                )
-            )
+            .background(baseGradient)
             .clickable { onClick() }
     ) {
         // Shimmer overlay

@@ -83,15 +83,21 @@ fun SolveScreen(
         uri ?: return@rememberLauncherForActivityResult
         scope.launch {
             val bitmap = withContext(Dispatchers.IO) {
-                val raw = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    ImageDecoder.decodeBitmap(
-                        ImageDecoder.createSource(context.contentResolver, uri)
-                    )
-                } else {
-                    @Suppress("DEPRECATION")
-                    MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
-                }
-                raw.scaleToSafe()
+                runCatching {
+                    val raw = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        ImageDecoder.decodeBitmap(
+                            ImageDecoder.createSource(context.contentResolver, uri)
+                        )
+                    } else {
+                        @Suppress("DEPRECATION")
+                        MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+                    }
+                    raw.scaleToSafe()
+                }.getOrNull()
+            }
+            if (bitmap == null) {
+                snackbarHost.showSnackbar(context.getString(R.string.image_load_failed))
+                return@launch
             }
             pendingGalleryBitmap = bitmap
             showContextSheet = true

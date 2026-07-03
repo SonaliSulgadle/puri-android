@@ -28,11 +28,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -63,13 +64,15 @@ fun SnapAndSolveCard(
         label = "pulse_scale"
     )
 
-    val cardGradient = Brush.linearGradient(
-        colors = listOf(
-            Color(0xFF192B20),
-            Color(0xFF3E5C49),
-            Color(0xFF5C8A6E)
+    val cardGradient = remember {
+        Brush.linearGradient(
+            colors = listOf(
+                Color(0xFF192B20),
+                Color(0xFF3E5C49),
+                Color(0xFF5C8A6E)
+            )
         )
-    )
+    }
 
     Box(
         modifier = modifier
@@ -116,7 +119,10 @@ fun SnapAndSolveCard(
             Box(
                 modifier = Modifier
                     .size(72.dp)
-                    .scale(pulseScale)
+                    .graphicsLayer {
+                        scaleX = pulseScale
+                        scaleY = pulseScale
+                    }
                     .clip(CircleShape)
                     .background(CeramicWhite.copy(alpha = 0.2f))
                     .border(
