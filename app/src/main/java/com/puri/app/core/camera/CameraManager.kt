@@ -23,11 +23,14 @@ class CameraManager(private val context: Context) {
 
     private var imageCapture: ImageCapture? = null
     private var cameraProvider: ProcessCameraProvider? = null
+    private var isReleased = false
 
     fun startCamera(lifecycleOwner: LifecycleOwner, previewView: PreviewView) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
         cameraProviderFuture.addListener({
-            cameraProvider = cameraProviderFuture.get()
+            if (isReleased) return@addListener
+            val provider = cameraProviderFuture.get()
+            cameraProvider = provider
 
             // Set target rotation from current display rotation
             // This is the KEY fix for landscape capture
@@ -43,8 +46,8 @@ class CameraManager(private val context: Context) {
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build()
 
-            cameraProvider?.unbindAll()
-            cameraProvider?.bindToLifecycle(
+            provider.unbindAll()
+            provider.bindToLifecycle(
                 lifecycleOwner,
                 CameraSelector.DEFAULT_BACK_CAMERA,
                 preview,
@@ -106,9 +109,8 @@ class CameraManager(private val context: Context) {
         } ?: 0
     }
 
-    // Release camera resources explicitly
-    // Called from DisposableEffect.onDispose in CameraScreen
     fun release() {
+        isReleased = true
         cameraProvider?.unbindAll()
         cameraProvider = null
         imageCapture = null
