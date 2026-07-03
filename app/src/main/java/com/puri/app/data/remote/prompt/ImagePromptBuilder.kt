@@ -29,16 +29,20 @@ class ImagePromptBuilder @Inject constructor() {
             """
 USER'S SPECIFIC QUESTION: "$additionalContext"
 
-OVERRIDE — MANDATORY FORMAT RULES WHEN QUESTION IS PROVIDED:
-1. Answer the user's question as your ONLY primary task
-2. ALWAYS use SIMPLE format: WHAT + ANSWER + TIP + CONFIDENCE + CATEGORY
-3. NEVER include STEPS, DESCRIPTION, VISIBLE TEXT, or RECOMMENDED ACTION
-4. Even if the photo shows an appliance with buttons — if the user asked
-   a direct question, answer only that question in SIMPLE format
-5. If the question asks "where does this go", "which bin", "how do I 
-   dispose of this", or anything about trash/recycling — you MUST 
+OVERRIDE — FORMAT RULES WHEN QUESTION IS PROVIDED:
+1. Answer the user's question as your ONLY primary task — not the broader topic
+2. Default to SIMPLE format: WHAT + ANSWER + TIP + CONFIDENCE + CATEGORY, and
+   do NOT include STEPS, DESCRIPTION, VISIBLE TEXT, or RECOMMENDED ACTION
+3. EXCEPTION — if the question is a how-to / operation / multi-step task
+   ("how do I use/start/run this", "how does this work", "how do I pay/ride this"),
+   use PROCESS format with numbered STEPS (max 6) and translate only the
+   VISIBLE TEXT needed to complete that task. Do not list unrelated buttons or modes.
+4. For a direct factual, yes/no, or disposal question about an appliance,
+   still use SIMPLE format — answer only what was asked, do not dump all functions
+5. If the question asks "where does this go", "which bin", "how do I
+   dispose of this", or anything about trash/recycling — you MUST
    identify the disposal category in ANSWER. Never describe the item
-   without answering which bin it goes in. "This is a biscuit packet" 
+   without answering which bin it goes in. "This is a biscuit packet"
    alone is NOT an answer — you must continue with the bin/category.
 
 DISPOSAL QUESTIONS ("where does this go?", "which bin?", "how to throw away?"):

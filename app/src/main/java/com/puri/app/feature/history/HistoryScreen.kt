@@ -178,7 +178,7 @@ private fun HistoryContent(
             )
         ) {
             state.filteredItems.forEach { (dateLabel, items) ->
-                item(key = "header_$dateLabel") {
+                item(key = "header_$dateLabel", contentType = "header") {
                     Text(
                         text = dateLabel,
                         style = MaterialTheme.typography.labelMedium,
@@ -190,7 +190,8 @@ private fun HistoryContent(
                 }
                 items(
                     items = items,
-                    key = { "item_${it.id}" }
+                    key = { "item_${it.id}" },
+                    contentType = { "row" }
                 ) { item ->
                     SwipeToDeleteHistoryItem(
                         item = item,
@@ -310,8 +311,11 @@ private fun HistoryItemCard(
 
                 Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_xs)))
 
+                val relativeTime = remember(item.timestamp) {
+                    DateTimeUtils.formatRelativeTimestamp(item.timestamp)
+                }
                 Text(
-                    text = DateTimeUtils.formatRelativeTimestamp(item.timestamp),
+                    text = relativeTime,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

@@ -76,7 +76,6 @@ class HistoryDetailViewModel @Inject constructor(
             )
             when (saveGuideUseCase(guide, historyItemId)) {
                 is Resource.Success -> {
-                    saveGuideUseCase(guide)
                     _savedOverride.value = true
                 }
 

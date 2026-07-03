@@ -1,6 +1,7 @@
 package com.puri.app.feature.profile
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -273,8 +274,16 @@ fun ProfileScreen(
                                 Intent.ACTION_VIEW,
                                 FEEDBACK_FORM.toUri()
                             )
-                            context.startActivity(intent)
-                            analytics.log(PuriEvent.FeedbackOpened)
+                            try {
+                                context.startActivity(intent)
+                                analytics.log(PuriEvent.FeedbackOpened)
+                            } catch (e: Exception) {
+                                Toast.makeText(
+                                    context,
+                                    R.string.error_no_app_to_open_link,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     )
                     ProfileMenuDivider()

@@ -198,4 +198,12 @@
     </plurals>
 
     <string name="error_address_limit_reached">오늘 주소 변환 횟수를 모두 사용했습니다. 자정에 초기화됩니다.</string>
+
+    <string name="address_confidence_high">높은 정확도</string>
+    <string name="address_confidence_verify_recommended">확인 권장</string>
+    <string name="address_confidence_verify_before_visiting">방문 전 확인 필요</string>
+
+    <string name="camera_error_start_failed">카메라를 시작하지 못했어요. 다시 시도해 주세요.</string>
+    <string name="image_load_failed">이미지를 불러올 수 없어요. 다른 이미지를 선택해 주세요.</string>
+    <string name="error_no_app_to_open_link">이 링크를 열 수 있는 앱이 없습니다.</string>
 </resources>

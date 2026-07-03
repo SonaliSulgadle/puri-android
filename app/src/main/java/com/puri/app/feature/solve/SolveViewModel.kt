@@ -231,9 +231,16 @@ class SolveViewModel @Inject constructor(
         }
     }
 
-    private fun handleSolveSuccess(result: SolveResult) {
+    private suspend fun handleSolveSuccess(result: SolveResult) {
         _activeState.value = when (result.confidenceLevel) {
-            ConfidenceLevel.HIGH, ConfidenceLevel.MEDIUM -> SolveUiState.Success(result)
+            ConfidenceLevel.HIGH, ConfidenceLevel.MEDIUM -> {
+                val alreadySaved = saveGuideUseCase.isAlreadySaved(
+                    title = result.whatThisIs,
+                    category = result.category.name
+                )
+                SolveUiState.Success(result, isSaved = alreadySaved)
+            }
+
             ConfidenceLevel.LOW -> SolveUiState.Uncertain(null)
             ConfidenceLevel.UNSAFE -> SolveUiState.UnsafeContent
         }

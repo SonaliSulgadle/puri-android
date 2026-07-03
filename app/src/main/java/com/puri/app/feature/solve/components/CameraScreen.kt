@@ -88,7 +88,7 @@ fun CameraScreen(
             cameraManager.startCamera(lifecycleOwner, previewView)
         } catch (e: Exception) {
             // Camera failed to start — notify and dismiss
-            captureError = "Camera failed to start. Please try again."
+            captureError = context.getString(R.string.camera_error_start_failed)
         }
     }
 
