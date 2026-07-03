@@ -26,9 +26,6 @@ abstract class PuriDatabase : RoomDatabase() {
                     "ALTER TABLE history ADD COLUMN recommendedAction TEXT"
                 )
                 db.execSQL(
-                    "ALTER TABLE saved_guides ADD COLUMN guideKey TEXT"
-                )
-                db.execSQL(
                     "ALTER TABLE saved_guides ADD COLUMN visibleTextsJson TEXT NOT NULL DEFAULT '[]'"
                 )
                 db.execSQL(
