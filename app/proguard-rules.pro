@@ -92,6 +92,12 @@
 # Crashlytics needs class names to be preserved for stack trace symbolication
 -keep public class * extends java.lang.Exception
 
+# ── PURI ERROR TYPES ─────────────────────────────────────────────────────────
+# Keep readable class names so error types show correctly in Crashlytics /
+# Firebase Analytics (logged via javaClass.simpleName in release builds).
+-keep class com.puri.app.core.common.PuriError { *; }
+-keep class com.puri.app.core.common.PuriError$* { *; }
+
 # ── PURI DATA MODELS ─────────────────────────────────────────────────────────
 -keep class com.puri.app.domain.model.** { *; }
 -keep class com.puri.app.data.local.db.** { *; }
