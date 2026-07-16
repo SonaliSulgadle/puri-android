@@ -26,7 +26,8 @@
       "sectionType": "LIST",
       "items": [
         { "detail": "Buy at convenience stores (GS25, CU, 7-Eleven) or station kiosks — ₩2,500 for the card" },
-        { "detail": "Current base fare in Seoul: ₩1,550 with T-Money (2025). Paying cash is rarely accepted on modern gates." },
+        { "detail": "Current base fare in Seoul: ₩1,550 with T-Money. Paying cash is rarely accepted on modern gates." },
+        { "detail": "Foreign credit cards (Visa, Mastercard) are now accepted at subway station kiosks for recharging, as of March 2026." },
         { "detail": "Charge (충전 — Chungjeon) at purple kiosks inside stations or at GS25, CU, and 7-Eleven convenience stores" },
         { "detail": "Tap on entry AND exit — forgetting to tap out charges maximum fare" },
         { "detail": "Transfer discount: free transfer within 30 minutes of tapping out — between buses and metro" },
@@ -34,17 +35,27 @@
       ]
     },
     {
-      "title": "기후동행카드 (Gihudonghaengkadeu — Climate Card)",
+      "title": "기후동행카드 단기권 (Short-term Climate Card)",
       "sectionType": "LIST",
       "items": [
-        { "detail": "Unlimited travel within Seoul on buses and metro — does NOT cover Incheon Airport AREX or Shinbundang Line. Use T-Money or separate ticket for those." },
-        { "detail": "Monthly pass: ₩65,000 (includes Ttareungi public bike) / ₩62,000 (transit only)" },
-        { "detail": "Youth monthly pass (ages 19–39): ₩58,000 (with Ttareungi) / ₩55,000 (transit only)" },
-        { "detail": "Short-term passes available: 1-day, 2-day, 3-day, 5-day, and 7-day — purchase at convenience stores or subway kiosks" },
-        { "detail": "Physical card purchase (₩3,000 card fee): convenience stores (GS25, CU, 7-Eleven) or subway station information centers" },
-        { "detail": "Physical card recharging options: (1) subway station kiosks — cash or card; (2) Mobile T-Money app — place card on phone NFC, pay by credit card or bank transfer. App available on Android and iOS." },
-        { "detail": "Must register physical card at tmoney.co.kr to access Ttareungi bikes and refunds. Register online before use." },
-        { "detail": "Official site for current pricing and passes: https://english.seoul.go.kr/policy/transportation/climate-card/" }
+        { "detail": "Available as 1, 2, 3, 5, and 7-day passes — unchanged from before." },
+        { "detail": "Unlimited subway and bus within Seoul during the pass period." },
+        { "detail": "Does NOT cover the Shinbundang Line, GTX, or the Incheon Airport AREX Express." },
+        { "detail": "Buy at subway station information centers or in the Tmoney mobile app." },
+        { "detail": "Prices: 1-day ₩5,000 / 3-day ₩12,000 / 5-day ₩17,000 / 7-day ₩23,000." },
+        { "detail": "Good for tourists — long-term residents should use K-Pass instead." }
+      ]
+    },
+    {
+      "title": "K-패스 (K-Pass) — 장기 거주자용",
+      "sectionType": "LIST",
+      "items": [
+        { "detail": "National cashback card available across Korea, not just Seoul." },
+        { "detail": "Use it 15 or more times per month and receive cashback automatically." },
+        { "detail": "General users: 20% cashback, youth (ages 19–39): 30%, low-income riders: 53%." },
+        { "detail": "Sign up at korea-pass.kr or through the K-Pass app. Link it to a Korean bank card." },
+        { "detail": "Replaces the old 30-day Climate Card for monthly commuters." },
+        { "detail": "Existing K-Pass holders automatically receive benefits — no new card needed." }
       ]
     },
     {
@@ -72,7 +83,8 @@
       "title": "Warning",
       "sectionType": "WARNING",
       "items": [
-        { "detail": "Last trains are typically around midnight to 12:30 AM depending on the line. After that, only night buses (N-routes) and taxis. Always check the last train time before a late night out. Climate Card does NOT work on Incheon Airport AREX — use a separate T-Money card or buy an AREX ticket at the airport station." }
+        { "detail": "Last trains are typically around midnight to 12:30 AM depending on the line. After that, only night buses (N-routes) and taxis. Always check the last train time before a late night out." },
+        { "detail": "The 30-day Climate Card (기후동행카드 30일권) ends August 29, 2026. If you currently use the 30-day pass, switch to K-Pass (모두의카드) for continued monthly transit benefits. Short-term tourist passes are not affected and continue as normal." }
       ]
     }
   ]
